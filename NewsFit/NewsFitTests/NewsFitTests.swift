@@ -9,6 +9,6 @@ import XCTest
 @testable import NewsFit
 
 final class NewsFitTests: XCTestCase {
-
-
+    
+    
 }
