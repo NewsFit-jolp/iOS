@@ -18,9 +18,14 @@ final class when_user_click_on_login_button: XCTestCase {
         
         loginPageObject = .init(app: app)
         
+        app.launchEnvironment = ["ENV" : "DEV"]
+        
         app.launch()
     }
     
+    func test_should_display_news_home_with_success() {
+        
+    }
     
     
     
