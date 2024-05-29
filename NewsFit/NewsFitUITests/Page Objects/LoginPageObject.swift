@@ -75,6 +75,10 @@ final class LoginPageObject {
     var pressSubscribeButton: XCUIElement {
         app.buttons[PageConstants.pressSubscribeButton.rawValue]
     }
+    
+    var mainLogoImage: XCUIElement {
+        app.images[PageConstants.mainLogoImage.rawValue]
+    }
 }
 
 fileprivate enum PageConstants: String {
@@ -95,4 +99,5 @@ fileprivate enum PageConstants: String {
     case newsTopicButton
     case pressSubscribeTableView
     case pressSubscribeButton
+    case mainLogoImage
 }
