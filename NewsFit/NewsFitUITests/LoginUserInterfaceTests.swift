@@ -231,6 +231,10 @@ final class when_user_put_basic_information: XCTestCase {
     }
 }
 
+/// 추가 정보 입력란에서 유저가 정보를 제대로 입력했는지 검사
+/// 성별 디폴트 선택이 남성인지 + 성별을 하나만 선택할 수 있는지 검사
+/// 성공: 생일을 제대로 입력하면 다음 버튼 활성화 및 넘어가기 됨
+/// 실패: 생일을 이상하게 입력하거나 입력하지 않으면 다음 버튼 비활성화
 final class when_user_put_additional_information: XCTestCase {
     
     private var app: XCUIApplication!
