@@ -44,8 +44,16 @@ final class LoginPageObject {
         app.buttons[PageConstants.emailTextField.rawValue]
     }
     
+    var emailMessageLabel: XCUIElement {
+        app.images[PageConstants.emailMessageLabel.rawValue]
+    }
+    
     var phoneTextField: XCUIElement {
         app.buttons[PageConstants.phoneTextField.rawValue]
+    }
+    
+    var phoneMessageLabel: XCUIElement {
+        app.buttons[PageConstants.phoneMessageLabel.rawValue]
     }
     
     var maleCheckBox: XCUIElement {
@@ -79,6 +87,7 @@ final class LoginPageObject {
     var mainLogoImage: XCUIElement {
         app.images[PageConstants.mainLogoImage.rawValue]
     }
+    
 }
 
 fileprivate enum PageConstants: String {
@@ -91,7 +100,9 @@ fileprivate enum PageConstants: String {
     case nextButton
     case nameTextField
     case emailTextField
+    case emailMessageLabel
     case phoneTextField
+    case phoneMessageLabel
     case maleCheckBox
     case femaleCheckBox
     case birthdayTextField
@@ -100,4 +111,5 @@ fileprivate enum PageConstants: String {
     case pressSubscribeTableView
     case pressSubscribeButton
     case mainLogoImage
+    
 }
