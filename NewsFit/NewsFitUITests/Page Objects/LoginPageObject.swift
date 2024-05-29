@@ -40,6 +40,41 @@ final class LoginPageObject {
         app.buttons[PageConstants.nameTextField.rawValue]
     }
     
+    var emailTextField: XCUIElement {
+        app.buttons[PageConstants.emailTextField.rawValue]
+    }
+    
+    var phoneTextField: XCUIElement {
+        app.buttons[PageConstants.phoneTextField.rawValue]
+    }
+    
+    var maleCheckBox: XCUIElement {
+        app.buttons[PageConstants.maleCheckBox.rawValue]
+    }
+    
+    var femaleCheckBox: XCUIElement {
+        app.buttons[PageConstants.femaleCheckBox.rawValue]
+    }
+    
+    var birthdayTextField: XCUIElement {
+        app.buttons[PageConstants.birthdayTextField.rawValue]
+    }
+    
+    var newsTopicCollectionView: XCUIElement {
+        app.buttons[PageConstants.newsTopicCollectionView.rawValue]
+    }
+    
+    var newsTopicButton: XCUIElement {
+        app.buttons[PageConstants.newsTopicButton.rawValue]
+    }
+    
+    var pressSubscribeTableView: XCUIElement {
+        app.buttons[PageConstants.pressSubscribeTableView.rawValue]
+    }
+    
+    var pressSubscribeButton: XCUIElement {
+        app.buttons[PageConstants.pressSubscribeButton.rawValue]
+    }
 }
 
 fileprivate enum PageConstants: String {
