@@ -231,4 +231,87 @@ final class when_user_put_basic_information: XCTestCase {
     }
 }
 
+final class when_user_put_additional_information: XCTestCase {
+    
+    private var app: XCUIApplication!
+    private var loginPageObject: LoginPageObject!
+    
+    override func setUp() {
+        app = .init()
+        continueAfterFailure = false
+        
+        loginPageObject = .init(app: app)
+        
+        app.launch()
+        
+        loginPageObject.kakaoRegistrationButton.tap()
+        
+        let emailTextField = loginPageObject.emailTextField
+        let phoneTextField = loginPageObject.phoneTextField
+        emailTextField.tap()
+        emailTextField.typeText("newsfit@goodemail.com")
+        
+        // 전화번호 검사
+        phoneTextField.tap()
+        phoneTextField.typeText("01012341234")
+        
+        let nextButton = loginPageObject.nextButton
+        nextButton.tap()
+    }
+    
+    func test_should_be_checked_sex_on_male_by_default() {
+        XCTAssertTrue(loginPageObject.maleCheckBox.isSelected)
+    }
+    
+    func test_should_select_only_one_sex() {
+        let maleCheckBox = loginPageObject.maleCheckBox
+        let femaleCheckBox = loginPageObject.femaleCheckBox
+        
+        maleCheckBox.tap()
+        XCTAssertTrue(maleCheckBox.isSelected)
+        XCTAssertFalse(femaleCheckBox.isSelected)
+        
+        femaleCheckBox.tap()
+        XCTAssertFalse(maleCheckBox.isSelected)
+        XCTAssertTrue(femaleCheckBox.isSelected)
+    }
+    
+    func test_should_not_activate_next_button_for_missing_required_fields() {
+        let birthdayTextField = loginPageObject.birthdayTextField
+        
+        birthdayTextField.tap()
+        birthdayTextField.typeText("")
+        
+        // 다음버튼 검사
+        XCTAssertFalse(loginPageObject.nextButton.isEnabled)
+    }
+    
+    func test_should_not_activate_next_button_for_invalid_required_fields() {
+        let birthdayTextField = loginPageObject.birthdayTextField
+        
+        birthdayTextField.tap()
+        birthdayTextField.typeText("20129999")
+        
+        // 다음버튼 검사
+        XCTAssertFalse(loginPageObject.nextButton.isEnabled)
+    }
+    
+    func test_should_navigate_to_topic_selection_for_success() {
+        let birthdayTextField = loginPageObject.birthdayTextField
+        
+        birthdayTextField.tap()
+        birthdayTextField.typeText("20240101")
+        
+        let nextButton = loginPageObject.nextButton
+        // 다음버튼 검사
+        XCTAssertTrue(nextButton.isEnabled)
+        nextButton.tap()
+        
+        XCTAssertTrue(loginPageObject.newsTopicButton.waitForExistence(timeout: 1))
+    }
+    
+    override func tearDown() {
+        print("test done")
+    }
+}
 

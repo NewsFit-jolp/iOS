@@ -37,23 +37,23 @@ final class LoginPageObject {
     }
     
     var nameTextField: XCUIElement {
-        app.buttons[PageConstants.nameTextField.rawValue]
+        app.textFields[PageConstants.nameTextField.rawValue]
     }
     
     var emailTextField: XCUIElement {
-        app.buttons[PageConstants.emailTextField.rawValue]
+        app.textFields[PageConstants.emailTextField.rawValue]
     }
     
     var emailMessageLabel: XCUIElement {
-        app.images[PageConstants.emailMessageLabel.rawValue]
+        app.staticTexts[PageConstants.emailMessageLabel.rawValue]
     }
     
     var phoneTextField: XCUIElement {
-        app.buttons[PageConstants.phoneTextField.rawValue]
+        app.textFields[PageConstants.phoneTextField.rawValue]
     }
     
     var phoneMessageLabel: XCUIElement {
-        app.buttons[PageConstants.phoneMessageLabel.rawValue]
+        app.staticTexts[PageConstants.phoneMessageLabel.rawValue]
     }
     
     var maleCheckBox: XCUIElement {
@@ -65,23 +65,25 @@ final class LoginPageObject {
     }
     
     var birthdayTextField: XCUIElement {
-        app.buttons[PageConstants.birthdayTextField.rawValue]
+        app.textFields[PageConstants.birthdayTextField.rawValue]
     }
     
-    var newsTopicCollectionView: XCUIElement {
-        app.buttons[PageConstants.newsTopicCollectionView.rawValue]
+    private var newsTopicCollectionView: XCUIElement {
+        app.collectionViews[PageConstants.newsTopicCollectionView.rawValue]
     }
     
     var newsTopicButton: XCUIElement {
-        app.buttons[PageConstants.newsTopicButton.rawValue]
+        newsTopicCollectionView.cells.element(boundBy: 0)
+            .buttons[PageConstants.newsTopicButton.rawValue]
     }
     
-    var pressSubscribeTableView: XCUIElement {
-        app.buttons[PageConstants.pressSubscribeTableView.rawValue]
+    private var pressSubscribeTableView: XCUIElement {
+        app.tables[PageConstants.pressSubscribeTableView.rawValue]
     }
     
     var pressSubscribeButton: XCUIElement {
-        app.buttons[PageConstants.pressSubscribeButton.rawValue]
+        pressSubscribeTableView.cells.element(boundBy: 0)
+            .buttons[PageConstants.pressSubscribeButton.rawValue]
     }
     
     var mainLogoImage: XCUIElement {
