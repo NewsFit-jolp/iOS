@@ -77,6 +77,10 @@ final class LoginPageObject {
             .buttons[PageConstants.newsTopicButton.rawValue]
     }
     
+    var newsTopicMessageLabel: XCUIElement {
+        app.staticTexts[PageConstants.newsTopicMessageLabel.rawValue]
+    }
+    
     private var pressSubscribeTableView: XCUIElement {
         app.tables[PageConstants.pressSubscribeTableView.rawValue]
     }
@@ -100,18 +104,24 @@ fileprivate enum PageConstants: String {
     case kakaoRegistrationButton
     case appleRegistrationButton
     case nextButton
+    
     case nameTextField
     case emailTextField
     case emailMessageLabel
     case phoneTextField
     case phoneMessageLabel
+    
     case maleCheckBox
     case femaleCheckBox
     case birthdayTextField
+    
     case newsTopicCollectionView
     case newsTopicButton
+    case newsTopicMessageLabel
+    
     case pressSubscribeTableView
     case pressSubscribeButton
+    
     case mainLogoImage
     
 }

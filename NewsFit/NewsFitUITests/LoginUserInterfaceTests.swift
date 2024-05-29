@@ -137,6 +137,9 @@ final class when_user_put_basic_information: XCTestCase {
         
         app.launch()
         
+        let kakaoRegistrationButton = loginPageObject.kakaoRegistrationButton
+        
+        _ = kakaoRegistrationButton.waitForExistence(timeout: 1)
         loginPageObject.kakaoRegistrationButton.tap()
     }
     
@@ -248,19 +251,23 @@ final class when_user_put_additional_information: XCTestCase {
         
         app.launch()
         
+        let kakaoRegistrationButton = loginPageObject.kakaoRegistrationButton
+        
+        _ = kakaoRegistrationButton.waitForExistence(timeout: 1)
         loginPageObject.kakaoRegistrationButton.tap()
         
         let emailTextField = loginPageObject.emailTextField
         let phoneTextField = loginPageObject.phoneTextField
+        
+        _ = emailTextField.waitForExistence(timeout: 1)
+        
         emailTextField.tap()
         emailTextField.typeText("newsfit@goodemail.com")
         
-        // 전화번호 검사
         phoneTextField.tap()
         phoneTextField.typeText("01012341234")
         
-        let nextButton = loginPageObject.nextButton
-        nextButton.tap()
+        loginPageObject.nextButton.tap()
     }
     
     func test_should_be_checked_sex_on_male_by_default() {
@@ -319,3 +326,52 @@ final class when_user_put_additional_information: XCTestCase {
     }
 }
 
+/// 
+final class when_user_select_news_topics: XCTestCase {
+    
+    private var app: XCUIApplication!
+    private var loginPageObject: LoginPageObject!
+    
+    override func setUp() {
+        app = .init()
+        continueAfterFailure = false
+        
+        loginPageObject = .init(app: app)
+        
+        app.launch()
+        
+        let kakaoRegistrationButton = loginPageObject.kakaoRegistrationButton
+        
+        _ = kakaoRegistrationButton.waitForExistence(timeout: 1)
+        loginPageObject.kakaoRegistrationButton.tap()
+        
+        let emailTextField = loginPageObject.emailTextField
+        let phoneTextField = loginPageObject.phoneTextField
+        
+        _ = emailTextField.waitForExistence(timeout: 1)
+        
+        emailTextField.tap()
+        emailTextField.typeText("newsfit@goodemail.com")
+        
+        phoneTextField.tap()
+        phoneTextField.typeText("01012341234")
+        
+        loginPageObject.nextButton.tap()
+        
+        let birthdayTextField = loginPageObject.birthdayTextField
+        
+        _ = birthdayTextField.waitForExistence(timeout: 1)
+        birthdayTextField.tap()
+        birthdayTextField.typeText("20240101")
+        
+        loginPageObject.nextButton.tap()
+    }
+    
+    
+    
+    override func tearDown() {
+        print("test done")
+    }
+}
+
+    
