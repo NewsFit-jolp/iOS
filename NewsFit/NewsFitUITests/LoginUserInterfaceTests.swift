@@ -318,7 +318,7 @@ final class when_user_put_additional_information: XCTestCase {
         XCTAssertTrue(nextButton.isEnabled)
         nextButton.tap()
         
-        XCTAssertTrue(loginPageObject.newsTopicButton.waitForExistence(timeout: 1))
+        XCTAssertTrue(loginPageObject.newsTopicButton(at: 0).waitForExistence(timeout: 1))
     }
     
     override func tearDown() {
@@ -326,7 +326,12 @@ final class when_user_put_additional_information: XCTestCase {
     }
 }
 
-/// 
+/// 뉴스 주제를 3개이상 선택했는지 검사
+/// 성공: 3개이상 선택 -> 다음 버튼 활성화
+/// 실패1: 목록에 항목이 3개 이상 있는지 검사 -> 3개 미만은 무조건 실패
+/// 실패2: 아무것도 선택 안했는데 -> 다음 버튼 활성화되어 있으면 실패
+/// 실패3: 활성화 & 비활성화 토글 안될경우 실패
+/// 실패4: 3개 미만 선택 -> 다음버튼 활성화되어 있으면 실패
 final class when_user_select_news_topics: XCTestCase {
     
     private var app: XCUIApplication!
@@ -367,6 +372,53 @@ final class when_user_select_news_topics: XCTestCase {
         loginPageObject.nextButton.tap()
     }
     
+    // 성공
+    func test_should_navigate_to_presss_selection_for_success() {
+        loginPageObject.newsTopicButton(at: 0).tap()
+        loginPageObject.newsTopicButton(at: 1).tap()
+        loginPageObject.newsTopicButton(at: 2).tap()
+        
+        XCTAssertTrue(loginPageObject.nextButton.isEnabled)
+        
+        loginPageObject.nextButton.tap()
+        
+        XCTAssertTrue(loginPageObject.pressSubscribeTableView.waitForExistence(timeout: 1))
+    }
+    
+    // 실패1
+    func test_should_check_if_there_are_more_than_three_topics() {
+        XCTAssertTrue(loginPageObject.newsTopicButton(at: 0).exists)
+        XCTAssertTrue(loginPageObject.newsTopicButton(at: 1).exists)
+        XCTAssertTrue(loginPageObject.newsTopicButton(at: 2).exists)
+    }
+    
+    // 실패2
+    func test_should_disable_next_button_without_selection() {
+        XCTAssertFalse(loginPageObject.nextButton.isEnabled)
+    }
+    
+    // 실패3
+    func test_should_be_able_to_toggle_topic_selections() {
+        let btn1 = loginPageObject.newsTopicButton(at: 0)
+        XCTAssertFalse(btn1.isSelected)
+        btn1.tap()
+        XCTAssertTrue(btn1.isSelected)
+        btn1.tap()
+        XCTAssertFalse(btn1.isSelected)
+    }
+    
+    // 실패4
+    func test_should_disable_next_button_less_than_three_topics() {
+        loginPageObject.newsTopicButton(at: 0).tap()
+        XCTAssertFalse(loginPageObject.nextButton.isEnabled)
+        
+        loginPageObject.newsTopicButton(at: 1).tap()
+        XCTAssertFalse(loginPageObject.nextButton.isEnabled)
+        
+        loginPageObject.newsTopicButton(at: 0).tap()
+        loginPageObject.newsTopicButton(at: 1).tap()
+        XCTAssertFalse(loginPageObject.nextButton.isEnabled)
+    }
     
     
     override func tearDown() {
@@ -374,4 +426,4 @@ final class when_user_select_news_topics: XCTestCase {
     }
 }
 
-    
+

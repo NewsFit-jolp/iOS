@@ -68,12 +68,12 @@ final class LoginPageObject {
         app.textFields[PageConstants.birthdayTextField.rawValue]
     }
     
-    private var newsTopicCollectionView: XCUIElement {
+    var newsTopicCollectionView: XCUIElement {
         app.collectionViews[PageConstants.newsTopicCollectionView.rawValue]
     }
     
-    var newsTopicButton: XCUIElement {
-        newsTopicCollectionView.cells.element(boundBy: 0)
+    func newsTopicButton(at idx: Int) -> XCUIElement {
+        newsTopicCollectionView.cells.element(boundBy: idx)
             .buttons[PageConstants.newsTopicButton.rawValue]
     }
     
@@ -81,12 +81,12 @@ final class LoginPageObject {
         app.staticTexts[PageConstants.newsTopicMessageLabel.rawValue]
     }
     
-    private var pressSubscribeTableView: XCUIElement {
+    var pressSubscribeTableView: XCUIElement {
         app.tables[PageConstants.pressSubscribeTableView.rawValue]
     }
     
-    var pressSubscribeButton: XCUIElement {
-        pressSubscribeTableView.cells.element(boundBy: 0)
+    func pressSubscribeButton(at idx: Int) -> XCUIElement {
+        pressSubscribeTableView.cells.element(boundBy: idx)
             .buttons[PageConstants.pressSubscribeButton.rawValue]
     }
     
