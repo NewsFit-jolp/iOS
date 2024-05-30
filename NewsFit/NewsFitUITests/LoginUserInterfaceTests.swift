@@ -405,7 +405,7 @@ final class when_user_select_news_topics: XCTestCase {
     // 실패3
     func test_should_display_error_message_without_selection() {
         XCTAssertFalse(loginPageObject.nextButton.isEnabled)
-        XCTAssertEqual(loginPageObject.newsTopicMessageLabel.label, "최소 3개 언론사를 구독하세요.")
+        XCTAssertEqual(loginPageObject.newsTopicMessageLabel.label, "최소 3개 주제를 선택하세요.")
     }
     
     // 실패4
