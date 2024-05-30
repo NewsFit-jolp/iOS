@@ -329,9 +329,9 @@ final class when_user_put_additional_information: XCTestCase {
 /// 뉴스 주제를 3개이상 선택했는지 검사
 /// 성공: 3개이상 선택 -> 다음 버튼 활성화
 /// 실패1: 목록에 항목이 3개 이상 있는지 검사 -> 3개 미만은 무조건 실패
-/// 실패2: 아무것도 선택 안했는데 -> 다음 버튼 활성화되어 있으면 실패
-/// 실패3: 활성화 & 비활성화 토글 안될경우 실패
-/// 실패4: 3개 미만 선택 -> 다음버튼 활성화되어 있으면 실패
+/// 실패2: 활성화 & 비활성화 토글 안될경우 실패
+/// 실패3: 아무것도 선택 안했는데 -> 다음 버튼 활성화되어 있으면 실패 + 에러 메시지 출력
+/// 실패4: 3개 미만 선택 -> 다음버튼 활성화되어 있으면 실패 + 에러 메시지 출력
 final class when_user_select_news_topics: XCTestCase {
     
     private var app: XCUIApplication!
@@ -393,11 +393,6 @@ final class when_user_select_news_topics: XCTestCase {
     }
     
     // 실패2
-    func test_should_disable_next_button_without_selection() {
-        XCTAssertFalse(loginPageObject.nextButton.isEnabled)
-    }
-    
-    // 실패3
     func test_should_be_able_to_toggle_topic_selections() {
         let btn1 = loginPageObject.newsTopicButton(at: 0)
         XCTAssertFalse(btn1.isSelected)
@@ -407,17 +402,29 @@ final class when_user_select_news_topics: XCTestCase {
         XCTAssertFalse(btn1.isSelected)
     }
     
+    // 실패3
+    func test_should_display_error_message_without_selection() {
+        XCTAssertFalse(loginPageObject.nextButton.isEnabled)
+        XCTAssertEqual(loginPageObject.newsTopicMessageLabel.label, "최소 3개 언론사를 구독하세요.")
+    }
+    
     // 실패4
-    func test_should_disable_next_button_less_than_three_topics() {
-        loginPageObject.newsTopicButton(at: 0).tap()
+    func test_should_display_error_message_less_than_three_topics() {
+        let btn1 = loginPageObject.newsTopicButton(at: 0)
+        let btn2 = loginPageObject.newsTopicButton(at: 1)
+        let msg = loginPageObject.newsTopicMessageLabel
+        
+        btn1.tap()
         XCTAssertFalse(loginPageObject.nextButton.isEnabled)
         
-        loginPageObject.newsTopicButton(at: 1).tap()
+        btn2.tap()
         XCTAssertFalse(loginPageObject.nextButton.isEnabled)
+        XCTAssertEqual(msg.label, "최소 3개 언론사를 구독하세요.")
         
-        loginPageObject.newsTopicButton(at: 0).tap()
-        loginPageObject.newsTopicButton(at: 1).tap()
+        btn1.tap()
+        btn2.tap()
         XCTAssertFalse(loginPageObject.nextButton.isEnabled)
+        XCTAssertEqual(msg.label, "최소 3개 언론사를 구독하세요.")
     }
     
     
@@ -426,4 +433,4 @@ final class when_user_select_news_topics: XCTestCase {
     }
 }
 
-
+///
