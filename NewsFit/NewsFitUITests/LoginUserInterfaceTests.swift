@@ -433,4 +433,62 @@ final class when_user_select_news_topics: XCTestCase {
     }
 }
 
-///
+/// 신문사를 3개 이상 구독했는지 검사
+/// 성공: 3개이상 선택 -> 다음 번튼 활성화
+/// 실패1: 목록에 항목이 3개 이상 있는지 검사 -> 3개 미만은 무조건 실패
+/// 실패2: 활성화 & 비활성화 토글 안될경우 실패
+/// 실패3: 아무것도 선택 안했는데 -> 다음 버튼 활성화되어 있으면 실패 + 에러 메시지 출력
+/// 실패4: 3개 미만 선택 -> 다음버튼 활성화되어 있으면 실패 + 에러 메시지 출력
+final class when_user_subscribe_presses: XCTestCase {
+    
+    private var app: XCUIApplication!
+    private var loginPageObject: LoginPageObject!
+    
+    override func setUp() {
+        app = .init()
+        continueAfterFailure = false
+        
+        loginPageObject = .init(app: app)
+        
+        app.launch()
+        
+        let kakaoRegistrationButton = loginPageObject.kakaoRegistrationButton
+        
+        _ = kakaoRegistrationButton.waitForExistence(timeout: 1)
+        loginPageObject.kakaoRegistrationButton.tap()
+        
+        let emailTextField = loginPageObject.emailTextField
+        let phoneTextField = loginPageObject.phoneTextField
+        
+        _ = emailTextField.waitForExistence(timeout: 1)
+        
+        emailTextField.tap()
+        emailTextField.typeText("newsfit@goodemail.com")
+        
+        phoneTextField.tap()
+        phoneTextField.typeText("01012341234")
+        
+        loginPageObject.nextButton.tap()
+        
+        let birthdayTextField = loginPageObject.birthdayTextField
+        
+        _ = birthdayTextField.waitForExistence(timeout: 1)
+        birthdayTextField.tap()
+        birthdayTextField.typeText("20240101")
+        
+        loginPageObject.nextButton.tap()
+        
+        loginPageObject.newsTopicButton(at: 0).tap()
+        loginPageObject.newsTopicButton(at: 1).tap()
+        loginPageObject.newsTopicButton(at: 2).tap()
+        
+        loginPageObject.nextButton.tap()
+    }
+    
+    
+    
+    
+    override func tearDown() {
+        print("test done")
+    }
+}
