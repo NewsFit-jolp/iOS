@@ -443,6 +443,7 @@ final class when_user_subscribe_presses: XCTestCase {
     
     private var app: XCUIApplication!
     private var loginPageObject: LoginPageObject!
+    private let errorMessage = "최소 3개 언론사를 구독하세요."
     
     override func setUp() {
         app = .init()
@@ -485,8 +486,62 @@ final class when_user_subscribe_presses: XCTestCase {
         loginPageObject.nextButton.tap()
     }
     
+    // 성공
+    func test_should_navigate_to_complete_page_for_success() {
+        loginPageObject.pressSubscribeButton(at: 0).tap()
+        loginPageObject.pressSubscribeButton(at: 1).tap()
+        loginPageObject.pressSubscribeButton(at: 2).tap()
+        
+        XCTAssertEqual(loginPageObject.pressSubscribeMessageLabel.label, "")
+        XCTAssertTrue(loginPageObject.nextButton.isEnabled)
+        
+        loginPageObject.nextButton.tap()
+        
+        XCTAssertTrue(loginPageObject.pressSubscribeTableView.waitForExistence(timeout: 1))
+    }
     
+    // 실패1
+    func test_should_check_if_there_are_more_than_three_presses() {
+        XCTAssertTrue(loginPageObject.pressSubscribeButton(at: 0).exists)
+        XCTAssertTrue(loginPageObject.pressSubscribeButton(at: 1).exists)
+        XCTAssertTrue(loginPageObject.pressSubscribeButton(at: 2).exists)
+    }
     
+    // 실패2
+    func test_should_be_able_to_toggle_press_subscription_selections() {
+        let btn1 = loginPageObject.pressSubscribeButton(at: 0)
+        XCTAssertFalse(btn1.isSelected)
+        btn1.tap()
+        XCTAssertTrue(btn1.isSelected)
+        btn1.tap()
+        XCTAssertFalse(btn1.isSelected)
+    }
+    
+    // 실패3
+    func test_should_display_error_message_without_selection() {
+        XCTAssertFalse(loginPageObject.nextButton.isEnabled)
+        XCTAssertEqual(loginPageObject.pressSubscribeMessageLabel.label, self.errorMessage)
+    }
+    
+    // 실패4
+    func test_should_display_error_message_select_less_than_three_presses() {
+        let btn1 = loginPageObject.pressSubscribeButton(at: 0)
+        let btn2 = loginPageObject.pressSubscribeButton(at: 1)
+        let msg = loginPageObject.pressSubscribeMessageLabel
+        
+        btn1.tap()
+        XCTAssertFalse(loginPageObject.nextButton.isEnabled)
+        XCTAssertEqual(msg.label, self.errorMessage)
+        
+        btn2.tap()
+        XCTAssertFalse(loginPageObject.nextButton.isEnabled)
+        XCTAssertEqual(msg.label, self.errorMessage)
+        
+        btn1.tap()
+        btn2.tap()
+        XCTAssertFalse(loginPageObject.nextButton.isEnabled)
+        XCTAssertEqual(msg.label, self.errorMessage)
+    }
     
     override func tearDown() {
         print("test done")
