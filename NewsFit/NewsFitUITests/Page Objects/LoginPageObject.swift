@@ -94,6 +94,10 @@ final class LoginPageObject {
         app.staticTexts[PageConstants.pressSubscribeMessageLabel.rawValue]
     }
     
+    var completePageMessageLabel: XCUIElement {
+        app.staticTexts[PageConstants.completePageMessageLabel.rawValue]
+    }
+    
     var mainLogoImage: XCUIElement {
         app.images[PageConstants.mainLogoImage.rawValue]
     }
@@ -126,6 +130,8 @@ fileprivate enum PageConstants: String {
     case pressSubscribeTableView
     case pressSubscribeButton
     case pressSubscribeMessageLabel
+    
+    case completePageMessageLabel
     
     case mainLogoImage
     

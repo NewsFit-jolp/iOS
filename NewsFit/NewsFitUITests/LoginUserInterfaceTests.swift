@@ -500,7 +500,7 @@ final class when_user_subscribe_presses: XCTestCase {
         
         loginPageObject.nextButton.tap()
         
-        XCTAssertTrue(loginPageObject.pressSubscribeTableView.waitForExistence(timeout: 1))
+        XCTAssertTrue(loginPageObject.completePageMessageLabel.waitForExistence(timeout: 1))
     }
     
     // 실패1
