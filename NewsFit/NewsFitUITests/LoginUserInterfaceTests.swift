@@ -336,6 +336,7 @@ final class when_user_select_news_topics: XCTestCase {
     
     private var app: XCUIApplication!
     private var loginPageObject: LoginPageObject!
+    private let errorMessage = "최소 3개 주제를 선택하세요."
     
     override func setUp() {
         app = .init()
@@ -379,6 +380,7 @@ final class when_user_select_news_topics: XCTestCase {
         loginPageObject.newsTopicButton(at: 2).tap()
         
         XCTAssertTrue(loginPageObject.nextButton.isEnabled)
+        XCTAssertEqual(loginPageObject.newsTopicMessageLabel.label, "")
         
         loginPageObject.nextButton.tap()
         
@@ -405,7 +407,7 @@ final class when_user_select_news_topics: XCTestCase {
     // 실패3
     func test_should_display_error_message_without_selection() {
         XCTAssertFalse(loginPageObject.nextButton.isEnabled)
-        XCTAssertEqual(loginPageObject.newsTopicMessageLabel.label, "최소 3개 주제를 선택하세요.")
+        XCTAssertEqual(loginPageObject.newsTopicMessageLabel.label, self.errorMessage)
     }
     
     // 실패4
@@ -416,15 +418,16 @@ final class when_user_select_news_topics: XCTestCase {
         
         btn1.tap()
         XCTAssertFalse(loginPageObject.nextButton.isEnabled)
+        XCTAssertEqual(msg.label, self.errorMessage)
         
         btn2.tap()
         XCTAssertFalse(loginPageObject.nextButton.isEnabled)
-        XCTAssertEqual(msg.label, "최소 3개 언론사를 구독하세요.")
+        XCTAssertEqual(msg.label, self.errorMessage)
         
         btn1.tap()
         btn2.tap()
         XCTAssertFalse(loginPageObject.nextButton.isEnabled)
-        XCTAssertEqual(msg.label, "최소 3개 언론사를 구독하세요.")
+        XCTAssertEqual(msg.label, self.errorMessage)
     }
     
     
