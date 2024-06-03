@@ -482,6 +482,8 @@ final class when_user_subscribe_presses: XCTestCase {
         
         loginPageObject.nextButton.tap()
         
+        let _ = loginPageObject.newsTopicButton(at: 0).waitForExistence(timeout: 1)
+        
         loginPageObject.newsTopicButton(at: 0).tap()
         loginPageObject.newsTopicButton(at: 1).tap()
         loginPageObject.newsTopicButton(at: 2).tap()
@@ -544,6 +546,78 @@ final class when_user_subscribe_presses: XCTestCase {
         btn2.tap()
         XCTAssertFalse(loginPageObject.nextButton.isEnabled)
         XCTAssertEqual(msg.label, self.errorMessage)
+    }
+    
+    override func tearDown() {
+        print("test done")
+    }
+}
+
+/// 회원가입을 완료했을 경우 정상적으로 홈 화면으로 이동하는지 검사
+/// 성공: 확인 버튼 누르면 홈 화면으로 넘어감
+/// 실패: 홈화면이 안 뜸
+final class when_user_completed_registration: XCTestCase {
+    
+    private var app: XCUIApplication!
+    private var loginPageObject: LoginPageObject!
+    
+    override func setUp() {
+        app = .init()
+        continueAfterFailure = false
+        
+        loginPageObject = .init(app: app)
+        
+        app.launch()
+        
+        let kakaoRegistrationButton = loginPageObject.kakaoRegistrationButton
+        
+        _ = kakaoRegistrationButton.waitForExistence(timeout: 1)
+        loginPageObject.kakaoRegistrationButton.tap()
+        
+        let emailTextField = loginPageObject.emailTextField
+        let phoneTextField = loginPageObject.phoneTextField
+        
+        _ = emailTextField.waitForExistence(timeout: 1)
+        
+        emailTextField.tap()
+        emailTextField.typeText("newsfit@goodemail.com")
+        
+        phoneTextField.tap()
+        phoneTextField.typeText("01012341234")
+        
+        loginPageObject.nextButton.tap()
+        
+        let birthdayTextField = loginPageObject.birthdayTextField
+        
+        _ = birthdayTextField.waitForExistence(timeout: 1)
+        birthdayTextField.tap()
+        birthdayTextField.typeText("20240101")
+        
+        loginPageObject.nextButton.tap()
+        
+        let _ = loginPageObject.newsTopicButton(at: 0).waitForExistence(timeout: 1)
+        
+        loginPageObject.newsTopicButton(at: 0).tap()
+        loginPageObject.newsTopicButton(at: 1).tap()
+        loginPageObject.newsTopicButton(at: 2).tap()
+        
+        loginPageObject.nextButton.tap()
+        
+        let _ = loginPageObject.pressSubscribeButton(at: 0).waitForExistence(timeout: 1)
+        
+        loginPageObject.pressSubscribeButton(at: 0).tap()
+        loginPageObject.pressSubscribeButton(at: 1).tap()
+        loginPageObject.pressSubscribeButton(at: 2).tap()
+    }
+    
+    // 성공
+    func test_should_navigate_to_newfit_home_page_for_success() {
+        
+        XCTAssertTrue(loginPageObject.nextButton.isEnabled)
+        
+        loginPageObject.nextButton.tap()
+        
+        XCTAssertTrue(loginPageObject.mainLogoImage.waitForExistence(timeout: 0.5))
     }
     
     override func tearDown() {
