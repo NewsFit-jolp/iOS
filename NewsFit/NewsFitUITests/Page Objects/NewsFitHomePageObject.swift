@@ -32,6 +32,18 @@ final class NewsFitHomePageObject {
         app.tabBars[PageConstants.tabBarNavigator.rawValue]
     }
     
+    var homeNavButton: XCUIElement {
+        tabBarNavigator.buttons[PageConstants.homeNavButton.rawValue]
+    }
+    
+    var searchNavButton: XCUIElement {
+        tabBarNavigator.buttons[PageConstants.searchNavButton.rawValue]
+    }
+    
+    var myInfoNavButton: XCUIElement {
+        tabBarNavigator.buttons[PageConstants.myInfoNavButton.rawValue]
+    }
+    
     var newsSheetAiSummaryButton: XCUIElement {
         app.buttons[PageConstants.newsSheetAiSummaryButton.rawValue]
     }
@@ -72,6 +84,9 @@ fileprivate enum PageConstants: String {
     case newsListCollectionView
     
     case tabBarNavigator
+    case homeNavButton
+    case searchNavButton
+    case myInfoNavButton
     
     case newsSheetAiSummaryButton
     case newsSheetCommentsButton
