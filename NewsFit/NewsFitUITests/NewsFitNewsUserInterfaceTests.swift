@@ -14,13 +14,13 @@ import XCTest
 final class when_user_click_on_one_of_headlines: XCTestCase {
     
     private var app: XCUIApplication!
-    private var homePageObject: NewsFitHomePageObject!
+    private var newsPageObject: NewsFitNewsPageObject!
     
     override func setUp() {
         app = .init()
         continueAfterFailure = false
         
-        homePageObject = .init(app: app)
+        newsPageObject = .init(app: app)
         let loginPageObject = LoginPageObject(app: app)
         
         app.launchEnvironment = ["ENV" : "DEV"]
@@ -34,20 +34,20 @@ final class when_user_click_on_one_of_headlines: XCTestCase {
     }
     
     func test_should_display_news_bottom_sheet() {
-        let headline = homePageObject.headlineCell(at: 0)
+        let headline = newsPageObject.headlineCell(at: 0)
         headline.tap()
         
-        let aibutton = homePageObject.newsSheetAiSummaryButton
+        let aibutton = newsPageObject.newsSheetAiSummaryButton
         XCTAssertTrue(aibutton.waitForExistence(timeout: 1))
     }
     
     func test_should_not_selected_any_buttons_by_default() {
-        let headline = homePageObject.headlineCell(at: 0)
+        let headline = newsPageObject.headlineCell(at: 0)
         headline.tap()
         
-        let aiBtn = homePageObject.newsSheetAiSummaryButton
-        let commentBtn = homePageObject.newsSheetCommentsButton
-        let likeBtn = homePageObject.newsSheetLikeButton
+        let aiBtn = newsPageObject.newsSheetAiSummaryButton
+        let commentBtn = newsPageObject.newsSheetCommentsButton
+        let likeBtn = newsPageObject.newsSheetLikeButton
         
         _ = aiBtn.waitForExistence(timeout: 1)
         
@@ -66,13 +66,13 @@ final class when_user_click_on_one_of_headlines: XCTestCase {
 /// 테스트1: 누르면 요약문구 등장
 final class when_user_click_on_ai_summary_button: XCTestCase {
     private var app: XCUIApplication!
-    private var homePageObject: NewsFitHomePageObject!
+    private var newsPageObject: NewsFitNewsPageObject!
     
     override func setUp() {
         app = .init()
         continueAfterFailure = false
         
-        homePageObject = .init(app: app)
+        newsPageObject = .init(app: app)
         let loginPageObject = LoginPageObject(app: app)
         
         app.launchEnvironment = ["ENV" : "DEV"]
@@ -84,13 +84,13 @@ final class when_user_click_on_ai_summary_button: XCTestCase {
         _ = kakaoLoginButton.waitForExistence(timeout: 1)
         kakaoLoginButton.tap()
         
-        let headline = homePageObject.headlineCell(at: 0)
+        let headline = newsPageObject.headlineCell(at: 0)
         _ = headline.waitForExistence(timeout: 1)
         headline.tap()
     }
     
     func test_should_display_summarized_news_label() {
-        XCTAssertTrue(homePageObject.summarizedNewsLabel.waitForExistence(timeout: 1))
+        XCTAssertTrue(newsPageObject.summarizedNewsLabel.waitForExistence(timeout: 1))
     }
     
     override func tearDown() {
@@ -103,13 +103,13 @@ final class when_user_click_on_ai_summary_button: XCTestCase {
 /// 테스트2: 댓글 버튼 누르면 댓글이 나와야 함
 final class when_user_click_on_comments_button: XCTestCase {
     private var app: XCUIApplication!
-    private var homePageObject: NewsFitHomePageObject!
+    private var newsPageObject: NewsFitNewsPageObject!
     
     override func setUp() {
         app = .init()
         continueAfterFailure = false
         
-        homePageObject = .init(app: app)
+        newsPageObject = .init(app: app)
         let loginPageObject = LoginPageObject(app: app)
         
         app.launchEnvironment = ["ENV" : "DEV"]
@@ -121,13 +121,13 @@ final class when_user_click_on_comments_button: XCTestCase {
         _ = kakaoLoginButton.waitForExistence(timeout: 1)
         kakaoLoginButton.tap()
         
-        let headline = homePageObject.headlineCell(at: 0)
+        let headline = newsPageObject.headlineCell(at: 0)
         _ = headline.waitForExistence(timeout: 1)
         headline.tap()
     }
     
     func test_should_display_comments() {
-        XCTAssertTrue(homePageObject.newsCommentTableView.waitForExistence(timeout: 1))
+        XCTAssertTrue(newsPageObject.newsCommentTableView.waitForExistence(timeout: 1))
     }
     
     override func tearDown() {
@@ -141,13 +141,13 @@ final class when_user_click_on_comments_button: XCTestCase {
 /// - 좋아요 개수가 증가해야 함
 final class when_user_click_on_like_button: XCTestCase {
     private var app: XCUIApplication!
-    private var homePageObject: NewsFitHomePageObject!
+    private var newsPageObject: NewsFitNewsPageObject!
     
     override func setUp() {
         app = .init()
         continueAfterFailure = false
         
-        homePageObject = .init(app: app)
+        newsPageObject = .init(app: app)
         let loginPageObject = LoginPageObject(app: app)
         
         app.launchEnvironment = ["ENV" : "DEV"]
@@ -159,16 +159,16 @@ final class when_user_click_on_like_button: XCTestCase {
         _ = kakaoLoginButton.waitForExistence(timeout: 1)
         kakaoLoginButton.tap()
         
-        let headline = homePageObject.headlineCell(at: 0)
+        let headline = newsPageObject.headlineCell(at: 0)
         _ = headline.waitForExistence(timeout: 1)
         headline.tap()
     }
     
     func test_should_increase_like_count_if_unliked() {
-        let likeCount = homePageObject.newsSheetLikeCount
+        let likeCount = newsPageObject.newsSheetLikeCount
         
         let prev = Int(likeCount.label)!
-        homePageObject.newsSheetLikeButton.tap()
+        newsPageObject.newsSheetLikeButton.tap()
         
         let now = Int(likeCount.label)!
         
@@ -176,12 +176,12 @@ final class when_user_click_on_like_button: XCTestCase {
     }
     
     func test_should_decrease_like_count_if_liked() {
-        let likeCount = homePageObject.newsSheetLikeCount
+        let likeCount = newsPageObject.newsSheetLikeCount
         
-        homePageObject.newsSheetLikeButton.tap()
+        newsPageObject.newsSheetLikeButton.tap()
         let prev = Int(likeCount.label)!
         
-        homePageObject.newsSheetLikeButton.tap()
+        newsPageObject.newsSheetLikeButton.tap()
         let now = Int(likeCount.label)!
         
         XCTAssertEqual(prev - 1, now)

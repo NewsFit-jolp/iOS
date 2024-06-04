@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class NewsFitHomePageObject {
+final class NewsFitNewsPageObject {
     private let app: XCUIApplication
     
     init(app: XCUIApplication) {

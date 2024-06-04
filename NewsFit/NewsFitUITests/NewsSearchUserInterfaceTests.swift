@@ -24,7 +24,7 @@ final class when_user_click_on_one_of_catecorized_item: XCTestCase {
         
         searchPageObject = .init(app: app)
         let loginPageObject = LoginPageObject(app: app)
-        let homePageObject = NewsFitHomePageObject(app: app)
+        let homePageObject = NewsFitNewsPageObject(app: app)
         
         app.launchEnvironment = ["ENV" : "DEV"]
         
@@ -45,7 +45,7 @@ final class when_user_click_on_one_of_catecorized_item: XCTestCase {
         let item = searchPageObject.newsCategoryCell(at: 0)
         item.tap()
         
-        let newsSheetAiSummaryButton = NewsFitHomePageObject(app: app).newsSheetAiSummaryButton
+        let newsSheetAiSummaryButton = NewsFitNewsPageObject(app: app).newsSheetAiSummaryButton
         
         XCTAssertTrue(newsSheetAiSummaryButton.waitForExistence(timeout: 1))
     }
@@ -69,7 +69,7 @@ final class when_user_search_news_by_keyword: XCTestCase {
         
         searchPageObject = .init(app: app)
         let loginPageObject = LoginPageObject(app: app)
-        let homePageObject = NewsFitHomePageObject(app: app)
+        let homePageObject = NewsFitNewsPageObject(app: app)
         
         app.launchEnvironment = ["ENV" : "DEV"]
         
@@ -132,7 +132,7 @@ final class when_user_click_on_one_of_search_newses: XCTestCase {
         
         searchPageObject = .init(app: app)
         let loginPageObject = LoginPageObject(app: app)
-        let homePageObject = NewsFitHomePageObject(app: app)
+        let homePageObject = NewsFitNewsPageObject(app: app)
         
         app.launchEnvironment = ["ENV" : "DEV"]
         
@@ -163,7 +163,7 @@ final class when_user_click_on_one_of_search_newses: XCTestCase {
         let item = searchPageObject.newsListCell(at: 0)
         item.tap()
         
-        let newsSheetAiSummaryButton = NewsFitHomePageObject(app: app).newsSheetAiSummaryButton
+        let newsSheetAiSummaryButton = NewsFitNewsPageObject(app: app).newsSheetAiSummaryButton
         
         XCTAssertTrue(newsSheetAiSummaryButton.waitForExistence(timeout: 1))
     }
