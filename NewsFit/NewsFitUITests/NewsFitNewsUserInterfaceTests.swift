@@ -127,6 +127,7 @@ final class when_user_click_on_comments_button: XCTestCase {
     }
     
     func test_should_display_comments() {
+        newsPageObject.newsSheetCommentsButton.tap()
         XCTAssertTrue(newsPageObject.newsCommentTableView.waitForExistence(timeout: 1))
     }
     
@@ -135,6 +136,55 @@ final class when_user_click_on_comments_button: XCTestCase {
     }
 }
 
+/// 테스트2-2: 댓글을 썼을 경우
+/// - 내가 쓴 글은 지워져야 함
+/// - 빈 문자열은 못 써야 함
+final class when_user_click_on_send_comments_button: XCTestCase {
+    private var app: XCUIApplication!
+    private var newsPageObject: NewsFitNewsPageObject!
+    
+    override func setUp() {
+        app = .init()
+        continueAfterFailure = false
+        
+        newsPageObject = .init(app: app)
+        let loginPageObject = LoginPageObject(app: app)
+        
+        app.launchEnvironment = ["ENV" : "DEV"]
+        
+        app.launch()
+        
+        let kakaoLoginButton = loginPageObject.kakaoLoginButton
+        
+        _ = kakaoLoginButton.waitForExistence(timeout: 1)
+        kakaoLoginButton.tap()
+        
+        let headline = newsPageObject.headlineCell(at: 0)
+        _ = headline.waitForExistence(timeout: 1)
+        headline.tap()
+    }
+    
+    func test_should_disable_send_button_with_empty_text_field() {
+        let textField = newsPageObject.newsCommentTextField
+        let sendButton = newsPageObject.newsCommentSendButton
+        
+        textField.tap()
+        textField.typeText("")
+        
+        XCTAssertFalse(sendButton.isEnabled)
+    }
+    
+    func test_should_erase_text_field() {
+        let textField = newsPageObject.newsCommentTextField
+        let sendButton = newsPageObject.newsCommentSendButton
+        
+        textField.tap()
+        textField.typeText("댓글")
+        
+        sendButton.tap()
+        XCTAssertTrue(textField.label.isEmpty)
+    }
+}
 
 
 /// 테스트3: 좋아요 버튼 누르면 좋아요 되어야 함
