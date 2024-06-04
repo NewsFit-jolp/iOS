@@ -24,7 +24,7 @@ final class when_user_click_on_one_of_catecorized_item: XCTestCase {
         
         searchPageObject = .init(app: app)
         let loginPageObject = LoginPageObject(app: app)
-        let homePageObject = NewsFitNewsPageObject(app: app)
+        let newsPageObject = NewsFitNewsPageObject(app: app)
         
         app.launchEnvironment = ["ENV" : "DEV"]
         
@@ -37,7 +37,7 @@ final class when_user_click_on_one_of_catecorized_item: XCTestCase {
         
         _ = loginPageObject.mainLogoImage.waitForExistence(timeout: 0.5)
         
-        let searchNavBtn = homePageObject.searchNavButton
+        let searchNavBtn = newsPageObject.searchNavButton
         searchNavBtn.tap()
     }
     
@@ -69,7 +69,7 @@ final class when_user_search_news_by_keyword: XCTestCase {
         
         searchPageObject = .init(app: app)
         let loginPageObject = LoginPageObject(app: app)
-        let homePageObject = NewsFitNewsPageObject(app: app)
+        let newsPageObject = NewsFitNewsPageObject(app: app)
         
         app.launchEnvironment = ["ENV" : "DEV"]
         
@@ -82,7 +82,7 @@ final class when_user_search_news_by_keyword: XCTestCase {
         
         _ = loginPageObject.mainLogoImage.waitForExistence(timeout: 0.5)
         
-        let searchNavBtn = homePageObject.searchNavButton
+        let searchNavBtn = newsPageObject.searchNavButton
         searchNavBtn.tap()
     }
     
@@ -132,7 +132,7 @@ final class when_user_click_on_one_of_search_newses: XCTestCase {
         
         searchPageObject = .init(app: app)
         let loginPageObject = LoginPageObject(app: app)
-        let homePageObject = NewsFitNewsPageObject(app: app)
+        let newsPageObject = NewsFitNewsPageObject(app: app)
         
         app.launchEnvironment = ["ENV" : "DEV"]
         
@@ -145,7 +145,7 @@ final class when_user_click_on_one_of_search_newses: XCTestCase {
         
         _ = loginPageObject.mainLogoImage.waitForExistence(timeout: 0.5)
         
-        let searchNavBtn = homePageObject.searchNavButton
+        let searchNavBtn = newsPageObject.searchNavButton
         searchNavBtn.tap()
         
         let searchButton = searchPageObject.newsSearchButton
