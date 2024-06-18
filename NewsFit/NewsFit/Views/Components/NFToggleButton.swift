@@ -11,6 +11,12 @@ import SnapKit
 final class NFToggleButton: UIView {
     private var onFalseView: UIView!
     private var onTrueView: UIView!
+    private lazy var button: UIButton = {
+        let btn: UIButton = .init(type: .custom)
+        btn.backgroundColor = nil
+        btn.addTarget(self, action: #selector(toggle), for: .touchUpInside)
+        return btn
+    }()
     
     private(set) var isActive: Bool! {
         didSet {
@@ -48,11 +54,17 @@ final class NFToggleButton: UIView {
             make.top.left.bottom.right.equalToSuperview()
         }
         
+        // set button
+        addSubview(button)
+        button.snp.makeConstraints { make in
+            make.top.left.bottom.right.equalToSuperview()
+        }
+        
         // set hidden
         isActive = false
     }
     
-    func toggle() {
+    @objc func toggle() {
         self.isActive.toggle()
     }
 }
