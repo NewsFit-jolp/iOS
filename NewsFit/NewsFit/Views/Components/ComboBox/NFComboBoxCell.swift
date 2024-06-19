@@ -8,7 +8,8 @@
 import UIKit
 import SnapKit
 
-
+/// 콤보박스 셀을 의미합니다.
+/// 셀 하나를 만들 때 만들고 나서 configure함수를 실행해야 합니다.
 final class NFComboBoxCell: UITableViewCell {
     static let reuseId = "NFComboBoxCell"
     
@@ -25,15 +26,16 @@ final class NFComboBoxCell: UITableViewCell {
         let trueView = {
             let v = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 16))
             let vIn = UIView()
+            vIn.layer.cornerRadius = 16/2
+            vIn.backgroundColor = .nFpurple
             v.addSubview(vIn)
             vIn.snp.makeConstraints { make in
                 make.height.width.equalTo(8)
                 make.centerX.centerY.equalToSuperview()
             }
-            vIn.layer.cornerRadius = 16/2
             v.layer.cornerRadius = 8/2
             v.layer.borderWidth = 1
-            v.layer.borderColor = UIColor.purple.cgColor
+            v.layer.borderColor = UIColor.nFpurple.cgColor
             v.clipsToBounds = true
             v.backgroundColor = nil
             return v

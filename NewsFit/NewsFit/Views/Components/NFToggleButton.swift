@@ -35,9 +35,9 @@ final class NFToggleButton: UIView {
     }
     
     convenience init(onFalseView: UIView, onTrueView: UIView) {
+        self.init(frame: .zero)
         self.onFalseView = onFalseView
         self.onTrueView = onTrueView
-        self.init(frame: .zero)
     }
     
     
