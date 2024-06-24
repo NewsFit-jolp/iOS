@@ -29,6 +29,8 @@ final class NFComboBox: UIView {
         tv.dataSource = self
         tv.delegate = self
         
+        tv.rowHeight = 35
+        
         // add subview - TableView
         addSubview(comboTable)
     }
@@ -36,8 +38,8 @@ final class NFComboBox: UIView {
 
 extension NFComboBox: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        comboBoxListViewModel.selectedIdx = indexPath.row
-        
+        comboBoxListViewModel.changeSelected(to: indexPath.row)
+        tableView.reloadData()
     }
 }
 

@@ -73,7 +73,7 @@ final class NFComboBoxCell: UITableViewCell {
     }
     
     func configure(_ vm: ComboViewModel) {
-        label.setText(with: vm.text)
+        label.setText(vm.text, with: .body)
     }
     
 }
