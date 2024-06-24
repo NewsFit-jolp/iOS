@@ -46,17 +46,6 @@ enum NFButtonStyle {
         }
     }
     
-    var font: UIFont {
-        switch self {
-        case .primary:
-                .NF.button_default
-        case .warning:
-                .NF.button_default
-        case .mark:
-                .NF.button_default
-        }
-    }
-    
     var frame: CGRect {
         let width = switch self {
         case .primary(let isHalf):
@@ -122,11 +111,6 @@ final class NFButton: UIView {
         
         // 배경색 설정
         self.backgroundColor = style.backgroundColor
-        
-        // 글꼴 설정
-        self.title.subviews.forEach { view in
-            (view as? UILabel)?.font = style.font
-        }
         
         // 클릭시 색 설정
         self.button.addTarget(self, action: #selector(self.onClick), for: .touchDown)

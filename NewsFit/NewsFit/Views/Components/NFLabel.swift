@@ -8,34 +8,79 @@
 import UIKit
 import SnapKit
 
+
+enum NFLabelFont {
+    case button
+    case smallButton
+    case title
+    case subTitle
+    case body
+    
+    var font: UIFont {
+        switch self {
+        case .button:
+            return .NF.button_default
+        case .smallButton:
+            return .NF.button_small
+        case .title:
+            return .NF.title_large
+        case .subTitle:
+            return .NF.title_middle
+        case .body:
+            return .NF.text_default
+        }
+    }
+}
+
 final class NFLabel: UIView {
-    private var label: UILabel!
+    private var label = UILabel()
+    private var font: NFLabelFont = .body
+    private var isAddedSubView: Bool = false
+    private var isUnderLined: Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    private func setup(font: NFLabelFont) {
         // setting label
-        label = .init()
-        label.font = .NF.text_default
-        label.textColor = .textDark
-        label.textAlignment = .left
+        label.font = font.font
         
-        // add subview
-        addSubview(label)
-        label.snp.makeConstraints { make in
-            make.top.left.bottom.right.equalToSuperview()
+        if !isAddedSubView {
+            label.textColor = .textDark
+            label.textAlignment = .left
+            // add subview
+            addSubview(label)
+            label.snp.makeConstraints { make in
+                make.top.left.bottom.right.equalToSuperview()
+            }
+            isAddedSubView = true
         }
     }
     
-    func setText(with text: String) {
+    func setText(_ text: String, with font: NFLabelFont) {
         label.text = text
+        setup(font: font)
+    }
+    
+    func setUnderLine(to set: Bool) {
+        isUnderLined = set
+        let text = label.text ?? label.attributedText?.string ?? ""
+        if isUnderLined { // 기본글자 -> 속성 글자
+            let attributeText = NSAttributedString(string: text, attributes: [.font: self.font.font,
+                .foregroundColor: UIColor.textDark,
+                .underlineStyle: NSUnderlineStyle.single.rawValue]
+            )
+            label.attributedText = attributeText
+        } else { // 속성 글자 -> 기본글자
+            label.text = text
+            label.font = self.font.font
+            label.textColor = .textDark
+        }
     }
     
 }
