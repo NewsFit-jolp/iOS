@@ -13,6 +13,10 @@ enum NFButtonStyle {
     case warning(isHalf: Bool)
     case mark
     
+    case kakaoLogin(isSmall: Bool)
+    case naverLogin(isSmall: Bool)
+    case appleLogin(isSmall: Bool)
+    
     var backgroundColor: UIColor? {
         switch self {
         case .primary:
@@ -21,6 +25,12 @@ enum NFButtonStyle {
                 .buttonCancel
         case .mark:
                 nil
+        case .kakaoLogin(let isSmall):
+            isSmall ? .backgroundWhite : .kakaoLoginBackground
+        case .naverLogin(let isSmall):
+            isSmall ? .backgroundWhite : .naverLoginBackground
+        case .appleLogin(let isSmall):
+            isSmall ? .backgroundWhite : .appleLoginBackground
         }
     }
     
@@ -32,16 +42,28 @@ enum NFButtonStyle {
                 .buttonCancelClicked
         case .mark:
             nil
+        case .kakaoLogin:
+            nil
+        case .naverLogin:
+            nil
+        case .appleLogin:
+            nil
         }
     }
     
-    var onDiabledColor: UIColor? {
+    var onDisabledColor: UIColor? {
         switch self {
         case .primary:
                 .buttonDefaultDisabled
         case .warning:
                 .buttonCancelDisabled
         case .mark:
+            nil
+        case .kakaoLogin:
+            nil
+        case .naverLogin:
+            nil
+        case .appleLogin:
             nil
         }
     }
@@ -54,6 +76,12 @@ enum NFButtonStyle {
             isHalf ? 160 : 331
         case .mark:
             12
+        case .kakaoLogin(let isSmall):
+            isSmall ? 105 : 331
+        case .naverLogin(let isSmall):
+            isSmall ? 105 : 331
+        case .appleLogin(let isSmall):
+            isSmall ? 105 : 331
         }
         
         let height = switch self {
@@ -63,6 +91,12 @@ enum NFButtonStyle {
             56
         case .mark:
             12
+        case .kakaoLogin:
+            56
+        case .naverLogin:
+            56
+        case .appleLogin:
+            56
         }
         
         return .init(x: 0, y: 0, width: width, height: height)
@@ -102,6 +136,7 @@ final class NFButton: UIView {
         button.snp.makeConstraints { make in
             make.left.right.bottom.top.equalToSuperview()
         }
+        button.layer.cornerRadius = 8
     }
     
     // 스타일 적용
@@ -128,7 +163,7 @@ final class NFButton: UIView {
     
     func toggleEnabled() {
         self.button.isEnabled.toggle()
-        self.backgroundColor = self.button.isEnabled ? style.backgroundColor : style.onDiabledColor
+        self.backgroundColor = self.button.isEnabled ? style.backgroundColor : style.onDisabledColor
     }
     
     func addTarget(action: Selector) {
