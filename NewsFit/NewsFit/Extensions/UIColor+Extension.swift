@@ -11,10 +11,10 @@ import UIKit
 extension UIColor {
     enum NF {
         static var background_white: UIColor {
-            .init(named: "background1")!
+            .init(named: "background_white")!
         }
         static var background_gray: UIColor {
-            .init(named: "background2")!
+            .init(named: "background_gray")!
         }
         static var button_cancel_clicked: UIColor {
             .init(named: "button-cancel-clicked")!
@@ -38,10 +38,29 @@ extension UIColor {
             .init(named: "green")!
         }
         static var text_dark: UIColor {
-            .init(named: "text_dark1")!
+            .init(named: "text_dark")!
         }
         static var text_gray: UIColor {
-            .init(named: "text_dark2")!
+            .init(named: "text_gray")!
         }
+        static var text_white: UIColor {
+            .init(named: "text_white")!
+        }
+        static var border_gray: UIColor {
+            .init(named: "border_gray")!
+        }
+    }
+}
+
+//MARK: - UIColors for LoginView
+extension UIColor.NF {
+    static var naver_login_background: UIColor {
+        return .init(named: "naver_login_background")!
+    }
+    static var kakao_login_background: UIColor {
+        return .init(named: "kakao_login_background")!
+    }
+    static var apple_login_background: UIColor {
+        return .init(named: "apple_login_background")!
     }
 }
