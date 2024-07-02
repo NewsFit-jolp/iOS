@@ -170,12 +170,12 @@ final class NFButton: UIView {
         self.button.addTarget(self, action: action, for: .touchUpInside)
     }
     
-    func setTitle(views: [UIView]) {
+    func setTitle(views: [UIView], spacing: CGFloat) {
         views.forEach { view in
             self.title.addArrangedSubview(view)
         }
         self.title.axis = .horizontal
-        self.title.spacing = 5
+        self.title.spacing = spacing
         self.title.alignment = .fill
         self.title.distribution = .equalSpacing
     }
