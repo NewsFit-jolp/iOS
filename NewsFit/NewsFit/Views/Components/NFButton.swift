@@ -24,7 +24,7 @@ enum NFButtonStyle {
         case .warning:
                 .buttonCancel
         case .mark:
-                nil
+            nil
         case .kakaoLogin(let isSmall):
             isSmall ? .backgroundWhite : .kakaoLoginBackground
         case .naverLogin(let isSmall):
@@ -42,12 +42,12 @@ enum NFButtonStyle {
                 .buttonCancelClicked
         case .mark:
             nil
-        case .kakaoLogin:
-            nil
-        case .naverLogin:
-            nil
-        case .appleLogin:
-            nil
+        case .kakaoLogin(let isSmall):
+            isSmall ? .backgroundWhite : .kakaoLoginBackground
+        case .naverLogin(let isSmall):
+            isSmall ? .backgroundWhite : .naverLoginBackground
+        case .appleLogin(let isSmall):
+            isSmall ? .backgroundWhite : .appleLoginBackground
         }
     }
     
@@ -59,19 +59,19 @@ enum NFButtonStyle {
                 .buttonCancelDisabled
         case .mark:
             nil
-        case .kakaoLogin:
-            nil
-        case .naverLogin:
-            nil
-        case .appleLogin:
-            nil
+        case .kakaoLogin(let isSmall):
+            isSmall ? .backgroundWhite : .kakaoLoginBackground
+        case .naverLogin(let isSmall):
+            isSmall ? .backgroundWhite : .naverLoginBackground
+        case .appleLogin(let isSmall):
+            isSmall ? .backgroundWhite : .appleLoginBackground
         }
     }
     
     var frame: CGRect {
         let width = switch self {
         case .primary(let isHalf):
-             isHalf ? 160 : 331
+            isHalf ? 160 : 331
         case .warning(let isHalf):
             isHalf ? 160 : 331
         case .mark:
@@ -113,7 +113,6 @@ final class NFButton: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
     }
     
     required init?(coder: NSCoder) {
@@ -121,13 +120,17 @@ final class NFButton: UIView {
     }
     
     convenience init(with style: NFButtonStyle) {
-        self.init(frame: style.frame)
+        self.init(frame: .zero)
         applyStyle(with: style)
     }
     
     // MARK: - Setup
     private func setup() {
         // Add view hireachy
+        self.snp.makeConstraints { make in
+            make.width.equalTo(self.style.frame.width)
+            make.height.equalTo(self.style.frame.height)
+        }
         addSubview(title)
         title.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
@@ -136,7 +139,11 @@ final class NFButton: UIView {
         button.snp.makeConstraints { make in
             make.left.right.bottom.top.equalToSuperview()
         }
+        self.layer.cornerRadius = 8
+        self.clipsToBounds = true
+        
         button.layer.cornerRadius = 8
+        button.clipsToBounds = true
     }
     
     // 스타일 적용
@@ -167,7 +174,7 @@ final class NFButton: UIView {
     }
     
     func addTarget(action: Selector) {
-        self.button.addTarget(self, action: action, for: .touchUpInside)
+        self.button.addTarget(nil, action: action, for: .touchUpInside)
     }
     
     func setTitle(views: [UIView], spacing: CGFloat) {
@@ -178,5 +185,10 @@ final class NFButton: UIView {
         self.title.spacing = spacing
         self.title.alignment = .fill
         self.title.distribution = .equalSpacing
+    }
+    
+    override func updateConstraints() {
+        setup()
+        super.updateConstraints()
     }
 }
