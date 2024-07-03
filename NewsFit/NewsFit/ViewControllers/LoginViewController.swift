@@ -11,24 +11,30 @@ import AuthenticationServices
 //MARK: - LoginViewController
 final class LoginViewController: UIViewController {
     //MARK: - Properties
-    private let naverLoginButton: NFButton = {
+    private lazy var naverLoginButton: NFButton = {
         let btn = NFButton(with: .naverLogin(isSmall: false))
         
         // add Views to button
         let img = UIImageView(image: .init(named: "naver_logo_white"))
-        img.frame = .init(x: 0, y: 0, width: 16, height: 16)
+        self.view.addSubview(img)
+        img.snp.makeConstraints { make in
+            make.width.height.equalTo(16)
+        }
         img.contentMode = .scaleAspectFill
         
         let lb = NFLabel()
         lb.setText("네이버 로그인", with: .button)
-        
+        lb.setColor(with: .white)
         btn.setTitle(views: [img, lb], spacing: 10)
         return btn
     }()
-    private let kakaoLoginButton: NFButton =  {
+    private lazy var kakaoLoginButton: NFButton =  {
         let btn = NFButton(with: .kakaoLogin(isSmall: false))
         let img = UIImageView(image: .init(named: "kakao_logo"))
-        img.frame = .init(x: 0, y: 0, width: 18, height: 18)
+        self.view.addSubview(img)
+        img.snp.makeConstraints { make in
+            make.width.height.equalTo(18)
+        }
         img.contentMode = .scaleAspectFill
         
         let lb = NFLabel()
@@ -57,16 +63,24 @@ final class LoginViewController: UIViewController {
         return btn
     }()
     
-    private let logo: UIImageView = {
-        let uv = UIImageView(image: UIImage(named: "NFLogo"))
+    private lazy var appImage: UIImageView = {
+        let uv = UIImageView(image: UIImage(named: "AppIcon"))
+        self.view.addSubview(uv)
+        uv.snp.makeConstraints { make in
+            make.width.height.equalTo(105)
+        }
         uv.contentMode = .scaleAspectFit
-        uv.frame = .init(x: 0, y: 0, width: 105, height: 105)
         return uv
     }()
-    private let appImage: UIImageView = {
-        let uv = UIImageView(image: UIImage(named: "AppIcon"))
-        uv.contentMode = .scaleAspectFill
-        uv.frame = .init(x: 0, y: 0, width: 190, height: 68)
+    
+    private lazy var logo: UIImageView = {
+        let uv = UIImageView(image: UIImage(named: "NFLogo"))
+        self.view.addSubview(uv)
+        uv.snp.makeConstraints { make in
+            make.width.equalTo(190)
+            make.height.equalTo(68)
+        }
+        uv.contentMode = .scaleAspectFit
         return uv
     }()
     
@@ -109,8 +123,7 @@ final class LoginViewController: UIViewController {
         // 2. 로그인 버튼들을 설정한다.
         let loginStack = UIStackView(arrangedSubviews: [naverLoginButton, kakaoLoginButton, appleLoginButton])
         loginStack.axis = .vertical
-        logoStack.spacing = 15
-        loginStack.alignment = .center
+        loginStack.alignment = .fill
         loginStack.distribution = .fillEqually
         view.addSubview(loginStack)
         loginStack.snp.makeConstraints { make in
@@ -118,7 +131,8 @@ final class LoginViewController: UIViewController {
             make.top.equalTo(logoStack.snp.bottom).offset(115)
             make.width.equalTo(331)
         }
-        
+        loginStack.setCustomSpacing(15, after: naverLoginButton)
+        loginStack.setCustomSpacing(15, after: kakaoLoginButton)
         
         // 3. 회원가입 버튼들을 설정한다.
     }
