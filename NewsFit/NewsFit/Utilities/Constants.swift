@@ -9,17 +9,17 @@ import Foundation
 
 // MARK: - NanumGothicFontName
 public enum NanumGothicFontName {
-    private static let familiy: String = "NanumGothic Font-"
+    private static let familiy: String = "NanumGothic"
     static var regular: String {
-        Self.familiy + "NanumGothic"
+        Self.familiy + ""
     }
     static var bold: String {
-        Self.familiy + "NanumGothicBold"
+        Self.familiy + "Bold"
     }
     static var extraBold: String {
-        Self.familiy + "NanumGothicExtraBold"
+        Self.familiy + "ExtraBold"
     }
     static var light: String {
-        Self.familiy + "NanumGothicLight"
+        Self.familiy + "Light"
     }
 }
