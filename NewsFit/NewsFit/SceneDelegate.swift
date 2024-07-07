@@ -19,8 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: scene)
-        let vc = UIViewController()
-        vc.view.backgroundColor = .blue
+        let vc = LoginViewController()
+        vc.view.backgroundColor = .white
         window?.rootViewController = vc
         
         window?.makeKeyAndVisible()
