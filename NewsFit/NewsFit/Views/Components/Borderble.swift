@@ -54,7 +54,7 @@ class Borderble<T: UIView>: UIView {
         }
     }
     
-    func setText(with text: String) {
+    func setTitle(with text: String) {
         title.setText(text, with: .body)
         title.isHidden = text.isEmpty
     }

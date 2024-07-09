@@ -19,8 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: scene)
-        let vc = LoginViewController()
-        vc.view.backgroundColor = .white
+        let vc = MainTabController()
         window?.rootViewController = vc
         
         window?.makeKeyAndVisible()

@@ -37,6 +37,7 @@ enum NFLabelColor {
     case grayDark
     case grayLight
     case white
+    case red
     
     var color: UIColor {
         switch self {
@@ -48,6 +49,8 @@ enum NFLabelColor {
                 .textGrayLight
         case .white:
                 .textWhite
+        case .red:
+                .buttonCancel
         }
     }
 }
@@ -64,14 +67,7 @@ final class NFLabel: UIView {
     private var isUnderLined: Bool = false
     private var margin: CGFloat = 0
     
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    //MARK: - LifeCycle
     
     private func setup(font: NFLabelFont) {
         // setting label

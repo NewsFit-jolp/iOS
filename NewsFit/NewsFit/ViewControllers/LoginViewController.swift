@@ -84,6 +84,7 @@ final class LoginViewController: UIViewController {
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
+        self.view.backgroundColor = .backgroundWhite
         setup()
     }
     
@@ -152,7 +153,7 @@ final class LoginViewController: UIViewController {
     }
     
     private func turnToNext() {
-        self.navigationController?.pushViewController(.init(), animated: true)
+        self.navigationController?.pushViewController(BasicInfoViewController(), animated: true)
     }
 }
 
