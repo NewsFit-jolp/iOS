@@ -61,7 +61,7 @@ final class LoginViewController: UIViewController {
         return btn
     }()
     
-    @Borderble
+    
     private var appImage: UIImageView = {
         let uv = UIImageView(image: UIImage(named: "AppIcon"))
         uv.snp.makeConstraints { make in
@@ -71,7 +71,7 @@ final class LoginViewController: UIViewController {
         return uv
     }()
     
-    @Borderble
+    
     private var logo: UIImageView = {
         let uv = UIImageView(image: UIImage(named: "NFLogo"))
         uv.snp.makeConstraints { make in
@@ -107,7 +107,7 @@ final class LoginViewController: UIViewController {
     
     private func configureViews() {
         // 1. logo를 설정한다.
-        let logoStack = UIStackView(arrangedSubviews: [$appImage, $logo])
+        let logoStack = UIStackView(arrangedSubviews: [appImage, logo])
         logoStack.axis = .vertical
         logoStack.spacing = 1
         logoStack.alignment = .center
@@ -133,7 +133,6 @@ final class LoginViewController: UIViewController {
         loginStack.setCustomSpacing(15, after: kakaoLoginButton)
         
         // 3. 회원가입 버튼들을 설정한다.
-        $logo.setText(with: "고양이")
     }
     
     //MARK: - Selectors
