@@ -34,15 +34,18 @@ enum NFLabelFont {
 
 enum NFLabelColor {
     case dark
-    case gray
+    case grayDark
+    case grayLight
     case white
     
     var color: UIColor {
         switch self {
         case .dark:
                 .textDark
-        case .gray:
-                .textGray
+        case .grayDark:
+                .textGrayDark
+        case .grayLight:
+                .textGrayLight
         case .white:
                 .textWhite
         }
@@ -52,9 +55,15 @@ enum NFLabelColor {
 final class NFLabel: UIView {
     private var label = UILabel()
     private var font: NFLabelFont = .body
-    private var textColor: NFLabelColor = .dark
+    private var textColor: NFLabelColor = .dark {
+        didSet {
+            self.label.textColor = textColor.color
+        }
+    }
     private var isAddedSubView: Bool = false
     private var isUnderLined: Bool = false
+    private var margin: CGFloat = 0
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -74,7 +83,10 @@ final class NFLabel: UIView {
             // add subview
             addSubview(label)
             label.snp.makeConstraints { make in
-                make.top.left.bottom.right.equalToSuperview()
+                make.center.equalToSuperview()
+            }
+            self.snp.makeConstraints { make in
+                make.size.equalTo(label.snp.size).offset(self.margin)
             }
             isAddedSubView = true
         }
@@ -86,7 +98,11 @@ final class NFLabel: UIView {
     }
     
     func setColor(with color: NFLabelColor) {
-        label.textColor = color.color
+        self.textColor = color
+    }
+    
+    func setMargin(about num: CGFloat) {
+        self.margin = num
     }
     
     func setUnderLine(to set: Bool) {

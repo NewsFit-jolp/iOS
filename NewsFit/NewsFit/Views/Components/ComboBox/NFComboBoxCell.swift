@@ -18,7 +18,7 @@ final class NFComboBoxCell: UITableViewCell {
             let v = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 16))
             v.layer.cornerRadius = 16/2
             v.layer.borderWidth = 1
-            v.layer.borderColor = UIColor.textGray.cgColor
+            v.layer.borderColor = UIColor.textGrayDark.cgColor
             v.clipsToBounds = true
             v.backgroundColor = nil
             return v

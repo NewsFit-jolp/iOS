@@ -40,8 +40,11 @@ extension UIColor {
         static var text_dark: UIColor {
             .init(named: "text_dark")!
         }
-        static var text_gray: UIColor {
-            .init(named: "text_gray")!
+        static var text_gray_dark: UIColor {
+            .init(named: "text_gray_dark")!
+        }
+        static var text_gray_light: UIColor {
+            .init(named: "text_gray_light")!
         }
         static var text_white: UIColor {
             .init(named: "text_white")!
