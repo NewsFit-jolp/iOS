@@ -18,6 +18,6 @@ final class MainTabController: UITabBarController {
         vc.navigationBar.standardAppearance = appear
         vc.navigationBar.scrollEdgeAppearance = appear
         vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
+        self.present(vc, animated: false)
     }
 }
