@@ -28,7 +28,7 @@ final class NFTextField: UIView {
         
         addSubview(textField)
         textField.snp.makeConstraints { make in
-            make.top.left.bottom.right.equalToSuperview()
+            make.edges.equalToSuperview()
         }
         
         // set background color
@@ -51,6 +51,15 @@ final class NFTextField: UIView {
     
     func setPlaceHolder(with text: String) {
         textField.placeholder = text
+    }
+    
+    func setMargin(top: CGFloat = 0, right: CGFloat = 0, bottom: CGFloat = 0, left: CGFloat = 0) {
+        textField.snp.updateConstraints { make in
+            make.top.equalToSuperview().offset(top)
+            make.right.equalToSuperview().offset(-right)
+            make.bottom.equalToSuperview().offset(-bottom)
+            make.left.equalToSuperview().offset(left)
+        }
     }
 }
 
