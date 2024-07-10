@@ -56,7 +56,14 @@ enum NFLabelColor {
 }
 
 final class NFLabel: UIView {
-    private var label = UILabel()
+    //MARK: - Properies
+    private var label: UILabel = {
+        let lb = UILabel()
+        lb.textColor = .darkText
+        lb.textAlignment = .left
+        lb.numberOfLines = 0
+        return lb
+    }()
     private var font: NFLabelFont = .body
     private var textColor: NFLabelColor = .dark {
         didSet {
@@ -65,40 +72,43 @@ final class NFLabel: UIView {
     }
     private var isAddedSubView: Bool = false
     private var isUnderLined: Bool = false
-    private var margin: CGFloat = 0
     
     //MARK: - LifeCycle
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
     
-    private func setup(font: NFLabelFont) {
-        // setting label
-        label.font = font.font
-        
-        if !isAddedSubView {
-            label.textColor = textColor.color
-            label.textAlignment = .left
-            // add subview
-            addSubview(label)
-            label.snp.makeConstraints { make in
-                make.center.equalToSuperview()
-            }
-            self.snp.makeConstraints { make in
-                make.size.equalTo(label.snp.size).offset(self.margin)
-            }
-            isAddedSubView = true
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setup() {
+        // add subview
+        addSubview(label)
+        label.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
+        self.snp.makeConstraints { make in
+            make.size.equalTo(label.snp.size)
+        }
+        isAddedSubView = true
     }
     
     func setText(_ text: String, with font: NFLabelFont) {
         label.text = text
-        setup(font: font)
+        label.font = font.font
     }
     
     func setColor(with color: NFLabelColor) {
         self.textColor = color
     }
     
-    func setMargin(about num: CGFloat) {
-        self.margin = num
+    func setMargin(width: CGFloat = 0, height: CGFloat = 0) {
+        self.snp.updateConstraints { make in
+            make.height.equalTo(label.snp.height).offset(height)
+            make.width.equalTo(label.snp.width).offset(width)
+        }
     }
     
     func setUnderLine(to set: Bool) {
