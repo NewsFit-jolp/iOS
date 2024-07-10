@@ -24,6 +24,7 @@ final class BasicInfoView: UIView {
         tf.snp.makeConstraints { make in
             make.height.equalTo(56)
         }
+        tf.setMargin(right: 20, left: 20)
         return tf
     }()
     
@@ -34,6 +35,7 @@ final class BasicInfoView: UIView {
         tf.snp.makeConstraints { make in
             make.height.equalTo(56)
         }
+        tf.setMargin(right: 20, left: 20)
         return tf
     }()
     
@@ -44,20 +46,21 @@ final class BasicInfoView: UIView {
         tf.snp.makeConstraints { make in
             make.height.equalTo(56)
         }
+        tf.setMargin(right: 20, left: 20)
         return tf
     }()
     
     private var emailErrorMessageLabel: NFLabel = {
         let lb = NFLabel()
         lb.setColor(with: .red)
-        lb.setText("이메일 형식이 올바르지 않습니다.", with: .body)
+        lb.setText("    이메일 형식이 올바르지 않습니다.", with: .body)
         return lb
     }()
     
     private var phoneErrorMessageLabel: NFLabel = {
         let lb = NFLabel()
         lb.setColor(with: .red)
-        lb.setText("전화번호 형식이 올바르지 않습니다.", with: .body)
+        lb.setText("    전화번호 형식이 올바르지 않습니다.", with: .body)
         return lb
     }()
     //MARK: - LifeCycle
