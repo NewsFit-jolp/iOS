@@ -17,7 +17,7 @@ final class BasicInfoView: UIView {
         return lb
     }()
     
-    @Borderble
+    @Borderable
     private var nameTextField: NFTextField = {
         let tf = NFTextField()
         tf.setPlaceHolder(with: "이름")
@@ -28,7 +28,7 @@ final class BasicInfoView: UIView {
         return tf
     }()
     
-    @Borderble
+    @Borderable
     private var emailTextField: NFTextField = {
         let tf = NFTextField()
         tf.setPlaceHolder(with: "info@example.com")
@@ -39,7 +39,7 @@ final class BasicInfoView: UIView {
         return tf
     }()
     
-    @Borderble
+    @Borderable
     private var phoneTextField: NFTextField = {
         let tf = NFTextField()
         tf.setPlaceHolder(with: "010-0000-0000")

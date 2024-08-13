@@ -8,7 +8,7 @@
 import UIKit
 
 @propertyWrapper
-class Borderble<T: UIView>: UIView {
+class Borderable<T: UIView>: UIView {
     
     private var title: NFLabel = {
         let lb = NFLabel()
@@ -21,7 +21,7 @@ class Borderble<T: UIView>: UIView {
     
     var wrappedValue: T
     
-    var projectedValue: Borderble<T> {
+    var projectedValue: Borderable<T> {
         self
     }
     
