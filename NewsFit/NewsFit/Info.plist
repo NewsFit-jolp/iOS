@@ -19,5 +19,12 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>NanumGothic.otf</string>
+		<string>NanumGothicBold.otf</string>
+		<string>NanumGothicExtraBold.otf</string>
+		<string>NanumGothicLight.otf</string>
+	</array>
 </dict>
 </plist>
