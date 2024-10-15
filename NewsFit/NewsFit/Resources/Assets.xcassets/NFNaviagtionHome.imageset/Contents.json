@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "navHome.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
