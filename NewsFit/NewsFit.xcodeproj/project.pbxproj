@@ -3,18 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CE022E2A2C201BFF00F8B7C3 /* NFTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE022E292C201BFF00F8B7C3 /* NFTextField.swift */; };
-		CEAD5D552C0C7DBF00930FB6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D542C0C7DBF00930FB6 /* AppDelegate.swift */; };
-		CEAD5D572C0C7DBF00930FB6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D562C0C7DBF00930FB6 /* SceneDelegate.swift */; };
-		CEAD5D5E2C0C7DC000930FB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEAD5D5D2C0C7DC000930FB6 /* Assets.xcassets */; };
 		CEAD5D6C2C0C7DC000930FB6 /* NewsFitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D6B2C0C7DC000930FB6 /* NewsFitTests.swift */; };
 		CEAD5D782C0C7DC000930FB6 /* NewsFitUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D772C0C7DC000930FB6 /* NewsFitUITestsLaunchTests.swift */; };
 		CEAD5D882C0C7E1F00930FB6 /* LoginUserInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D872C0C7E1F00930FB6 /* LoginUserInterfaceTests.swift */; };
-		CEAD5D892C0C7FA000930FB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEAD5D5F2C0C7DC000930FB6 /* LaunchScreen.storyboard */; };
 		CEAD5D8D2C12ACA000930FB6 /* NewsFitNewsUserInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D8A2C12ACA000930FB6 /* NewsFitNewsUserInterfaceTests.swift */; };
 		CEAD5D8E2C12ACA000930FB6 /* UserInformationSettingsUserInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D8B2C12ACA000930FB6 /* UserInformationSettingsUserInterfaceTests.swift */; };
 		CEAD5D8F2C12ACA000930FB6 /* NewsSearchUserInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D8C2C12ACA000930FB6 /* NewsSearchUserInterfaceTests.swift */; };
@@ -22,14 +17,6 @@
 		CEAD5D962C12ACA900930FB6 /* NewsFitNewsPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D912C12ACA900930FB6 /* NewsFitNewsPageObject.swift */; };
 		CEAD5D972C12ACA900930FB6 /* NewsSearchPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D922C12ACA900930FB6 /* NewsSearchPageObject.swift */; };
 		CEAD5D982C12ACA900930FB6 /* UserInformationSettingsPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D932C12ACA900930FB6 /* UserInformationSettingsPageObject.swift */; };
-		CEAD5DB52C12FB1A00930FB6 /* NanumGothic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEAD5DB02C12FB1A00930FB6 /* NanumGothic.ttf */; };
-		CEAD5DB62C12FB1A00930FB6 /* NanumGothicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEAD5DB12C12FB1A00930FB6 /* NanumGothicBold.ttf */; };
-		CEAD5DB72C12FB1A00930FB6 /* NanumGothicExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEAD5DB22C12FB1A00930FB6 /* NanumGothicExtraBold.ttf */; };
-		CEAD5DB82C12FB1A00930FB6 /* NanumGothicLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEAD5DB32C12FB1A00930FB6 /* NanumGothicLight.ttf */; };
-		CEAD5DB92C13014E00930FB6 /* NFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D992C12ACDE00930FB6 /* NFButton.swift */; };
-		CEAD5DBA2C13015000930FB6 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5DA42C12F85A00930FB6 /* UIFont+Extension.swift */; };
-		CEAD5DBD2C13019A00930FB6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5DBC2C13019A00930FB6 /* Constants.swift */; };
-		CEAD5DBF2C13057C00930FB6 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5DBE2C13057C00930FB6 /* UIColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,13 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CE022E292C201BFF00F8B7C3 /* NFTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTextField.swift; sourceTree = "<group>"; };
 		CEAD5D512C0C7DBF00930FB6 /* NewsFit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsFit.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CEAD5D542C0C7DBF00930FB6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		CEAD5D562C0C7DBF00930FB6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CEAD5D5D2C0C7DC000930FB6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		CEAD5D602C0C7DC000930FB6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		CEAD5D622C0C7DC000930FB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CEAD5D672C0C7DC000930FB6 /* NewsFitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsFitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAD5D6B2C0C7DC000930FB6 /* NewsFitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFitTests.swift; sourceTree = "<group>"; };
 		CEAD5D712C0C7DC000930FB6 /* NewsFitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsFitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,15 +50,21 @@
 		CEAD5D912C12ACA900930FB6 /* NewsFitNewsPageObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsFitNewsPageObject.swift; sourceTree = "<group>"; };
 		CEAD5D922C12ACA900930FB6 /* NewsSearchPageObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsSearchPageObject.swift; sourceTree = "<group>"; };
 		CEAD5D932C12ACA900930FB6 /* UserInformationSettingsPageObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInformationSettingsPageObject.swift; sourceTree = "<group>"; };
-		CEAD5D992C12ACDE00930FB6 /* NFButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NFButton.swift; sourceTree = "<group>"; };
-		CEAD5DA42C12F85A00930FB6 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
-		CEAD5DB02C12FB1A00930FB6 /* NanumGothic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumGothic.ttf; sourceTree = "<group>"; };
-		CEAD5DB12C12FB1A00930FB6 /* NanumGothicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumGothicBold.ttf; sourceTree = "<group>"; };
-		CEAD5DB22C12FB1A00930FB6 /* NanumGothicExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumGothicExtraBold.ttf; sourceTree = "<group>"; };
-		CEAD5DB32C12FB1A00930FB6 /* NanumGothicLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumGothicLight.ttf; sourceTree = "<group>"; };
-		CEAD5DBC2C13019A00930FB6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		CEAD5DBE2C13057C00930FB6 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CEB56D1B2CBE3141000234A9 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = CEAD5D502C0C7DBF00930FB6 /* NewsFit */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		CEB56D152CBE3141000234A9 /* NewsFit */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (CEB56D1B2CBE3141000234A9 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = NewsFit; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		CEAD5D4E2C0C7DBF00930FB6 /* Frameworks */ = {
@@ -107,7 +94,7 @@
 		CEAD5D482C0C7DBE00930FB6 = {
 			isa = PBXGroup;
 			children = (
-				CEAD5D532C0C7DBF00930FB6 /* NewsFit */,
+				CEB56D152CBE3141000234A9 /* NewsFit */,
 				CEAD5D6A2C0C7DC000930FB6 /* NewsFitTests */,
 				CEAD5D742C0C7DC000930FB6 /* NewsFitUITests */,
 				CEAD5D522C0C7DBF00930FB6 /* Products */,
@@ -122,22 +109,6 @@
 				CEAD5D712C0C7DC000930FB6 /* NewsFitUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		CEAD5D532C0C7DBF00930FB6 /* NewsFit */ = {
-			isa = PBXGroup;
-			children = (
-				CEAD5DBB2C13018900930FB6 /* Utilities */,
-				CEAD5DA32C12F82E00930FB6 /* Extensions */,
-				CEAD5D9B2C12ACDE00930FB6 /* Views */,
-				CEAD5D542C0C7DBF00930FB6 /* AppDelegate.swift */,
-				CEAD5D562C0C7DBF00930FB6 /* SceneDelegate.swift */,
-				CEAD5D5D2C0C7DC000930FB6 /* Assets.xcassets */,
-				CEAD5D5F2C0C7DC000930FB6 /* LaunchScreen.storyboard */,
-				CEAD5D622C0C7DC000930FB6 /* Info.plist */,
-				CEAD5DA62C12FAEE00930FB6 /* Fonts */,
-			);
-			path = NewsFit;
 			sourceTree = "<group>";
 		};
 		CEAD5D6A2C0C7DC000930FB6 /* NewsFitTests */ = {
@@ -172,59 +143,6 @@
 			path = "Page Objects";
 			sourceTree = "<group>";
 		};
-		CEAD5D9A2C12ACDE00930FB6 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				CEAD5D992C12ACDE00930FB6 /* NFButton.swift */,
-				CE022E292C201BFF00F8B7C3 /* NFTextField.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		CEAD5D9B2C12ACDE00930FB6 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				CEAD5D9A2C12ACDE00930FB6 /* Components */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		CEAD5DA32C12F82E00930FB6 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				CEAD5DA42C12F85A00930FB6 /* UIFont+Extension.swift */,
-				CEAD5DBE2C13057C00930FB6 /* UIColor+Extension.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		CEAD5DA62C12FAEE00930FB6 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				CEAD5DB42C12FB1A00930FB6 /* NanumFont_GOTHIC */,
-			);
-			path = Fonts;
-			sourceTree = "<group>";
-		};
-		CEAD5DB42C12FB1A00930FB6 /* NanumFont_GOTHIC */ = {
-			isa = PBXGroup;
-			children = (
-				CEAD5DB02C12FB1A00930FB6 /* NanumGothic.ttf */,
-				CEAD5DB12C12FB1A00930FB6 /* NanumGothicBold.ttf */,
-				CEAD5DB22C12FB1A00930FB6 /* NanumGothicExtraBold.ttf */,
-				CEAD5DB32C12FB1A00930FB6 /* NanumGothicLight.ttf */,
-			);
-			path = NanumFont_GOTHIC;
-			sourceTree = "<group>";
-		};
-		CEAD5DBB2C13018900930FB6 /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				CEAD5DBC2C13019A00930FB6 /* Constants.swift */,
-			);
-			path = Utilities;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -239,6 +157,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CEB56D152CBE3141000234A9 /* NewsFit */,
 			);
 			name = NewsFit;
 			productName = NewsFit;
@@ -332,12 +253,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEAD5DB52C12FB1A00930FB6 /* NanumGothic.ttf in Resources */,
-				CEAD5DB62C12FB1A00930FB6 /* NanumGothicBold.ttf in Resources */,
-				CEAD5D892C0C7FA000930FB6 /* LaunchScreen.storyboard in Resources */,
-				CEAD5DB82C12FB1A00930FB6 /* NanumGothicLight.ttf in Resources */,
-				CEAD5DB72C12FB1A00930FB6 /* NanumGothicExtraBold.ttf in Resources */,
-				CEAD5D5E2C0C7DC000930FB6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,13 +277,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEAD5DBD2C13019A00930FB6 /* Constants.swift in Sources */,
-				CEAD5DB92C13014E00930FB6 /* NFButton.swift in Sources */,
-				CEAD5D552C0C7DBF00930FB6 /* AppDelegate.swift in Sources */,
-				CEAD5DBF2C13057C00930FB6 /* UIColor+Extension.swift in Sources */,
-				CEAD5DBA2C13015000930FB6 /* UIFont+Extension.swift in Sources */,
-				CEAD5D572C0C7DBF00930FB6 /* SceneDelegate.swift in Sources */,
-				CE022E2A2C201BFF00F8B7C3 /* NFTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,17 +318,6 @@
 			targetProxy = CEAD5D722C0C7DC000930FB6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		CEAD5D5F2C0C7DC000930FB6 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CEAD5D602C0C7DC000930FB6 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		CEAD5D792C0C7DC000930FB6 /* Debug */ = {
@@ -611,7 +508,6 @@
 		CEAD5D7F2C0C7DC000930FB6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -631,7 +527,6 @@
 		CEAD5D802C0C7DC000930FB6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -651,7 +546,6 @@
 		CEAD5D822C0C7DC000930FB6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9C7339W4DL;
@@ -669,7 +563,6 @@
 		CEAD5D832C0C7DC000930FB6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9C7339W4DL;
