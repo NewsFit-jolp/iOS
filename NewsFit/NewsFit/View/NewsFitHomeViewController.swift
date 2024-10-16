@@ -5,6 +5,7 @@ final class NewsFitHomeViewController: UIViewController {
   //MARK: - Types
   enum Constant {
     static let headLineCellReuseID = "headLineCellReuseID"
+    static let newsCellReuseID = "newsCellReuseID"
     static let sectionHeaderReuseID = "sectionHeaderReuseID"
   }
   
@@ -21,12 +22,18 @@ final class NewsFitHomeViewController: UIViewController {
     
   }
   private func collectionViewLayout() -> UICollectionViewLayout {
-    let sectionProvider = { (index: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+    let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
       let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                             heightDimension: .fractionalHeight(1.0))
       let item = NSCollectionLayoutItem(layoutSize: itemSize)
-      let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9),
-                                             heightDimension: .absolute(280))
+      let groupWidth = sectionIndex == 0 ?
+      NSCollectionLayoutDimension.fractionalWidth(0.9) :
+      NSCollectionLayoutDimension.fractionalWidth(1.0)
+      let groupHeight = sectionIndex == 0 ?
+      NSCollectionLayoutDimension.absolute(280) :
+      NSCollectionLayoutDimension.absolute(100)
+      let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth,
+                                             heightDimension: groupHeight)
       let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
       let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .absolute(40))
@@ -34,7 +41,9 @@ final class NewsFitHomeViewController: UIViewController {
                                                                elementKind: UICollectionView.elementKindSectionHeader,
                                                                alignment: .top)
       let section = NSCollectionLayoutSection(group: group)
-      section.orthogonalScrollingBehavior = .groupPagingCentered
+      section.orthogonalScrollingBehavior = sectionIndex == 0 ?
+        .groupPagingCentered :
+        .none
       
       section.interGroupSpacing = 0
       section.boundarySupplementaryItems = [header]
@@ -50,7 +59,12 @@ final class NewsFitHomeViewController: UIViewController {
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     collectionView.dataSource = self
     collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: Constant.headLineCellReuseID)
-    collectionView.register(NewsFitHomeSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Constant.sectionHeaderReuseID)
+//    collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: Constant.newsCellReuseID)
+    collectionView.register(
+      NewsFitHomeSectionHeaderView.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: Constant.sectionHeaderReuseID
+    )
     view.addSubview(collectionView)
     collectionView.snp.makeConstraints { make in
       make.edges.equalToSuperview()
@@ -64,14 +78,18 @@ extension NewsFitHomeViewController: UICollectionViewDataSource {
     return 10
   }
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 1
+    return 2
   }
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.headLineCellReuseID, for: indexPath)
-    cell.contentConfiguration = UIHostingConfiguration {
-      HeadLineNewsCell()
-        .background(Color.gray)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+    if indexPath.section == 0 {
+      cell.contentConfiguration = UIHostingConfiguration {
+        HeadLineNewsCell()
+      }
+    } else {
+      cell.contentConfiguration = UIHostingConfiguration {
+        NewsCell()
+      }
     }
     return cell
   }
