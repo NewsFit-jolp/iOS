@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct HeadLineNewsView: View {
+struct HeadLineNewsCell: View {
   var body: some View {
     VStack {
       Spacer()
@@ -21,5 +21,5 @@ struct HeadLineNewsView: View {
 }
 
 #Preview {
-  HeadLineNewsView()
+  HeadLineNewsCell()
 }
