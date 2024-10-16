@@ -17,6 +17,7 @@
 		CEAD5D962C12ACA900930FB6 /* NewsFitNewsPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D912C12ACA900930FB6 /* NewsFitNewsPageObject.swift */; };
 		CEAD5D972C12ACA900930FB6 /* NewsSearchPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D922C12ACA900930FB6 /* NewsSearchPageObject.swift */; };
 		CEAD5D982C12ACA900930FB6 /* UserInformationSettingsPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D932C12ACA900930FB6 /* UserInformationSettingsPageObject.swift */; };
+		CECB2E732CBF5DF50066B0A5 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CECB2E722CBF5DF50066B0A5 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CECB2E732CBF5DF50066B0A5 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +99,7 @@
 				CEB56D152CBE3141000234A9 /* NewsFit */,
 				CEAD5D6A2C0C7DC000930FB6 /* NewsFitTests */,
 				CEAD5D742C0C7DC000930FB6 /* NewsFitUITests */,
+				CECB2E712CBF5DF50066B0A5 /* Frameworks */,
 				CEAD5D522C0C7DBF00930FB6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -141,6 +144,13 @@
 				CEAD5D932C12ACA900930FB6 /* UserInformationSettingsPageObject.swift */,
 			);
 			path = "Page Objects";
+			sourceTree = "<group>";
+		};
+		CECB2E712CBF5DF50066B0A5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -454,7 +464,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -487,7 +497,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -628,6 +638,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CECB2E722CBF5DF50066B0A5 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEAD5D9D2C12F2E300930FB6 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CEAD5D492C0C7DBE00930FB6 /* Project object */;
 }
