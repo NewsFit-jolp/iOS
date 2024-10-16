@@ -2,6 +2,7 @@ import SwiftUI
 import SnapKit
 
 final class NewsFitHomeViewController: UIViewController {
+  //MARK: - Types
   enum Constant {
     static let headLineCellReuseId = "headLineCellReuseId"
   }
@@ -23,11 +24,9 @@ final class NewsFitHomeViewController: UIViewController {
       let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                             heightDimension: .fractionalHeight(1.0))
       let item = NSCollectionLayoutItem(layoutSize: itemSize)
-      
       let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9),
                                              heightDimension: .absolute(230))
       let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-      
       let section = NSCollectionLayoutSection(group: group)
       section.orthogonalScrollingBehavior = .groupPagingCentered
       section.interGroupSpacing = 0
