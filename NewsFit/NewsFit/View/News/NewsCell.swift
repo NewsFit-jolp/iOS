@@ -25,7 +25,6 @@ struct NewsCell: View {
         }
       }
     }
-    .padding(10)
   }
 }
 
