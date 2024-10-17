@@ -4,6 +4,7 @@ import SnapKit
 final class NewsFitHomeViewController: UIViewController {
   //MARK: - Types
   enum Constant {
+    static let categoryCellResuseID = "categoryCellResuseID"
     static let headLineCellReuseID = "headLineCellReuseID"
     static let newsCellReuseID = "newsCellReuseID"
     static let sectionHeaderReuseID = "sectionHeaderReuseID"
@@ -23,16 +24,22 @@ final class NewsFitHomeViewController: UIViewController {
   }
   private func collectionViewLayout() -> UICollectionViewLayout {
     let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-      let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                            heightDimension: .fractionalHeight(1.0))
+      let itemSize = sectionIndex == 0 ?
+      NSCollectionLayoutSize(widthDimension: .estimated(100),
+                             heightDimension: .fractionalHeight(1.0)) :
+      NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                             heightDimension: .fractionalHeight(1.0))
       let item = NSCollectionLayoutItem(layoutSize: itemSize)
       
-      let groupWidth = NSCollectionLayoutDimension.fractionalWidth(0.9)
-      let groupHeight = NSCollectionLayoutDimension.fractionalWidth(0.7)
+      let groupWidth = sectionIndex == 0 ?
+      NSCollectionLayoutDimension.estimated(100) :
+      NSCollectionLayoutDimension.fractionalWidth(0.9)
+      let groupHeight = sectionIndex == 0 ?
+      NSCollectionLayoutDimension.estimated(50) :
+      NSCollectionLayoutDimension.fractionalWidth(0.7)
       let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth,
                                              heightDimension: groupHeight)
       let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-      group.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
       
       let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .absolute(40))
@@ -40,6 +47,13 @@ final class NewsFitHomeViewController: UIViewController {
                                                                elementKind: UICollectionView.elementKindSectionHeader,
                                                                alignment: .top)
       if sectionIndex == 0 {
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 8
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        return section
+      } else if sectionIndex == 1 {
+        group.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPagingCentered
         section.boundarySupplementaryItems = [header]
@@ -63,6 +77,7 @@ final class NewsFitHomeViewController: UIViewController {
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     collectionView.dataSource = self
+    collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: Constant.categoryCellResuseID)
     collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: Constant.headLineCellReuseID)
     collectionView.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: Constant.newsCellReuseID)
     collectionView.register(
@@ -83,16 +98,23 @@ extension NewsFitHomeViewController: UICollectionViewDataSource {
     return 10
   }
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 2
+    return 3
   }
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let reuseID = indexPath.section == 0 ? Constant.headLineCellReuseID : Constant.newsCellReuseID
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseID, for: indexPath)
     if indexPath.section == 0 {
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.categoryCellResuseID, for: indexPath)
+      cell.contentConfiguration = UIHostingConfiguration {
+        NewsCategoryCell()
+      }.margins(.all, 0)
+      return cell
+    } else if indexPath.section == 1 {
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.headLineCellReuseID, for: indexPath)
       cell.contentConfiguration = UIHostingConfiguration {
         HeadLineNewsCell()
       }.margins(.all, 0)
-    } else if let cell = cell as? UICollectionViewListCell {
+      return cell
+    } else {
+      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.newsCellReuseID, for: indexPath) as? UICollectionViewListCell else { return .init() }
       cell.contentConfiguration = UIHostingConfiguration {
         NewsCell()
       }.margins(.horizontal, 25)
@@ -101,8 +123,8 @@ extension NewsFitHomeViewController: UICollectionViewDataSource {
         make.leading.equalTo(cell.contentView.snp.leading).offset(14)
         make.trailing.equalTo(cell.contentView.snp.trailing).offset(-14)
       }
+      return cell
     }
-    return cell
   }
   func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
