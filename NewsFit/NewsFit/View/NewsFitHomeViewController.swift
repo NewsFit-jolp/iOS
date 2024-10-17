@@ -16,6 +16,7 @@ final class NewsFitHomeViewController: UIViewController {
     
     setup()
     configureHirachy()
+//    configureNavigationController()
   }
   
   //MARK: - Helper
@@ -50,7 +51,7 @@ final class NewsFitHomeViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 8
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 0, trailing: 20)
         return section
       } else if sectionIndex == 1 {
         group.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
@@ -89,6 +90,14 @@ final class NewsFitHomeViewController: UIViewController {
     collectionView.snp.makeConstraints { make in
       make.edges.equalToSuperview()
     }
+  }
+  private func configureNavigationController() {
+    let appearance = UINavigationBarAppearance()
+    appearance.backgroundImage = .newsFitLogo
+    appearance.backgroundImageContentMode = .scaleAspectFit
+//    appearance.backgroundColor = .nfBorderPurple
+    navigationController?.navigationBar.standardAppearance = appearance
+    navigationController?.navigationBar.scrollEdgeAppearance = appearance
   }
 }
 
