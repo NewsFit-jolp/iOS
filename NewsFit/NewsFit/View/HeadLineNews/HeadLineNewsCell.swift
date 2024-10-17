@@ -34,6 +34,7 @@ struct HeadLineNewsCell: View {
           ]
         ).blendMode(.multiply)
       )
+      .clipShape(RoundedRectangle(cornerRadius: 16))
   }
 }
 

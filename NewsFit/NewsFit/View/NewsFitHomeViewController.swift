@@ -5,6 +5,7 @@ final class NewsFitHomeViewController: UIViewController {
   //MARK: - Types
   enum Constant {
     static let headLineCellReuseID = "headLineCellReuseID"
+    static let newsCellReuseID = "newsCellReuseID"
     static let sectionHeaderReuseID = "sectionHeaderReuseID"
   }
   
@@ -21,25 +22,38 @@ final class NewsFitHomeViewController: UIViewController {
     
   }
   private func collectionViewLayout() -> UICollectionViewLayout {
-    let sectionProvider = { (index: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+    let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
       let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                             heightDimension: .fractionalHeight(1.0))
       let item = NSCollectionLayoutItem(layoutSize: itemSize)
-      let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9),
-                                             heightDimension: .absolute(280))
+      
+      let groupWidth = NSCollectionLayoutDimension.fractionalWidth(0.9)
+      let groupHeight = NSCollectionLayoutDimension.fractionalWidth(0.7)
+      let groupSize = NSCollectionLayoutSize(widthDimension: groupWidth,
+                                             heightDimension: groupHeight)
       let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+      group.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+      
       let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .absolute(40))
       let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize,
                                                                elementKind: UICollectionView.elementKindSectionHeader,
                                                                alignment: .top)
-      let section = NSCollectionLayoutSection(group: group)
-      section.orthogonalScrollingBehavior = .groupPagingCentered
-      
-      section.interGroupSpacing = 0
-      section.boundarySupplementaryItems = [header]
-      return section
+      if sectionIndex == 0 {
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPagingCentered
+        section.boundarySupplementaryItems = [header]
+        return section
+      } else {
+        let section = NSCollectionLayoutSection.list(
+          using: UICollectionLayoutListConfiguration(appearance: .plain),
+          layoutEnvironment: layoutEnvironment
+        )
+        section.boundarySupplementaryItems = [header]
+        return section
+      }
     }
+    
     let configuration = UICollectionViewCompositionalLayoutConfiguration()
     configuration.interSectionSpacing = 20
     let layout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider, configuration: configuration)
@@ -50,7 +64,12 @@ final class NewsFitHomeViewController: UIViewController {
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     collectionView.dataSource = self
     collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: Constant.headLineCellReuseID)
-    collectionView.register(NewsFitHomeSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Constant.sectionHeaderReuseID)
+    collectionView.register(UICollectionViewListCell.self, forCellWithReuseIdentifier: Constant.newsCellReuseID)
+    collectionView.register(
+      NewsFitHomeSectionHeaderView.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: Constant.sectionHeaderReuseID
+    )
     view.addSubview(collectionView)
     collectionView.snp.makeConstraints { make in
       make.edges.equalToSuperview()
@@ -64,14 +83,24 @@ extension NewsFitHomeViewController: UICollectionViewDataSource {
     return 10
   }
   func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 1
+    return 2
   }
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.headLineCellReuseID, for: indexPath)
-    cell.contentConfiguration = UIHostingConfiguration {
-      HeadLineNewsCell()
-        .background(Color.gray)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+    let reuseID = indexPath.section == 0 ? Constant.headLineCellReuseID : Constant.newsCellReuseID
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseID, for: indexPath)
+    if indexPath.section == 0 {
+      cell.contentConfiguration = UIHostingConfiguration {
+        HeadLineNewsCell()
+      }.margins(.all, 0)
+    } else if let cell = cell as? UICollectionViewListCell {
+      cell.contentConfiguration = UIHostingConfiguration {
+        NewsCell()
+      }.margins(.horizontal, 25)
+        .margins(.vertical, 20)
+      cell.separatorLayoutGuide.snp.makeConstraints { make in
+        make.leading.equalTo(cell.contentView.snp.leading).offset(14)
+        make.trailing.equalTo(cell.contentView.snp.trailing).offset(-14)
+      }
     }
     return cell
   }
@@ -89,7 +118,6 @@ final class NewsFitHomeSectionHeaderView: UICollectionReusableView {
   private let title: UILabel = {
     let lb = UILabel()
     lb.font = .preferredFont(forTextStyle: .title1)
-    lb.backgroundColor = .nfBackgroundAccent
     return lb
   }()
   
