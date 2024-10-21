@@ -175,7 +175,6 @@ private extension NewsFitHomeViewController {
       press: "한겨레",
       body: "부상자 361명, 15만5천명 대피",
       imageURL: nil,
-      isFocused: true,
       createdDate: .now
     ),
     HeadLineNewsViewModel(
@@ -183,7 +182,6 @@ private extension NewsFitHomeViewController {
       press: "조선일보",
       body: "두두두",
       imageURL: nil,
-      isFocused: true,
       createdDate: .now
     ),
     HeadLineNewsViewModel(
@@ -191,7 +189,6 @@ private extension NewsFitHomeViewController {
       press: "동아일보",
       body: "전문가들, 해안지역 대규모 이주 필요성 경고",
       imageURL: nil,
-      isFocused: false,
       createdDate: .now
     ),
     HeadLineNewsViewModel(
@@ -199,7 +196,6 @@ private extension NewsFitHomeViewController {
       press: "중앙일보",
       body: "전문가들, 기술 발전에 따른 윤리적 문제 논의 시작",
       imageURL: nil,
-      isFocused: true,
       createdDate: .now
     ),
     HeadLineNewsViewModel(
@@ -207,7 +203,6 @@ private extension NewsFitHomeViewController {
       press: "한겨레",
       body: "2026년부터 본격적인 탐사 임무 시작 예정",
       imageURL: nil,
-      isFocused: false,
       createdDate: .now
     ),
     HeadLineNewsViewModel(
@@ -215,7 +210,6 @@ private extension NewsFitHomeViewController {
       press: "연합뉴스",
       body: "각국 중앙은행, 금리 인하 및 경제 지원책 발표",
       imageURL: nil,
-      isFocused: true,
       createdDate: .now
     )
   ]}

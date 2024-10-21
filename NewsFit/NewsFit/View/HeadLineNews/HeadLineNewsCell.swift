@@ -61,7 +61,6 @@ struct HeadLineNewsCell: View {
       press: "한겨레",
       body: "부상자 361명, 15만5천명 대피",
       imageURL: nil,
-      isFocused: false,
       createdDate: .now
     )
   )
