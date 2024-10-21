@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct NewsCell: View {
+  //MARK: - Type
+  typealias ViewModel = NewsPresentable & PressImagePresentable
+  
   //MARK: - Property
-  @State var viewModel: NewsPresentable & PressImagePresentable
+  @State var viewModel: ViewModel
   
   //MARK: - View
   var body: some View {
@@ -29,7 +32,7 @@ struct NewsCell: View {
       .padding(.trailing, 20)
   }
   @ViewBuilder
-  private func descriptionView(_ viewModel: NewsPresentable & PressImagePresentable) -> some View {
+  private func descriptionView(_ viewModel: ViewModel) -> some View {
     HStack(spacing: 10) {
       Image(.kakaoLogo)
         .resizable()

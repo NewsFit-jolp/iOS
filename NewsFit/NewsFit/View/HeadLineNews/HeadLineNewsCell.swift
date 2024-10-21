@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct HeadLineNewsCell: View {
+  //MARK: - Type
+  typealias ViewModel = NewsPresentable & NewsDescriptionPresentable
+  
   //MARK: - Properties
-  @State var viewModel: HeadLineNewsPresentable
+  @State var viewModel: ViewModel
   
   //MARK: - View
   var body: some View {
@@ -31,7 +34,7 @@ struct HeadLineNewsCell: View {
   
   //MARK: - Helper
   @ViewBuilder
-  private func centerTitleAndBody(_ viewModel: HeadLineNewsPresentable) -> some View {
+  private func centerTitleAndBody(_ viewModel: ViewModel) -> some View {
     VStack(alignment: .leading) {
       Text(viewModel.title)
         .font(.headline)
@@ -42,7 +45,7 @@ struct HeadLineNewsCell: View {
     }
   }
   @ViewBuilder
-  private func bottomDescription(_ viewModel: HeadLineNewsPresentable) -> some View {
+  private func bottomDescription(_ viewModel: ViewModel) -> some View {
     HStack {
       Text(viewModel.press)
         .foregroundStyle(.white)
