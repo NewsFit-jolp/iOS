@@ -16,7 +16,6 @@ final class NewsFitHomeViewController: UIViewController {
     
     setup()
     configureHirachy()
-//    configureNavigationController()
   }
   
   //MARK: - Helper
@@ -90,14 +89,6 @@ final class NewsFitHomeViewController: UIViewController {
     collectionView.snp.makeConstraints { make in
       make.edges.equalToSuperview()
     }
-  }
-  private func configureNavigationController() {
-    let appearance = UINavigationBarAppearance()
-    appearance.backgroundImage = .newsFitLogo
-    appearance.backgroundImageContentMode = .scaleAspectFit
-//    appearance.backgroundColor = .nfBorderPurple
-    navigationController?.navigationBar.standardAppearance = appearance
-    navigationController?.navigationBar.scrollEdgeAppearance = appearance
   }
 }
 
