@@ -16,10 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     guard let scene = (scene as? UIWindowScene) else { return }
     
     window = UIWindow(windowScene: scene)
-    let vc = NewsFitHomeViewController()
-    vc.view.backgroundColor = .blue
+    let vc = NewsFitHomeNavigationController(rootViewController: NewsFitHomeViewController())
     window?.rootViewController = vc
     window?.makeKeyAndVisible()
   }
 }
-
