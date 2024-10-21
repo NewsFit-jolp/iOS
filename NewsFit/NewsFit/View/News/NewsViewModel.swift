@@ -11,6 +11,9 @@ struct NewsViewModel: NewsPresentable, PressImagePresentable {
   var pressImageURL: URL?
   private let createdDate: Date
   
+  init(news: News) {
+    self.init(title: news.title, press: news.press, imageURL: nil, pressImageURL: nil, createdDate: news.createdAt)
+  }
   init(title: String, press: String, imageURL: URL? = nil, pressImageURL: URL? = nil, createdDate: Date) {
     self.title = title
     self.press = press
