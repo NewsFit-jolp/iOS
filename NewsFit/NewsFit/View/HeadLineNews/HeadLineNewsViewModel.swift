@@ -1,23 +1,6 @@
 import Foundation
 
-protocol NewsPresentable {
-  var title: String { get }
-  var press: String { get }
-  var date: String { get }
-  var imageURL: URL? { get }
-}
-
-protocol NewsDescriptionPresentable {
-  var body: String { get }
-}
-
-protocol PressImagePresentable {
-  var pressImageURL: URL? { get }
-}
-
-typealias HeadLineNewsPresentable = NewsPresentable & NewsDescriptionPresentable
-
-struct HeadLineNewsViewModel: HeadLineNewsPresentable {
+struct HeadLineNewsViewModel: NewsPresentable & NewsDescriptionPresentable {
   //MARK: - Properties
   let title: String
   let press: String

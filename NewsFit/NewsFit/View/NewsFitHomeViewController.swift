@@ -97,6 +97,8 @@ extension NewsFitHomeViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     if section == 1 {
       return dummyHeadLineViewModel.count
+    } else if section == 2 {
+      return dummyHeadLineViewModel.count
     } else {
       return 10
     }
@@ -120,7 +122,7 @@ extension NewsFitHomeViewController: UICollectionViewDataSource {
     } else {
       guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.newsCellReuseID, for: indexPath) as? UICollectionViewListCell else { return .init() }
       cell.contentConfiguration = UIHostingConfiguration {
-        NewsCell()
+        NewsCell(viewModel: dummyNewsViewModel[indexPath.row])
       }.margins(.horizontal, 25)
         .margins(.vertical, 20)
       cell.separatorLayoutGuide.snp.makeConstraints { make in
@@ -168,6 +170,7 @@ final class NewsFitHomeSectionHeaderView: UICollectionReusableView {
   }
 }
 
+//MARK: - Dummy Data
 private extension NewsFitHomeViewController {
   var dummyHeadLineViewModel: [HeadLineNewsViewModel] {[
     HeadLineNewsViewModel(
@@ -212,5 +215,68 @@ private extension NewsFitHomeViewController {
       imageURL: nil,
       createdDate: .now
     )
+  ]}
+  var dummyNewsViewModel: [NewsViewModel] {[
+    NewsViewModel(
+      title: "\"최악의 기후재앙\"...브라질 남부 폭우에 사망.실종 220명 넘어서",
+      press: "한겨레",
+      imageURL: nil,
+      createdDate: .init(timeIntervalSinceNow: -60*60)
+    ),
+    NewsViewModel(
+      title: "전세계적 인플레이션 위기, 각국 대책 고심",
+      press: "중앙일보",
+      imageURL: nil,
+      createdDate: .init(timeIntervalSinceNow: -2*60*60)
+    ),
+    NewsViewModel(
+      title: "AI 기술 발전, 노동시장 변화 초래할까?",
+      press: "조선일보",
+      imageURL: nil,
+      createdDate: .init(timeIntervalSinceNow: -3*60*60)
+    ),
+    NewsViewModel(
+      title: "\"전기차 대중화\"...글로벌 자동차 업계, 친환경 차량 확대",
+      press: "경향신문",
+      imageURL: nil,
+      createdDate: .init(timeIntervalSinceNow: -4*60*60)
+    ),
+    NewsViewModel(
+      title: "우크라이나 사태 장기화...전 세계 경제적 여파 확대",
+      press: "연합뉴스",
+      imageURL: nil,
+      createdDate: .init(timeIntervalSinceNow: -5*60*60)
+    ),
+    NewsViewModel(
+      title: "\"온난화 심각\"...남극 빙하 녹는 속도 급격히 증가",
+      press: "동아일보",
+      imageURL: nil,
+      createdDate: .init(timeIntervalSinceNow: -6*60*60)
+    ),
+    NewsViewModel(
+      title: "유럽연합, 디지털 통화 도입 여부 논의 시작",
+      press: "파이낸셜타임즈",
+      imageURL: nil,
+      createdDate: .init(timeIntervalSinceNow: -7*60*60)
+    ),
+    NewsViewModel(
+      title: "한국 경제 성장률, 예상치 하회...원인과 대책은?",
+      press: "매일경제",
+      imageURL: nil,
+      createdDate: .init(timeIntervalSinceNow: -8*60*60)
+    ),
+    NewsViewModel(
+      title: "스페이스X, 민간 우주 관광 시대 본격화",
+      press: "블룸버그",
+      imageURL: nil,
+      createdDate: .init(timeIntervalSinceNow: -9*60*60)
+    ),
+    NewsViewModel(
+      title: "\"로봇 공학의 미래\"...신기술로 산업 혁신 예고",
+      press: "서울경제",
+      imageURL: nil,
+      createdDate: .init(timeIntervalSinceNow: -10*60*60)
+    )
+    
   ]}
 }
