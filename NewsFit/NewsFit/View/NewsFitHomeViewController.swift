@@ -95,7 +95,11 @@ final class NewsFitHomeViewController: UIViewController {
 //MARK: - UICollectionViewDataSource
 extension NewsFitHomeViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 10
+    if section == 1 {
+      return dummyHeadLineViewModel.count
+    } else {
+      return 10
+    }
   }
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 3
@@ -110,7 +114,7 @@ extension NewsFitHomeViewController: UICollectionViewDataSource {
     } else if indexPath.section == 1 {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.headLineCellReuseID, for: indexPath)
       cell.contentConfiguration = UIHostingConfiguration {
-        HeadLineNewsCell()
+        HeadLineNewsCell(viewModel: dummyHeadLineViewModel[indexPath.row])
       }.margins(.all, 0)
       return cell
     } else {
@@ -162,4 +166,51 @@ final class NewsFitHomeSectionHeaderView: UICollectionReusableView {
       make.verticalEdges.equalToSuperview()
     }
   }
+}
+
+private extension NewsFitHomeViewController {
+  var dummyHeadLineViewModel: [HeadLineNewsViewModel] {[
+    HeadLineNewsViewModel(
+      title: "\"최악의 기후재앙\"...브라질 남부 폭우에 사망.실종 220명 넘어서",
+      press: "한겨레",
+      body: "부상자 361명, 15만5천명 대피",
+      imageURL: nil,
+      createdDate: .now
+    ),
+    HeadLineNewsViewModel(
+      title: "고양딱지",
+      press: "조선일보",
+      body: "두두두",
+      imageURL: nil,
+      createdDate: .now
+    ),
+    HeadLineNewsViewModel(
+      title: "\"지구온난화, 해수면 상승 가속\"...미국 동부 연안 위험 수준 도달",
+      press: "동아일보",
+      body: "전문가들, 해안지역 대규모 이주 필요성 경고",
+      imageURL: nil,
+      createdDate: .now
+    ),
+    HeadLineNewsViewModel(
+      title: "인공지능, 미래 사회를 어떻게 변화시킬까?",
+      press: "중앙일보",
+      body: "전문가들, 기술 발전에 따른 윤리적 문제 논의 시작",
+      imageURL: nil,
+      createdDate: .now
+    ),
+    HeadLineNewsViewModel(
+      title: "\"우주 탐사의 새 시대\"...NASA, 유인 화성 탐사 계획 발표",
+      press: "한겨레",
+      body: "2026년부터 본격적인 탐사 임무 시작 예정",
+      imageURL: nil,
+      createdDate: .now
+    ),
+    HeadLineNewsViewModel(
+      title: "세계 경제 위기...각국 정부 대응 방안 모색",
+      press: "연합뉴스",
+      body: "각국 중앙은행, 금리 인하 및 경제 지원책 발표",
+      imageURL: nil,
+      createdDate: .now
+    )
+  ]}
 }
