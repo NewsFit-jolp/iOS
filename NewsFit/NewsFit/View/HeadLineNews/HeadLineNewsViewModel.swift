@@ -15,11 +15,7 @@ protocol PressImagePresentable {
   var pressImageURL: URL? { get }
 }
 
-protocol Focusable {
-  var isFocused: Bool { get }
-}
-
-typealias HeadLineNewsPresentable = NewsPresentable & NewsDescriptionPresentable & Focusable
+typealias HeadLineNewsPresentable = NewsPresentable & NewsDescriptionPresentable
 
 struct HeadLineNewsViewModel: HeadLineNewsPresentable {
   //MARK: - Properties
@@ -32,15 +28,17 @@ struct HeadLineNewsViewModel: HeadLineNewsPresentable {
   }
   let body: String
   let imageURL: URL?
-  var isFocused: Bool
   private let createdDate: Date
   
-  init(title: String, press: String, body: String, imageURL: URL?, isFocused: Bool, createdDate: Date) {
+  //MARK: - Initializers
+  init(news: News) {
+    self.init(title: news.title, press: news.press, body: news.content, imageURL: nil, createdDate: news.createdAt)
+  }
+  init(title: String, press: String, body: String, imageURL: URL?, createdDate: Date) {
     self.title = title
     self.press = press
     self.body = body
     self.imageURL = imageURL
-    self.isFocused = isFocused
     self.createdDate = createdDate
   }
 }
