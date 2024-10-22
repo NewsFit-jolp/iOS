@@ -2,7 +2,7 @@ import Foundation
 
 fileprivate typealias ViewModel = NewsPresentable & PressImagePresentable
 
-struct NewsViewModels {
+final class NewsViewModels {
   //MARK: - Type
   typealias ViewModel = NewsPresentable & PressImagePresentable
   
@@ -14,11 +14,18 @@ struct NewsViewModels {
   //MARK: - Initializers
   init(useCase: NewsUseCaseType) {
     self.useCase = useCase
+    fetch()
   }
   
   //MARK: - Methods
   func viewModel(at index: Int) -> ViewModel {
     viewModels[index]
+  }
+  private func fetch() {
+    Task {
+      let result = await useCase.fetchNewsList()
+      viewModels.append(contentsOf: result.map{ NewsViewModel(news: $0) })
+    }
   }
 }
 
