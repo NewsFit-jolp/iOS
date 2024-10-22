@@ -10,6 +10,12 @@ final class NewsFitHomeViewController: UIViewController {
     static let sectionHeaderReuseID = "sectionHeaderReuseID"
   }
   
+  //MARK: - Properties
+  private var headLineViewModels: HeadLineNewsViewModels =
+  HeadLineNewsViewModels(viewModels: dummyHeadLineViewModel)
+  private var newsViewModels: NewsViewModels =
+  NewsViewModels(viewModels: dummyNewsViewModel)
+  
   //MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -96,9 +102,9 @@ final class NewsFitHomeViewController: UIViewController {
 extension NewsFitHomeViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     if section == 1 {
-      return dummyHeadLineViewModel.count
+      return headLineViewModels.count
     } else if section == 2 {
-      return dummyHeadLineViewModel.count
+      return newsViewModels.count
     } else {
       return 10
     }
@@ -116,13 +122,13 @@ extension NewsFitHomeViewController: UICollectionViewDataSource {
     } else if indexPath.section == 1 {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.headLineCellReuseID, for: indexPath)
       cell.contentConfiguration = UIHostingConfiguration {
-        HeadLineNewsCell(viewModel: dummyHeadLineViewModel[indexPath.row])
+        HeadLineNewsCell(viewModel: headLineViewModels.viewModel(at: indexPath.row))
       }.margins(.all, 0)
       return cell
     } else {
       guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.newsCellReuseID, for: indexPath) as? UICollectionViewListCell else { return .init() }
       cell.contentConfiguration = UIHostingConfiguration {
-        NewsCell(viewModel: dummyNewsViewModel[indexPath.row])
+        NewsCell(viewModel: newsViewModels.viewModel(at: indexPath.row))
       }.margins(.horizontal, 25)
         .margins(.vertical, 20)
       cell.separatorLayoutGuide.snp.makeConstraints { make in
@@ -142,6 +148,7 @@ extension NewsFitHomeViewController: UICollectionViewDataSource {
   }
 }
 
+//MARK: - SectionHeaderView
 final class NewsFitHomeSectionHeaderView: UICollectionReusableView {
   private let title: UILabel = {
     let lb = UILabel()
@@ -172,7 +179,7 @@ final class NewsFitHomeSectionHeaderView: UICollectionReusableView {
 
 //MARK: - Dummy Data
 private extension NewsFitHomeViewController {
-  var dummyHeadLineViewModel: [HeadLineNewsViewModel] {[
+  static var dummyHeadLineViewModel: [HeadLineNewsViewModel] {[
     HeadLineNewsViewModel(
       title: "\"최악의 기후재앙\"...브라질 남부 폭우에 사망.실종 220명 넘어서",
       press: "한겨레",
@@ -216,7 +223,7 @@ private extension NewsFitHomeViewController {
       createdDate: .now
     )
   ]}
-  var dummyNewsViewModel: [NewsViewModel] {[
+  static var dummyNewsViewModel: [NewsViewModel] {[
     NewsViewModel(
       title: "\"최악의 기후재앙\"...브라질 남부 폭우에 사망.실종 220명 넘어서",
       press: "한겨레",
