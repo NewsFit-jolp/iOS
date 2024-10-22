@@ -16,6 +16,8 @@ final class NewsFitHomeViewController: UIViewController {
   HeadLineNewsViewModels(useCase: NewsUseCaseDemo())
   private var newsViewModels: NewsViewModels =
   NewsViewModels(useCase: NewsUseCaseDemo())
+  private var newsCategoryViewModels: NewsCategoryViewModels =
+  NewsCategoryViewModels(viewModels: [.init(value: "전체"), .init(value: "IT"), .init(value: "경제"), .init(value: "생활/문화"), .init(value: "세계")])
   private let headerText: [String] = ["헤드라인 뉴스", "구독한 언론사의 최신 뉴스"]
   private var cancelable: [AnyCancellable] = []
   
@@ -38,6 +40,12 @@ final class NewsFitHomeViewController: UIViewController {
     configureDataSource()
   }
   private func configureBinding() {
+    newsCategoryViewModels.objectWillChange
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] in
+        self?.categoryCollectionView.reloadData()
+      }
+      .store(in: &cancelable)
     headLineViewModels.objectWillChange
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
@@ -149,6 +157,7 @@ final class NewsFitHomeViewController: UIViewController {
   }
   private func configureDataSource() {
     categoryCollectionView.dataSource = self
+    categoryCollectionView.delegate = self
     newsCollectionView.dataSource = self
   }
 }
@@ -157,7 +166,7 @@ final class NewsFitHomeViewController: UIViewController {
 extension NewsFitHomeViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     if collectionView == categoryCollectionView {
-      return 10
+      return newsCategoryViewModels.count
     } else {
       return section == 0 ? headLineViewModels.count : newsViewModels.count
     }
@@ -169,7 +178,7 @@ extension NewsFitHomeViewController: UICollectionViewDataSource {
     if collectionView == categoryCollectionView {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.categoryCellResuseID, for: indexPath)
       cell.contentConfiguration = UIHostingConfiguration {
-        NewsCategoryCell()
+        NewsCategoryCell(viewModel: newsCategoryViewModels.viewModel(at: indexPath.row))
       }.margins(.all, 0)
       return cell
     } else {
@@ -201,6 +210,14 @@ extension NewsFitHomeViewController: UICollectionViewDataSource {
     guard let header = header as? NewsFitHomeSectionHeaderView else { return .init() }
     header.setTitle(headerText[indexPath.section])
     return header
+  }
+}
+
+extension NewsFitHomeViewController: UICollectionViewDelegate {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    if collectionView == categoryCollectionView {
+      newsCategoryViewModels.select(at: indexPath.row)
+    }
   }
 }
 
