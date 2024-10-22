@@ -1,0 +1,111 @@
+{
+  "statusCode": 200,
+  "message": "요청에 성공하였습니다.",
+  "result": [
+    {
+      "title": "기사 등록.",
+      "content": "기사 내용.",
+      "images": [],
+      "press": "JOONGANG",
+      "category": "WORLD",
+      "comment": [
+        {
+          "commentId": 2,
+          "content": "텍스트",
+          "nickName": "김성진",
+          "likeCount": 0,
+          "createdDate": "2024-09-12T16:13:11.670474",
+          "isDeleted": false
+        }
+      ],
+      "likeCount": 0
+    },
+    {
+      "title": "기사 등록.",
+      "content": "기사 내용.",
+      "images": [],
+      "press": "JOONGANG",
+      "category": "WORLD",
+      "comment": [],
+      "likeCount": 1
+    },
+    {
+      "title": "기사 등록.",
+      "content": "기사 내용.",
+      "images": [],
+      "press": "JOONGANG",
+      "category": "WORLD",
+      "comment": [],
+      "likeCount": 0
+    },
+    {
+      "title": "기사 등록.",
+      "content": "기사 내용.",
+      "images": [],
+      "press": "JOONGANG",
+      "category": "WORLD",
+      "comment": [],
+      "likeCount": 0
+    },
+    {
+      "title": "기사 등록.",
+      "content": "기사 내용.",
+      "images": [],
+      "press": "JOONGANG",
+      "category": "WORLD",
+      "comment": [],
+      "likeCount": 0
+    },
+    {
+      "title": "기사 등록.",
+      "content": "기사 내용.",
+      "images": [],
+      "press": "JOONGANG",
+      "category": "WORLD",
+      "comment": [],
+      "likeCount": 0
+    },
+    {
+      "title": "기사 등록.",
+      "content": "기사 내용.",
+      "images": [],
+      "press": "JOONGANG",
+      "category": "WORLD",
+      "comment": [],
+      "likeCount": 0
+    },
+    {
+      "title": "기사 등록.",
+      "content": "기사 내용.",
+      "images": [],
+      "press": "JOONGANG",
+      "category": "WORLD",
+      "comment": [],
+      "likeCount": 0
+    },
+    {
+      "title": "기사 등록.",
+      "content": "기사 내용.",
+      "images": [
+        "www.example.com/image1",
+        "www.example.com/image2"
+      ],
+      "press": "JOONGANG",
+      "category": "WORLD",
+      "comment": [],
+      "likeCount": 0
+    },
+    {
+      "title": "기사 등록.",
+      "content": "기사 내용.",
+      "images": [
+        "www.example.com/image1",
+        "www.example.com/image2"
+      ],
+      "press": "JOONGANG",
+      "category": "WORLD",
+      "comment": [],
+      "likeCount": 0
+    }
+  ]
+}

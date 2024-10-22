@@ -1,6 +1,28 @@
 import Foundation
 
-struct NewsViewModel: NewsPresentable, PressImagePresentable {
+fileprivate typealias ViewModel = NewsPresentable & PressImagePresentable
+
+struct NewsViewModels {
+  //MARK: - Type
+  typealias ViewModel = NewsPresentable & PressImagePresentable
+  
+  //MARK: - Properties
+  private var viewModels: [ViewModel] = []
+  private var useCase: NewsUseCaseType
+  var count: Int { viewModels.count }
+  
+  //MARK: - Initializers
+  init(useCase: NewsUseCaseType) {
+    self.useCase = useCase
+  }
+  
+  //MARK: - Methods
+  func viewModel(at index: Int) -> ViewModel {
+    viewModels[index]
+  }
+}
+
+struct NewsViewModel: ViewModel {
   let title: String
   let press: String
   var date: String {
