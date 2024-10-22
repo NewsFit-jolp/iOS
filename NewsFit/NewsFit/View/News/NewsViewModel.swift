@@ -7,12 +7,13 @@ struct NewsViewModels {
   typealias ViewModel = NewsPresentable & PressImagePresentable
   
   //MARK: - Properties
-  private var viewModels: [ViewModel]
+  private var viewModels: [ViewModel] = []
+  private var useCase: NewsUseCaseType
   var count: Int { viewModels.count }
   
   //MARK: - Initializers
-  init(viewModels: [ViewModel]) {
-    self.viewModels = viewModels
+  init(useCase: NewsUseCaseType) {
+    self.useCase = useCase
   }
   
   //MARK: - Methods
