@@ -1,12 +1,13 @@
 import SwiftUI
 
 struct NewsCategoryCell: View {
+  @State var viewModel: NewsCategoryViewModel
   var body: some View {
-    Text("전체")
+    Text(viewModel.value)
       .padding(.horizontal, 20)
       .padding(.vertical, 10)
-      .background(Color.nfPurple)
-      .foregroundStyle(.white)
+      .background(viewModel.isSelected ? .nfPurple : .white)
+      .foregroundStyle(viewModel.isSelected ? .white : .black)
       .clipShape (
         RoundedRectangle(cornerRadius: 16)
       )
@@ -18,5 +19,5 @@ struct NewsCategoryCell: View {
 }
 
 #Preview {
-  NewsCategoryCell()
+  NewsCategoryCell(viewModel: .init(value: "전체", isSelected: true))
 }
