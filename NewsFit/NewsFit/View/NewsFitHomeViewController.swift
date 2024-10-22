@@ -14,7 +14,7 @@ final class NewsFitHomeViewController: UIViewController {
   private var headLineViewModels: HeadLineNewsViewModels =
   HeadLineNewsViewModels(viewModels: dummyHeadLineViewModel)
   private var newsViewModels: NewsViewModels =
-  NewsViewModels(viewModels: dummyNewsViewModel)
+  NewsViewModels(useCase: NewsUseCaseDemo())
   
   //MARK: - LifeCycle
   override func viewDidLoad() {
