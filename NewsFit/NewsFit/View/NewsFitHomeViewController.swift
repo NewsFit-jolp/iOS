@@ -12,7 +12,7 @@ final class NewsFitHomeViewController: UIViewController {
   
   //MARK: - Properties
   private var headLineViewModels: HeadLineNewsViewModels =
-  HeadLineNewsViewModels(viewModels: dummyHeadLineViewModel)
+  HeadLineNewsViewModels(useCase: NewsUseCaseDemo())
   private var newsViewModels: NewsViewModels =
   NewsViewModels(useCase: NewsUseCaseDemo())
   
