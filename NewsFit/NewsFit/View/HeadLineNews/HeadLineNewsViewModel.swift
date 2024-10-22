@@ -2,11 +2,12 @@ import Foundation
 
 fileprivate typealias ViewModel = NewsPresentable & NewsDescriptionPresentable
 
-struct HeadLineNewsViewModels {
+final class HeadLineNewsViewModels: ObservableObject {
   //MARK: - Type
   typealias ViewModel = NewsPresentable & NewsDescriptionPresentable
   
   //MARK: - Properties
+  @Published
   private var viewModels: [ViewModel] = []
   private var useCase: NewsUseCaseType
   var count: Int { viewModels.count }
@@ -14,11 +15,18 @@ struct HeadLineNewsViewModels {
   //MARK: - Initializers
   init(useCase: NewsUseCaseType) {
     self.useCase = useCase
+    fetch()
   }
   
   //MARK: - Methods
   func viewModel(at index: Int) -> ViewModel {
     viewModels[index]
+  }
+  private func fetch() {
+    Task {
+      let result = await useCase.fetchNewsList()
+      viewModels.append(contentsOf: result.map{ HeadLineNewsViewModel(news: $0) })
+    }
   }
 }
 
