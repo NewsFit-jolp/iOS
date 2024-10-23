@@ -8,13 +8,7 @@ struct NewsCategoryCell: View {
       .padding(.vertical, 10)
       .background(viewModel.isSelected ? .nfPurple : .white)
       .foregroundStyle(viewModel.isSelected ? .white : .black)
-      .clipShape (
-        RoundedRectangle(cornerRadius: 16)
-      )
-      .overlay {
-        RoundedRectangle(cornerRadius: 16)
-          .stroke(Color.nfBorderDefault)
-      }
+      .modifier(NFBorderModifier())
   }
 }
 
