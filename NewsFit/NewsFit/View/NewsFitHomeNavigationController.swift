@@ -33,3 +33,13 @@ final class NewsFitHomeNavigationController: UINavigationController {
     navigationBar.scrollEdgeAppearance = appearance
   }
 }
+
+//MARK: - MainTabViewControllerConfigurable
+extension NewsFitHomeNavigationController: MainTabViewControllerConfigurable {
+  func mainTabViewControllerTabBarTitle() -> String {
+    return "홈"
+  }
+  func mainTabViewControllerTabBarImage() -> UIImage {
+    return .nfNaviagtionHome
+  }
+}
