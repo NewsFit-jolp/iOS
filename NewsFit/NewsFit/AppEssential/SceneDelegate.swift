@@ -5,7 +5,7 @@
 //  Created by User on 5/28/24.
 //
 
-import UIKit
+import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   //MARK: - Properties
@@ -16,8 +16,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     guard let scene = (scene as? UIWindowScene) else { return }
     
     window = UIWindow(windowScene: scene)
-    let vc = NewsFitHomeNavigationController(rootViewController: NewsFitHomeViewController())
-    window?.rootViewController = vc
+    let homeViewController = NewsFitHomeNavigationController(rootViewController: NewsFitHomeViewController())
+    let searchViewController = UIHostingController(rootView: NewsFitSearchView())
+    let viewControllers: [UIViewController & MainTabViewControllerConfigurable]
+    = [ homeViewController, searchViewController ]
+    
+    let rootViewController = NewsFitMainTabViewController()
+    rootViewController.setViewControllers(viewControllers)
+    window?.rootViewController = rootViewController
     window?.makeKeyAndVisible()
+  }
+}
+
+//MARK: - MainTabViewControllerConfigurable
+extension UIHostingController: MainTabViewControllerConfigurable where Content: MainTabViewControllerConfigurable {
+  func mainTabViewControllerTabBarTitle() -> String {
+    rootView.mainTabViewControllerTabBarTitle()
+  }
+  func mainTabViewControllerTabBarImage() -> UIImage {
+    rootView.mainTabViewControllerTabBarImage()
   }
 }
