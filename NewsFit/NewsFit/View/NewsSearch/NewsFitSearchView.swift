@@ -35,3 +35,13 @@ struct NewsFitSearchView: View {
 #Preview {
   NewsFitSearchView()
 }
+
+//MARK: - MainTabViewControllerConfigurable
+extension NewsFitSearchView: MainTabViewControllerConfigurable {
+  func mainTabViewControllerTabBarTitle() -> String {
+    return "검색"
+  }
+  func mainTabViewControllerTabBarImage() -> UIImage {
+    return .nfNaviagtionSearch
+  }
+}
