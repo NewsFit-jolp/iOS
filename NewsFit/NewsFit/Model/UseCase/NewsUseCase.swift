@@ -1,19 +1,45 @@
+import OSLog
+
 protocol NewsUseCaseType {
-  func fetchNewsList() async -> [News]
+  func fetchNewsList(category: String, currentNewsID: Int?, size: Int) async -> [News]?
+  func fetchNewsDetail(id: Int) async -> NewsDetail?
 }
 
 struct NewsUseCase: NewsUseCaseType {
-  //MARK: - Properties
+  //MARK: - Property
   private let repository: NewsRepositoryType
   
-  //MARK: - Initializers
+  //MARK: - Initializer
   init(repository: NewsRepositoryType) {
     self.repository = repository
   }
   
-  //MARK: - Methods
-  func fetchNewsList() async -> [News] {
-    return (try? await repository.fetchNewsList(category: "", currentPage: 1, size: 10).get()) ?? []
+  //MARK: - Method
+  func fetchNewsList(category: String, currentNewsID: Int?, size: Int) async -> [News]? {
+    let parameters: [String: String] = [
+      "category": category,
+      "articleCursor": currentNewsID != nil ? String(currentNewsID!) : "",
+      "size": String(size)
+    ]
+    
+    let result = await repository.fetchNewsList(with: parameters)
+    switch result {
+    case .success(let news):
+      return news
+    case .failure(let error):
+      Logger().error("\(error.localizedDescription)")
+      return nil
+    }
+  }
+  func fetchNewsDetail(id: Int) async -> NewsDetail? {
+    let result = await repository.fetchNewsDetail(id: id)
+    switch result {
+    case .success(let newsDetail):
+      return newsDetail
+    case .failure(let error):
+      Logger().error("\(error.localizedDescription)")
+      return nil
+    }
   }
 }
 

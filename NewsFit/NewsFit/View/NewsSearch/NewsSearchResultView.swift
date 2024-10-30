@@ -10,7 +10,7 @@ struct NewsSearchResultView: View {
         VStack {
           ForEach(0..<10) { index in
             VStack(alignment: .leading) {
-              NewsCell(viewModel: NewsViewModel(news: .init(id: 10, title: "hisdfsdfsdfdsfsffssdfsdfdsfsddfsdfdfsdfdsfsdfdsdfdsfsdfdsfsdfsddsf", content: "cc", createdAt: .now, press: "고양이뉴스!", category: "IT", comments: [])))
+              NewsCell(viewModel: NewsViewModel(news: News(articleID: -1, title: "", headLine: "", press: "", category: "", thumbnail: "", publishedDate: .now)))
                 .padding()
               Divider()
             }

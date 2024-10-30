@@ -13,9 +13,9 @@ final class NewsFitHomeViewController: UIViewController {
   
   //MARK: - Properties
   private var headLineViewModels: HeadLineNewsViewModels =
-  HeadLineNewsViewModels(useCase: NewsUseCaseDemo())
+  HeadLineNewsViewModels(useCase: NewsUseCase(repository: NewsRepository()))
   private var newsViewModels: NewsViewModels =
-  NewsViewModels(useCase: NewsUseCaseDemo())
+  NewsViewModels(useCase: NewsUseCase(repository: NewsRepository()))
   private var newsCategoryViewModels: NewsCategoryViewModels =
   NewsCategoryViewModels(viewModels: [.init(value: "전체"), .init(value: "IT"), .init(value: "경제"), .init(value: "생활/문화"), .init(value: "세계")])
   private let headerText: [String] = ["헤드라인 뉴스", "구독한 언론사의 최신 뉴스"]
@@ -29,6 +29,8 @@ final class NewsFitHomeViewController: UIViewController {
     super.viewDidLoad()
     
     setup()
+    newsViewModels.fetch(category: "", currentNewsID: nil, size: 10)
+    headLineViewModels.fetch()
   }
   
   //MARK: - Helper
@@ -40,6 +42,7 @@ final class NewsFitHomeViewController: UIViewController {
     configureDataSource()
   }
   private func configureBinding() {
+    
     newsCategoryViewModels.objectWillChange
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
@@ -47,6 +50,12 @@ final class NewsFitHomeViewController: UIViewController {
       }
       .store(in: &cancelable)
     headLineViewModels.objectWillChange
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] in
+        self?.newsCollectionView.reloadData()
+      }
+      .store(in: &cancelable)
+    newsViewModels.objectWillChange
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
         self?.newsCollectionView.reloadData()

@@ -1,8 +1,8 @@
 import Foundation
 
 protocol NewsRepositoryType {
-  func fetchNewsList(category: String, currentPage: Int, size: Int) async -> Result<[News], Error>
-  func fetchSingleNews(id: Int) async -> Result<News, Error>
+  func fetchNewsList(with queryParameters: [String: String]?) async -> Result<[News], Error>
+  func fetchNewsDetail(id: Int) async -> Result<NewsDetail, Error>
 }
 
 struct NewsRepository: NewsRepositoryType {
@@ -11,46 +11,44 @@ struct NewsRepository: NewsRepositoryType {
     case invalidJSON
     case invalidResponse
   }
-  //MARK: - Properties
   
+  //MARK: - Property
+  var decoder: JSONDecoder {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+    formatter.locale = Locale(identifier: "ko_KR")
+    let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .formatted(formatter)
+    return decoder
+  }
   
   //MARK: - Methods
-  func fetchNewsList(category: String, currentPage: Int, size: Int) async -> Result<[News], Error> {
-    //TODO: - 서비스로 연결
+  func fetchNewsList(with queryParameters: [String: String]?) async -> Result<[News], Error> {
     let baseURL = Bundle.baseURL
     let path = "/articles"
-    let method: HTTPMethod = .get
     let token = Bundle.token
-    let parameters: [String: String] = ["category": category, "currentPage": String(currentPage), "size": String(size)]
     
     let request = HTTPRequestBuilder(baseURL: baseURL, path: path, method: .get)
-      .update(parameters: parameters)
+      .update(parameters: queryParameters)
       .update(headers: ["Authorization": "Bearer \(token)"])
       .build()
-    
+    print(request)
     guard let data = try? await HTTPServiceProvider().fetchData(for: request).get() else {
       return .failure(RepositoryError.invalidData)
     }
     
-    guard let decoded = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+    guard let decoded = try? decoder.decode(NetworkResponseDTO<[NewsResponseDTO]>.self, from: data) else {
       return .failure(RepositoryError.invalidJSON)
     }
     
-    if let result = decoded["result"] as? [NewsResponseDTO] {
-      return .success(NewsMapper.map(result))
-    } else {
-      return .failure(NSError(domain: "bye", code: 1))
-    }
+    return .success(NewsMapper.map(decoded.result))
   }
-  func fetchSingleNews(id: Int, parameters: [String: String]) async -> Result<News, Error> {
+  func fetchNewsDetail(id: Int) async -> Result<NewsDetail, Error> {
     let baseURL = Bundle.baseURL
-    let path = "id"
-    let method: HTTPMethod = .get
+    let path = "/articles/\(id)"
     let token = Bundle.token
-    let parameters: [String: String] = parameters
     
     let request = HTTPRequestBuilder(baseURL: baseURL, path: path, method: .get)
-      .update(parameters: parameters)
       .update(headers: ["Authorization": "Bearer \(token)"])
       .build()
     
@@ -58,22 +56,18 @@ struct NewsRepository: NewsRepositoryType {
       return .failure(RepositoryError.invalidData)
     }
     
-    guard let decoded = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+    guard let decoded = try? decoder.decode(NetworkResponseDTO<NewsDetailResponseDTO>.self, from: data) else {
       return .failure(RepositoryError.invalidJSON)
     }
     
-    if let result = decoded["result"] as? NewsDetailResponseDTO {
-      return .success(NewsDetailMapper.map(result))
-    } else {
-      return .failure(NSError(domain: "bye", code: 1))
-    }
+    return .success(NewsDetailMapper.map(decoded.result))
   }
 }
 
 enum NewsMapper {
   static func map(_ response: [NewsResponseDTO]) -> [News] {
     response.map { dto in
-      News(articleID: dto.articleID, title: dto.title, headLine: dto.headLine, press: dto.press, category: dto.category, thumbnail: dto.thumbnail, publishedDate: dto.publishedDate)
+      News(articleID: dto.articleId, title: dto.title, headLine: dto.headLine, press: dto.press, category: dto.category, thumbnail: dto.thumbnail, publishedDate: dto.publishDate)
     }
   }
 }
