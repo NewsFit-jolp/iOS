@@ -23,13 +23,23 @@ struct NewsCell: View {
   //MARK: - Helpers
   @ViewBuilder
   private func imageView() -> some View {
-    Image(.successMark)
-      .resizable()
-      .scaledToFit()
-      .frame(maxWidth: 70, maxHeight: 70)
-      .background(Color.black)
-      .clipShape(RoundedRectangle(cornerRadius: 16))
-      .padding(.trailing, 20)
+    AsyncImage(url: viewModel.imageURL) { phase in
+      switch phase {
+      case .success(let image):
+        image
+          .resizable()
+      case .failure:
+        Image(.nfxButton)
+          .resizable()
+      default:
+        ProgressView()
+      }
+    }
+    .scaledToFill()
+    .frame(maxWidth: 70, maxHeight: 70)
+    .background(Color.black)
+    .clipShape(RoundedRectangle(cornerRadius: 16))
+    .padding(.trailing, 20)
   }
   @ViewBuilder
   private func descriptionView(_ viewModel: ViewModel) -> some View {
