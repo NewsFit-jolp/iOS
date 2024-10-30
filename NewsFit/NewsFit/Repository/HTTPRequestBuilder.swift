@@ -52,11 +52,12 @@ struct HTTPRequestBuilder {
   
   // MARK: - Method
   func build() -> URLRequest {
-    var components: URLComponents = URLComponents(string: baseURL) ?? .init()
+    var components: URLComponents = URLComponents()
     let queryItems: [URLQueryItem] = parameters?.map(URLQueryItem.init) ?? []
     
+    components.host = baseURL
     components.scheme = scheme
-    components.path = path
+    components.path.append(path)
     components.queryItems = queryItems
     
     guard let url = components.url else { return .init(url: .init(filePath: "")) }
