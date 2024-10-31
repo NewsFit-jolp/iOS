@@ -43,30 +43,30 @@ extension UIFont {
   }
 }
 
-//extension Font {
-//  enum NF {
-//    static var button_default: Font {
-//      return Font.custom(NanumGothicFontName.bold, size: 16, relativeTo: .headline)
-//    }
-//    static var button_small: Font {
-//      let font = UIFont(name: NanumGothicFontName.bold, size: 14)!
-//      return UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
-//    }
-//    static var textField_default: Font {
-//      let font = UIFont(name: NanumGothicFontName.regular, size: 16)!
-//      return UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
-//    }
-//    static var title_large: Font {
-//      let font = UIFont(name: NanumGothicFontName.extraBold, size: 30)!
-//      return UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
-//    }
-//    static var title_middle: Font {
-//      let font = UIFont(name: NanumGothicFontName.bold, size: 20)!
-//      return UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
-//    }
-//    static var text_default: Font {
-//      let font = UIFont(name: NanumGothicFontName.regular, size: 16)!
-//      return UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
-//    }
-//  }
-//}
+extension Font {
+  enum NF {
+    static var button_default: Font {
+      return Font.custom(NanumGothicFontName.bold, size: 16, relativeTo: .body)
+    }
+    static var button_small: Font {
+      let font = UIFont(name: NanumGothicFontName.bold, size: 14)!
+      return Font.custom(NanumGothicFontName.bold, size: 14, relativeTo: .body)
+    }
+    static var textField_default: Font {
+      let font = UIFont(name: NanumGothicFontName.regular, size: 16)!
+      return Font.custom(NanumGothicFontName.bold, size: 16, relativeTo: .body)
+    }
+    static var title_large: Font {
+      let font = UIFont(name: NanumGothicFontName.extraBold, size: 30)!
+      return Font.custom(NanumGothicFontName.bold, size: 30, relativeTo: .title)
+    }
+    static var title_middle: Font {
+      let font = UIFont(name: NanumGothicFontName.bold, size: 20)!
+      return Font.custom(NanumGothicFontName.bold, size: 20, relativeTo: .title2)
+    }
+    static var text_default: Font {
+      let font = UIFont(name: NanumGothicFontName.regular, size: 16)!
+      return Font.custom(NanumGothicFontName.bold, size: 16, relativeTo: .body)
+    }
+  }
+}
