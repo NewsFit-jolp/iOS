@@ -5,11 +5,11 @@ struct RecentlySearchedView: View {
     VStack {
       HStack {
         Text("최근검색어")
-          .font(.headline)
+          .font(.NF.text_default)
         Spacer()
         Button(action: {}) {
           Text("모두 지우기")
-            .font(.subheadline)
+            .font(.NF.text_default)
             .foregroundColor(.secondary)
         }
       }.padding(.bottom, 10)
@@ -31,6 +31,7 @@ fileprivate struct RecentlySerchedCell: View {
   var body: some View {
     HStack(alignment: .center) {
       Text("사라져버려")
+        .font(.NF.button_small)
       Spacer()
       Button(action: {}) {
         Image(.nfxButton)

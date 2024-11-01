@@ -48,10 +48,11 @@ struct HeadLineNewsCell: View {
   private func centerTitleAndBody(_ viewModel: ViewModel) -> some View {
     VStack(alignment: .leading) {
       Text(viewModel.title)
-        .font(.headline)
+        .font(.NF.title_headline)
         .foregroundStyle(.white)
         .padding(.bottom)
       Text(viewModel.body)
+        .font(.NF.text_headline)
         .foregroundStyle(.white)
     }
   }
@@ -64,6 +65,7 @@ struct HeadLineNewsCell: View {
       Text(viewModel.date)
         .foregroundStyle(.white)
     }
+    .font(.NF.text_headline)
   }
 }
 

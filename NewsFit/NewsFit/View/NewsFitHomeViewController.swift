@@ -234,7 +234,7 @@ extension NewsFitHomeViewController: UICollectionViewDelegate {
 final class NewsFitHomeSectionHeaderView: UICollectionReusableView {
   private let title: UILabel = {
     let lb = UILabel()
-    lb.font = .preferredFont(forTextStyle: .title1)
+    lb.font = .NF.title_large
     return lb
   }()
   

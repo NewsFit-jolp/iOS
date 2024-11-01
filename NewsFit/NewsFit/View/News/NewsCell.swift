@@ -13,7 +13,7 @@ struct NewsCell: View {
       imageView()
       VStack(alignment: .leading) {
         Text(viewModel.title)
-          .font(.headline)
+          .font(.NF.text_bold)
           .lineLimit(2)
         descriptionView(viewModel)
       }
@@ -49,9 +49,11 @@ struct NewsCell: View {
         .scaledToFit()
         .frame(minWidth: 20, maxWidth: 20)
       Text(viewModel.press)
-        .bold()
+        .font(.NF.text_headline)
       Text("·")
       Text(viewModel.date)
+        .font(.NF.text_sub)
+        .foregroundStyle(Color.secondary)
     }
   }
 }

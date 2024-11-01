@@ -5,7 +5,7 @@ struct NewsSearchResultView: View {
     ScrollView {
       VStack(alignment: .leading) {
         Text("\"검색어\"에 대한 뉴스")
-          .font(.title.bold())
+          .font(.NF.title_large)
           .padding(.leading)
         VStack {
           ForEach(0..<10) { index in

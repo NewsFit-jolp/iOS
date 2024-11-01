@@ -4,7 +4,7 @@ struct CategorizedNewsView: View {
   var body: some View {
     VStack(alignment: .leading) {
       Text("[어떤] 카테고리 최신 뉴스")
-        .font(.title3.bold())
+        .font(.NF.title_large)
       Spacer(minLength: 20)
       TabView {
         ForEach(0..<10) { index in
@@ -44,7 +44,7 @@ struct CategorizedNewsView: View {
       }
       Spacer()
     }
-    .font(.body.bold())
+    .font(.NF.text_default)
     .padding()
     .background {
       Image(.newsFitLogo)

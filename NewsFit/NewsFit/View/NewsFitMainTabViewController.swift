@@ -67,6 +67,7 @@ final class NewsFitMainTabViewController: UIViewController {
       var configuration = UIButton.Configuration.plain()
       configuration.title = viewController.mainTabViewControllerTabBarTitle()
       configuration.attributedTitle?.foregroundColor = .gray
+      configuration.attributedTitle?.font = .NF.text_nav
       configuration.image = viewController.mainTabViewControllerTabBarImage()
       configuration.imagePlacement = .top
       configuration.imagePadding = 7
