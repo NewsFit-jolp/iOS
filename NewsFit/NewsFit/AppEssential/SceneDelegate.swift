@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     let rootViewController = NewsFitMainTabViewController()
     rootViewController.setViewControllers(viewControllers)
-    window?.rootViewController = rootViewController
+    window?.rootViewController = LoginViewController()
     window?.makeKeyAndVisible()
   }
 }
