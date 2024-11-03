@@ -2,28 +2,28 @@ import Foundation
 
 fileprivate typealias ViewModel = NewsPresentable & PressImagePresentable
 
-final class NewsViewModels {
+final class NewsViewModels: ObservableObject {
   //MARK: - Type
   typealias ViewModel = NewsPresentable & PressImagePresentable
   
-  //MARK: - Properties
+  //MARK: - Property
+  @Published
   private var viewModels: [ViewModel] = []
   private var useCase: NewsUseCaseType
   var count: Int { viewModels.count }
   
-  //MARK: - Initializers
+  //MARK: - Initializer
   init(useCase: NewsUseCaseType) {
     self.useCase = useCase
-    fetch()
   }
   
-  //MARK: - Methods
+  //MARK: - Method
   func viewModel(at index: Int) -> ViewModel {
     viewModels[index]
   }
-  private func fetch() {
+  func fetch(category: String, currentNewsID: Int?, size: Int) {
     Task {
-      let result = await useCase.fetchNewsList()
+      guard let result = await useCase.fetchNewsList(category: category, currentNewsID: currentNewsID, size: size) else { return }
       viewModels.append(contentsOf: result.map{ NewsViewModel(news: $0) })
     }
   }
@@ -41,7 +41,8 @@ struct NewsViewModel: ViewModel {
   private let createdDate: Date
   
   init(news: News) {
-    self.init(title: news.title, press: news.press, imageURL: nil, pressImageURL: nil, createdDate: news.createdAt)
+    let imageURL = news.thumbnail != nil ? URL(string: news.thumbnail!) : nil
+    self.init(title: news.title, press: news.press, imageURL: imageURL, pressImageURL: nil, createdDate: news.publishedDate)
   }
   init(title: String, press: String, imageURL: URL? = nil, pressImageURL: URL? = nil, createdDate: Date) {
     self.title = title

@@ -1,11 +1,11 @@
 import Foundation
 
-struct News: Identifiable {
-  let id: Int
+struct News {
+  let articleID: Int
   let title: String
-  let content: String
-  let createdAt: Date
+  let headLine: String?
   let press: String
   let category: String
-  let comments: [Comment]
+  let thumbnail: String?
+  let publishedDate: Date
 }

@@ -14,6 +14,7 @@ struct NewsSearchBar: View {
       TextField("키워드 / 언론사 / 카테고리로 검색", text: $text)
       Image(.nfSearchButton)
     }
+    .font(.NF.textField_default)
     .padding(.horizontal)
     .padding(.vertical, 10)
     .modifier(NFBorderModifier())

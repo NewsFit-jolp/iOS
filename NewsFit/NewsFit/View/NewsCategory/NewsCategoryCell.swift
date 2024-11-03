@@ -9,6 +9,7 @@ struct NewsCategoryCell: View {
       .background(viewModel.isSelected ? .nfPurple : .white)
       .foregroundStyle(viewModel.isSelected ? .white : .black)
       .modifier(NFBorderModifier())
+      .font(.NF.button_small)
   }
 }
 

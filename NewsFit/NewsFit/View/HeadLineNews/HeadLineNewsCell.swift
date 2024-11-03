@@ -9,27 +9,38 @@ struct HeadLineNewsCell: View {
   
   //MARK: - View
   var body: some View {
-    ZStack {
-      Image(.newsFitLogo)
-        .resizable()
-        .scaledToFit()
-      VStack(alignment: .leading) {
-        Spacer()
-        centerTitleAndBody(viewModel)
-        Spacer()
-        bottomDescription(viewModel)
-      }
-      .padding()
-      .background(
-        Gradient(
-          colors: [
-            .black.opacity(0.1),
-            .black.opacity(0.6)
-          ]
-        )
-      )
-      .clipShape(RoundedRectangle(cornerRadius: 16))
+    VStack(alignment: .leading) {
+      Spacer()
+      centerTitleAndBody(viewModel)
+      Spacer()
+      bottomDescription(viewModel)
     }
+    .padding()
+    .background(
+      Gradient(
+        colors: [
+          .black.opacity(0.1),
+          .black.opacity(0.6)
+        ]
+      )
+    )
+    .background {
+      AsyncImage(url: viewModel.imageURL) { phase in
+        switch phase {
+        case .success(let image):
+          image
+            .resizable()
+        case .failure:
+          Image(.nfxButton)
+            .resizable()
+        default:
+          ProgressView()
+        }
+      }
+      .scaledToFill()
+    }
+    .clipShape(RoundedRectangle(cornerRadius: 16))
+    
   }
   
   //MARK: - Helper
@@ -37,10 +48,11 @@ struct HeadLineNewsCell: View {
   private func centerTitleAndBody(_ viewModel: ViewModel) -> some View {
     VStack(alignment: .leading) {
       Text(viewModel.title)
-        .font(.headline)
+        .font(.NF.title_headline)
         .foregroundStyle(.white)
         .padding(.bottom)
       Text(viewModel.body)
+        .font(.NF.text_headline)
         .foregroundStyle(.white)
     }
   }
@@ -53,6 +65,7 @@ struct HeadLineNewsCell: View {
       Text(viewModel.date)
         .foregroundStyle(.white)
     }
+    .font(.NF.text_headline)
   }
 }
 
