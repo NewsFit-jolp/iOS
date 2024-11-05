@@ -17,7 +17,7 @@ public enum NanumGothicFontName {
 extension UIFont {
   enum NF {
     static var button_default: UIFont {
-      let font = UIFont(name: NanumGothicFontName.bold, size: 16)!
+      let font = UIFont(name: NanumGothicFontName.bold, size: 18)!
       return UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
     }
     static var button_small: UIFont {

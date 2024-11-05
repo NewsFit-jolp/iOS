@@ -73,20 +73,20 @@ final class NewsFitMainTabViewController: UIViewController {
       configuration.imagePadding = 7
       configuration.buttonSize = .medium
       configuration.background.backgroundColor = .clear
-      tabButton.configuration = configuration
       tabButton.configurationUpdateHandler = { button in
         switch button.state {
         case .selected:
           let titleColor = UIColor.black
-          tabButton.configuration?.attributedTitle?.foregroundColor = titleColor
           let imageColor = UIColor.nfGreen
-          tabButton.configuration?.image = tabButton.configuration?.image?.withTintColor(imageColor)
+          configuration.attributedTitle?.foregroundColor = titleColor
+          configuration.image = configuration.image?.withTintColor(imageColor)
         default:
           let titleColor = UIColor.gray
-          tabButton.configuration?.attributedTitle?.foregroundColor = titleColor
           let imageColor = UIColor.gray
-          tabButton.configuration?.image = tabButton.configuration?.image?.withTintColor(imageColor)
+          configuration.attributedTitle?.foregroundColor = titleColor
+          configuration.image = configuration.image?.withTintColor(imageColor)
         }
+        button.configuration = configuration
       }
       return tabButton
     }

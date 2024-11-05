@@ -22,16 +22,11 @@ final class LoginViewController: UIViewController {
     let button = UIButton()
     button.layer.cornerRadius = 8
     
-    var configuration = UIButton.Configuration.plain()
-    configuration.image = UIImage(resource: .naverLogo)
-    configuration.imagePadding = 10
-    var title = AttributedString("네이버 로그인")
-    title.foregroundColor = .white
-    title.font = .NF.button_default
-    configuration.attributedTitle = title
-    configuration.background.backgroundColor = #colorLiteral(red: 0, green: 0.8046368361, blue: 0.4275280833, alpha: 1)
-    button.configuration = configuration
+    var title = NSAttributedString(string: "  네이버 로그인", attributes: [.foregroundColor : UIColor.white, .font : UIFont.NF.button_default])
+    button.setImage(.naverLogo, for: .normal)
+    button.setAttributedTitle(title, for: .normal)
     
+    button.backgroundColor = #colorLiteral(red: 0, green: 0.8046368361, blue: 0.4275280833, alpha: 1)
     button.snp.makeConstraints { make in
       make.height.equalTo(56)
       make.width.equalTo(331)
@@ -40,19 +35,14 @@ final class LoginViewController: UIViewController {
     return button
   }()
   private let kakaoTalkLoginButton: UIButton = {
-    var configuration = UIButton.Configuration.plain()
-    configuration.image = UIImage(resource: .kakaoLogo)
-    configuration.imagePadding = 10
-    var title = AttributedString("카카오톡 로그인")
-    title.foregroundColor = .black.opacity(0.85)
-    title.font = .NF.button_default
-    configuration.attributedTitle = title
-    
-    configuration.background.backgroundColor = #colorLiteral(red: 0.9983025193, green: 0.9065476656, blue: 0, alpha: 1)
-    
-    
-    let button = UIButton(configuration: configuration)
+    let button = UIButton()
     button.layer.cornerRadius = 8
+    
+    var title = NSAttributedString(string: "  카카오 로그인", attributes: [.foregroundColor : UIColor.black.withAlphaComponent(0.85), .font : UIFont.NF.button_default])
+    button.setImage(.kakaoLogo, for: .normal)
+    button.setAttributedTitle(title, for: .normal)
+    
+    button.backgroundColor = #colorLiteral(red: 0.9960784314, green: 0.8980392157, blue: 0, alpha: 1)
     button.snp.makeConstraints { make in
       make.height.equalTo(56)
       make.width.equalTo(331)
@@ -64,16 +54,11 @@ final class LoginViewController: UIViewController {
     let button = UIButton()
     button.layer.cornerRadius = 8
     
-    var configuration = UIButton.Configuration.plain()
-    configuration.image = UIImage(resource: .googleLogo)
-    configuration.imagePadding = 10
-    var title = AttributedString("구글 계정으로 로그인")
-    title.foregroundColor = .black
-    title.font = .NF.button_default
-    configuration.attributedTitle = title
-    configuration.background.backgroundColor = .lightGray
-    button.configuration = configuration
+    var title = NSAttributedString(string: "  구글 계정으로 로그인", attributes: [.foregroundColor : UIColor.black, .font : UIFont.NF.button_default])
+    button.setImage(.googleLogo, for: .normal)
+    button.setAttributedTitle(title, for: .normal)
     
+    button.backgroundColor = #colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)
     button.snp.makeConstraints { make in
       make.height.equalTo(56)
       make.width.equalTo(331)
@@ -84,7 +69,7 @@ final class LoginViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    view.backgroundColor = .white
     configureHirachy()
   }
   
