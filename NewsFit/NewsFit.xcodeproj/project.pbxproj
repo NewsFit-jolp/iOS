@@ -102,7 +102,9 @@
 				CECB2E712CBF5DF50066B0A5 /* Frameworks */,
 				CEAD5D522C0C7DBF00930FB6 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		CEAD5D522C0C7DBF00930FB6 /* Products */ = {
 			isa = PBXGroup;

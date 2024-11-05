@@ -18,59 +18,30 @@ final class LoginViewController: UIViewController {
     
     return imageView
   }()
-  private let naverLoginButton: UIButton = {
-    let button = UIButton()
-    button.layer.cornerRadius = 8
-    
-    var title = NSAttributedString(string: "  네이버 로그인", attributes: [.foregroundColor : UIColor.white, .font : UIFont.NF.button_default])
-    button.setImage(.naverLogo, for: .normal)
-    button.setAttributedTitle(title, for: .normal)
-    
-    button.backgroundColor = #colorLiteral(red: 0, green: 0.8046368361, blue: 0.4275280833, alpha: 1)
-    button.snp.makeConstraints { make in
-      make.height.equalTo(56)
-      make.width.equalTo(331)
-    }
-    
-    return button
-  }()
-  private let kakaoTalkLoginButton: UIButton = {
-    let button = UIButton()
-    button.layer.cornerRadius = 8
-    
-    var title = NSAttributedString(string: "  카카오 로그인", attributes: [.foregroundColor : UIColor.black.withAlphaComponent(0.85), .font : UIFont.NF.button_default])
-    button.setImage(.kakaoLogo, for: .normal)
-    button.setAttributedTitle(title, for: .normal)
-    
-    button.backgroundColor = #colorLiteral(red: 0.9960784314, green: 0.8980392157, blue: 0, alpha: 1)
-    button.snp.makeConstraints { make in
-      make.height.equalTo(56)
-      make.width.equalTo(331)
-    }
-    
-    return button
-  }()
-  private let googleLoginButton: UIButton = {
-    let button = UIButton()
-    button.layer.cornerRadius = 8
-    
-    var title = NSAttributedString(string: "  구글 계정으로 로그인", attributes: [.foregroundColor : UIColor.black, .font : UIFont.NF.button_default])
-    button.setImage(.googleLogo, for: .normal)
-    button.setAttributedTitle(title, for: .normal)
-    
-    button.backgroundColor = #colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)
-    button.snp.makeConstraints { make in
-      make.height.equalTo(56)
-      make.width.equalTo(331)
-    }
-    
-    return button
-  }()
+  private let naverLoginButton: UIButton = ButtonFactory().make(
+    title: "네이버 로그인",
+    textColor: .white,
+    image: .naverLogo,
+    backgroundColor: #colorLiteral(red: 0, green: 0.8046368361, blue: 0.4275280833, alpha: 1)
+  )
+  private let kakaoTalkLoginButton: UIButton = ButtonFactory().make(
+    title: "카카오 로그인",
+    textColor: .black.withAlphaComponent(0.85),
+    image: .kakaoLogo,
+    backgroundColor: #colorLiteral(red: 0.9960784314, green: 0.8980392157, blue: 0, alpha: 1)
+  )
+  private let googleLoginButton: UIButton = ButtonFactory().make(
+    title: "구글 계정으로 로그인",
+    textColor: .black,
+    image: .googleLogo,
+    backgroundColor: #colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)
+  )
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .white
     configureHirachy()
+    configureButtonAction()
   }
   
   private func configureHirachy() {
@@ -98,5 +69,14 @@ final class LoginViewController: UIViewController {
       make.centerX.equalToSuperview()
       make.top.equalTo(logoStackView.snp.bottom).offset(100)
     }
+  }
+  private func configureButtonAction() {
+    naverLoginButton.addAction(UIAction { [weak self] _ in
+      self?.presentRegister()
+    }, for: .touchUpInside)
+  }
+  private func presentRegister() {
+//    navigationController?.pushViewController(DefaultInfoViewController(), animated: true)
+    present(DefaultInfoViewController(), animated: true)
   }
 }
