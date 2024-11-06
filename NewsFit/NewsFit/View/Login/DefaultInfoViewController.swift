@@ -9,69 +9,15 @@ final class DefaultInfoViewController: UIViewController {
     label.textColor = .label
     return label
   }()
-  private let nameTextField: UITextField = {
-    let textField = UITextField()
-    textField.placeholder = "이름"
-    textField.font = .NF.text_default
-    textField.textColor = .label
-    textField.layer.borderWidth = 2
-    textField.layer.borderColor = UIColor.nfBorderDefault.cgColor
-    textField.layer.cornerRadius = 10
-    
-    return textField
-  }()
-  private let emailTextField: UITextField = {
-    let textField = UITextField()
-    textField.placeholder = "newfit@example.com"
-    textField.font = .NF.text_default
-    textField.textColor = .label
-    textField.layer.borderWidth = 2
-    textField.layer.borderColor = UIColor.nfBorderDefault.cgColor
-    textField.layer.cornerRadius = 10
-    
-    let subTitleLabel: UILabel = {
-      let label = UILabel()
-      label.text = "이메일"
-      label.font = .NF.text_default
-      label.textColor = .nfBorderDefault
-      label.backgroundColor = .systemBackground
-      return label
-    }()
-    
-    textField.addSubview(subTitleLabel)
-    subTitleLabel.snp.makeConstraints { make in
-      make.centerY.equalTo(textField.snp.top)
-      make.leading.equalToSuperview().offset(10)
-    }
-    
-    return textField
-  }()
-  private let phoneTextField: UITextField = {
-    let textField = UITextField()
-    textField.placeholder = "010-0000-0000"
-    textField.font = .NF.text_default
-    textField.textColor = .label
-    textField.layer.borderWidth = 2
-    textField.layer.borderColor = UIColor.nfBorderDefault.cgColor
-    textField.layer.cornerRadius = 10
-    
-    let subTitleLabel: UILabel = {
-      let label = UILabel()
-      label.text = "휴대폰"
-      label.font = .NF.text_default
-      label.textColor = .nfBorderDefault
-      label.backgroundColor = .systemBackground
-      return label
-    }()
-    
-    textField.addSubview(subTitleLabel)
-    subTitleLabel.snp.makeConstraints { make in
-      make.centerY.equalTo(textField.snp.top)
-      make.leading.equalToSuperview().offset(10)
-    }
-    
-    return textField
-  }()
+  private let nameTextField: UITextField = TextFieldFactory().make(
+    placeHolder: "이름"
+  )
+  private let emailTextField: UITextField = TextFieldFactory().make(
+    placeHolder: "newfit@example.com"
+  )
+  private let phoneTextField: UITextField = TextFieldFactory().make(
+    placeHolder: "010-0000-0000"
+  )
   private let confirmButton: UIButton = ButtonFactory().make(
     title: "계속하기",
     textColor: .white,
@@ -84,6 +30,7 @@ final class DefaultInfoViewController: UIViewController {
     
     view.backgroundColor = .white
     configureHirachy()
+    addSubtitles()
   }
   
   private func configureHirachy() {
@@ -113,5 +60,9 @@ final class DefaultInfoViewController: UIViewController {
       make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-10)
       make.centerX.equalToSuperview()
     }
+  }
+  private func addSubtitles() {
+    emailTextField.addSubTitleLabel(of: "이메일")
+    phoneTextField.addSubTitleLabel(of: "휴대폰")
   }
 }
