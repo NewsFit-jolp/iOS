@@ -13,7 +13,7 @@ extension UIView {
       superView.addSubview(label)
       label.snp.makeConstraints { make in
         make.centerY.equalTo(self.snp.top)
-        make.leading.equalToSuperview().offset(10)
+        make.leading.equalTo(self.snp.leading).offset(10)
       }
     }
   }

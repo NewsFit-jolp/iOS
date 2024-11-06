@@ -16,7 +16,8 @@ final class DefaultInfoViewController: UIViewController {
     placeHolder: "newfit@example.com"
   )
   private let phoneTextField: UITextField = TextFieldFactory().make(
-    placeHolder: "010-0000-0000"
+    placeHolder: "010-0000-0000",
+    keyboardType: .numberPad
   )
   private let confirmButton: UIButton = ButtonFactory().make(
     title: "계속하기",
@@ -31,6 +32,10 @@ final class DefaultInfoViewController: UIViewController {
     view.backgroundColor = .white
     configureHirachy()
     addSubtitles()
+    addAction()
+  }
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    view.endEditing(true)
   }
   
   private func configureHirachy() {
@@ -64,5 +69,11 @@ final class DefaultInfoViewController: UIViewController {
   private func addSubtitles() {
     emailTextField.addSubTitleLabel(of: "이메일")
     phoneTextField.addSubTitleLabel(of: "휴대폰")
+  }
+  private func addAction() {
+    let action = UIAction { [weak self] _ in
+      self?.present(AdditionalInfoViewController(), animated: true)
+    }
+    confirmButton.addAction(action, for: .touchUpInside)
   }
 }

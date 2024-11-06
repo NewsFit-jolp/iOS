@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 
 struct TextFieldFactory {
-  func make(placeHolder: String) -> UITextField {
+  func make(placeHolder: String, keyboardType: UIKeyboardType = .default) -> UITextField {
     let textField = UITextField()
     textField.placeholder = placeHolder
     textField.font = .NF.text_default
@@ -15,6 +15,8 @@ struct TextFieldFactory {
     textField.rightView = padding
     textField.leftViewMode = .always
     textField.rightViewMode = .always
+    
+    textField.keyboardType = keyboardType
     
     return textField
   }
