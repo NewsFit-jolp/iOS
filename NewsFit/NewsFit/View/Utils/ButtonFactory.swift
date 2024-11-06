@@ -6,7 +6,7 @@ struct ButtonFactory {
     button.layer.cornerRadius = 8
     
     let title = image != nil ? "  " + title : title
-    var attributedTitle = NSAttributedString(
+    let attributedTitle = NSAttributedString(
       string: title,
       attributes: [.foregroundColor : textColor, .font : UIFont.NF.button_default]
     )
