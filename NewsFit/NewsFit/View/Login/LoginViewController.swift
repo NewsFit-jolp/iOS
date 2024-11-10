@@ -71,6 +71,7 @@ final class LoginViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = .white
     configureHirachy()
+    configureAction()
   }
   
   private func configureHirachy() {
@@ -97,6 +98,11 @@ final class LoginViewController: UIViewController {
     loginButtonStackView.snp.makeConstraints { make in
       make.centerX.equalToSuperview()
       make.top.equalTo(logoStackView.snp.bottom).offset(100)
+    }
+  }
+  private func configureAction() {
+    let naverLoginAction = UIAction { _ in
+      
     }
   }
 }
