@@ -89,5 +89,10 @@ final class AdditionalInfoViewController: UIViewController {
       }
       button.addAction(action, for: .touchUpInside)
     }
+    
+    let confirmAction = UIAction { [weak self] _ in
+      self?.present(TopicSubscriptionViewController(), animated: true)
+    }
+    confirmButton.addAction(confirmAction, for: .touchUpInside)
   }
 }
