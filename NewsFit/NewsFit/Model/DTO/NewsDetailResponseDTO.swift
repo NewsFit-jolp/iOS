@@ -6,6 +6,7 @@ struct NewsDetailResponseDTO: Decodable {
   let images: [String]
   let press: String
   let category: String
+  let articleSource: String
   let comment: [CommentResponseDTO]
   let likeCount: Int
   let likedArticle: Bool

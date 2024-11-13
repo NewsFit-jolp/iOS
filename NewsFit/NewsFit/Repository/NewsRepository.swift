@@ -74,7 +74,17 @@ enum NewsMapper {
 
 enum NewsDetailMapper {
   static func map(_ response: NewsDetailResponseDTO) -> NewsDetail {
-    NewsDetail(title: response.title, content: response.content, images: response.images, press: response.press, category: response.category, comment: [], likeCount: response.likeCount, likedArticle: response.likedArticle)
+    NewsDetail(
+      title: response.title,
+      content: response.content,
+      images: response.images,
+      press: response.press,
+      category: response.category,
+      articleSource: response.articleSource,
+      comment: [],
+      likeCount: response.likeCount,
+      likedArticle: response.likedArticle
+    )
   }
 }
 

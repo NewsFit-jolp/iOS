@@ -168,6 +168,7 @@ final class NewsFitHomeViewController: UIViewController {
     categoryCollectionView.dataSource = self
     categoryCollectionView.delegate = self
     newsCollectionView.dataSource = self
+    newsCollectionView.delegate = self
   }
 }
 
@@ -226,6 +227,18 @@ extension NewsFitHomeViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if collectionView == categoryCollectionView {
       newsCategoryViewModels.select(at: indexPath.row)
+    } else {
+      let selectedNews = indexPath.section == 0
+      ? headLineViewModels.viewModel(at: indexPath.row)
+      : newsViewModels.viewModel(at: indexPath.row)
+      let viewModel = NewsDetailViewModel(newsID: selectedNews.id)
+      let bottomeSheet = UIHostingController(rootView: NewsDetailSheet(viewModel: viewModel))
+      bottomeSheet.view.backgroundColor = .white.withAlphaComponent(0.8)
+      let bottomSheetPresentationController = bottomeSheet.popoverPresentationController
+      bottomSheetPresentationController?.sourceView = categoryCollectionView
+      bottomSheetPresentationController?.sourceRect = categoryCollectionView.bounds
+      bottomSheetPresentationController?.permittedArrowDirections = []
+      present(bottomeSheet, animated: true, completion: nil)
     }
   }
 }

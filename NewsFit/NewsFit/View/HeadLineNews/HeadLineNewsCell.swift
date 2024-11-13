@@ -73,6 +73,7 @@ struct HeadLineNewsCell: View {
 #Preview {
   HeadLineNewsCell(
     viewModel: HeadLineNewsViewModel(
+      id: 1,
       title: "dma",
       press: "한겨레",
       body: "부상자 361명, 15만5천명 대피",
