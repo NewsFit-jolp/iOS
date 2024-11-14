@@ -16,10 +16,18 @@ struct NewsDetailSheet: View {
         dismiss()
       }
       VStack {
-        textBox(text: viewModel.newsDetail?.title ?? "", font: .NF.title_headline, borderColor: .nfBorderDefault)
-        buttonStack()
-          .padding(.vertical, 10)
-        currentContent()
+        VStack {
+          textBox(text: viewModel.newsDetail?.title ?? "", font: .NF.title_headline, borderColor: .nfBorderDefault)
+          buttonStack()
+            .padding(.vertical, 10)
+          aiSummary()
+        }
+        .padding(.vertical)
+        .background (
+          Gradient(colors: [.nfBackgroundAccent, .white])
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        commentList()
         Button(action: {
           isPresentWebView = true
         })
@@ -49,13 +57,8 @@ struct NewsDetailSheet: View {
         }
         .clipShape(RoundedRectangle(cornerRadius: 10))
       }
-      .padding(.vertical)
-      .background (
-        Gradient(colors: [.nfBackgroundAccent, .white])
-      )
-      .clipShape(RoundedRectangle(cornerRadius: 20))
     }
-    .ignoresSafeArea()
+    .ignoresSafeArea(.all, edges: .bottom)
   }
   
   @ViewBuilder
@@ -76,16 +79,30 @@ struct NewsDetailSheet: View {
     
   }
   @ViewBuilder
-  private func currentContent() -> some View {
-    switch viewModel.selectedAt {
-    case 0:
+  private func aiSummary() -> some View {
+    if viewModel.selectedAt == 0 {
       textBox(text: viewModel.newsDetail?.content ?? "", font: .NF.text_default, borderColor: .nfGreen)
-    case 1:
-      List(viewModel.newsDetail?.comment ?? []) { comment in
-        commentView(comment)
+    }
+  }
+  @ViewBuilder
+  private func commentList() -> some View {
+    if viewModel.selectedAt == 1 {
+      VStack {
+        commentInput()
+        Divider()
+        ForEach(viewModel.newsDetail?.comment ?? [], id: \.self) { comment in
+          commentView(comment)
+        }
       }
-    default:
-      EmptyView()
+    }
+  }
+  @ViewBuilder // 댓글 입력 뷰
+  private func commentInput() -> some View {
+    HStack {
+      TextField(text: $viewModel.commentText) {
+        Text("댓글을 입력하세요")
+      }
+      Rectangle()
     }
   }
   @ViewBuilder
@@ -100,7 +117,10 @@ struct NewsDetailSheet: View {
         Spacer()
         Image(.nfxButton)
       }
+      // 왼쪽 정렬
       Text(comment.content)
+        .font(.NF.text_default)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
   }
   
@@ -148,7 +168,11 @@ struct NewsDetailSheet: View {
 
 
 #Preview {
-  let viewModel = NewsDetailViewModel()
+  let viewModel: NewsDetailViewModel =  {
+    let vm = NewsDetailViewModel()
+    vm.selectedAt = 1
+    return vm
+  }()
   NewsDetailSheet(viewModel: viewModel)
 }
 
