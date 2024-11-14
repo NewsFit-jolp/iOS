@@ -12,7 +12,8 @@ struct NewsDetailSheet: View {
       }
       .background(Color.black.opacity(0.0000001))
       .onTapGesture {
-        print("좋좋소")
+        viewModel.isPresented = false
+        dismiss()
       }
       VStack {
         textBox(text: viewModel.newsDetail?.title ?? "", font: .NF.title_headline, borderColor: .nfBorderDefault)
@@ -36,6 +37,7 @@ struct NewsDetailSheet: View {
             .ignoresSafeArea()
         }
         Button(action: {
+          viewModel.isPresented = false
           dismiss()
         })
         {
@@ -146,7 +148,7 @@ struct NewsDetailSheet: View {
 
 
 #Preview {
-  let viewModel = NewsDetailViewModel(newsID: 990)
+  let viewModel = NewsDetailViewModel()
   NewsDetailSheet(viewModel: viewModel)
 }
 

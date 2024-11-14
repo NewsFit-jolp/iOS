@@ -20,6 +20,8 @@ final class NewsFitHomeViewController: UIViewController {
   NewsCategoryViewModels(viewModels: [.init(value: "전체"), .init(value: "IT"), .init(value: "경제"), .init(value: "생활/문화"), .init(value: "세계")])
   private let headerText: [String] = ["헤드라인 뉴스", "구독한 언론사의 최신 뉴스"]
   private var cancelable: [AnyCancellable] = []
+  @ObservedObject
+  private var currentNewsDetailViewModel: NewsDetailViewModel = .init()
   
   //MARK: - Views
   private let categoryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: .init())
@@ -59,6 +61,16 @@ final class NewsFitHomeViewController: UIViewController {
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
         self?.newsCollectionView.reloadData()
+      }
+      .store(in: &cancelable)
+    currentNewsDetailViewModel.objectWillChange
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] in
+        UIView.animate(withDuration: 0.3) { [weak self] in
+          guard let self else { return }
+          view.alpha = currentNewsDetailViewModel.isPresented ? 0.8 : 1
+          navigationController?.navigationBar.alpha = currentNewsDetailViewModel.isPresented ? 0.8 : 1
+        }
       }
       .store(in: &cancelable)
   }
@@ -231,13 +243,11 @@ extension NewsFitHomeViewController: UICollectionViewDelegate {
       let selectedNews = indexPath.section == 0
       ? headLineViewModels.viewModel(at: indexPath.row)
       : newsViewModels.viewModel(at: indexPath.row)
-      let viewModel = NewsDetailViewModel(newsID: selectedNews.id)
-      let bottomeSheet = UIHostingController(rootView: NewsDetailSheet(viewModel: viewModel))
-      bottomeSheet.view.backgroundColor = .white.withAlphaComponent(0.8)
-      let bottomSheetPresentationController = bottomeSheet.popoverPresentationController
-      bottomSheetPresentationController?.sourceView = categoryCollectionView
-      bottomSheetPresentationController?.sourceRect = categoryCollectionView.bounds
-      bottomSheetPresentationController?.permittedArrowDirections = []
+      currentNewsDetailViewModel.fetchNewsDetail(fromID: selectedNews.id)
+      let bottomeSheet = UIHostingController(rootView: NewsDetailSheet(viewModel: currentNewsDetailViewModel))
+      bottomeSheet.view.backgroundColor = .clear
+      bottomeSheet.modalPresentationStyle = .overFullScreen
+      currentNewsDetailViewModel.isPresented = true
       present(bottomeSheet, animated: true, completion: nil)
     }
   }
