@@ -5,6 +5,7 @@ final class NewsDetailViewModel: ObservableObject {
   @Published var newsDetail: NewsDetail?
   @Published var selectedAt: Int = 0
   @Published var isPresented: Bool = false
+  @Published var commentText: String = ""
   
   init(newsID: Int) {
     fetchNewsDetail(fromID: newsID)
