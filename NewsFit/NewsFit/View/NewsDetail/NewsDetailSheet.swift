@@ -22,7 +22,7 @@ struct NewsDetailSheet: View {
             .padding(.vertical, 10)
           aiSummary()
         }
-        .padding(.vertical)
+        .padding(.top)
         .background (
           Gradient(colors: [.nfBackgroundAccent, .white])
         )
@@ -90,9 +90,12 @@ struct NewsDetailSheet: View {
       VStack {
         commentInput()
         Divider()
-        ForEach(viewModel.newsDetail?.comment ?? [], id: \.self) { comment in
-          commentView(comment)
+        VStack {
+          ForEach(viewModel.newsDetail?.comment ?? [], id: \.self) { comment in
+            commentView(comment)
+          }
         }
+        .padding(30)
       }
     }
   }
@@ -102,8 +105,26 @@ struct NewsDetailSheet: View {
       TextField(text: $viewModel.commentText) {
         Text("댓글을 입력하세요")
       }
-      Rectangle()
+      .padding(.horizontal)
+      .font(.NF.text_default)
+      .background(Color.nfBackgroundAccent)
+      Button(action: {
+        viewModel.didTapSendComment()
+      }) {
+        Image(.nfCommentButton)
+          .frame(width: 70, height: 45)
+          .foregroundStyle(Color.white)
+          .background(Color.nfPurple)
+          .clipShape(RoundedRectangle(cornerRadius: 10))
+      }
     }
+    .frame(height: 45)
+    .background(Color.nfBackgroundAccent)
+    .clipShape(
+      RoundedRectangle(cornerRadius: 10)
+    )
+    .padding(.horizontal)
+    .padding(.bottom)
   }
   @ViewBuilder
   private func commentView(_ comment: Comment) -> some View {
@@ -122,6 +143,7 @@ struct NewsDetailSheet: View {
         .font(.NF.text_default)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
+    .padding(5)
   }
   
   @ViewBuilder
