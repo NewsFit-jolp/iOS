@@ -5,7 +5,6 @@ struct NewsDetailSheet: View {
   @Environment(\.dismiss) private var dismiss
   @State private var isPresentWebView = false
   @ObservedObject var viewModel: NewsDetailViewModel
-  @State private var didTapDelete = false
   var body: some View {
     VStack {
       ZStack {
@@ -55,15 +54,15 @@ struct NewsDetailSheet: View {
             .foregroundStyle(Color.black)
             .frame(width: 331, height: 52)
             .background(Color.white)
+            .padding(.bottom, 20)
         }
         .clipShape(RoundedRectangle(cornerRadius: 10))
       }
+      .background(Color.white)
+      .clipShape(RoundedRectangle(cornerRadius: 20))
       .animation(.bouncy, value: viewModel.selectedAt)
     }
     .ignoresSafeArea(.all, edges: .bottom)
-    .bottomSheet(isShowing: $didTapDelete, topOffset: 200) {
-      Text("삭제하시겠습니까?")
-    }
   }
   
   @ViewBuilder
@@ -99,7 +98,8 @@ struct NewsDetailSheet: View {
             commentView(comment)
           }
         }
-        .padding(30)
+        .padding(.horizontal, 30)
+        .padding(.vertical, 10)
       }
     }
   }
@@ -140,11 +140,12 @@ struct NewsDetailSheet: View {
           .font(.NF.text_sub)
           .foregroundStyle(Color.secondary)
         Spacer()
-        Button(action: {
-          viewModel.didTapEraseComment(at: comment.id)
-//          didTapDelete.toggle()
-        }) {
-          Image(.nfxButton)
+        if comment.isDeletable {
+          Button(action: {
+            viewModel.didTapEraseComment(at: comment.id)
+          }) {
+            Image(.nfxButton)
+          }
         }
       }
       // 왼쪽 정렬
@@ -165,7 +166,7 @@ struct NewsDetailSheet: View {
       .clipShape(RoundedRectangle(cornerRadius: 10))
       .overlay {
         RoundedRectangle(cornerRadius: 10)
-          .stroke(borderColor, lineWidth: 2)
+          .stroke(.nfBorderDefault, lineWidth: 2)
       }
   }
   @ViewBuilder
@@ -216,84 +217,5 @@ struct SafariWebView: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {
         
-    }
-}
-
-
-struct BottomSheetModifier<SheetContent: View>: ViewModifier {
-    @Binding var isShowing: Bool
-    let topOffset: CGFloat // 상단 offset
-    let sheetContent: () -> SheetContent // bottomSheet의 내용
-    
-    @State private var dragOffset: CGFloat = 0 // 핸들 제스쳐에 필요한 값
-    
-    @State var bottomSheetSize: CGSize = .zero
-    /// bottomSheetOffset: isShowing이 false일 때는, bottomSheetSize만큼 화면 아래에 그려짐.
-    private var bottomSheetOffset: CGFloat {
-        isShowing ? 0 : bottomSheetSize.height
-    }
-    
-    func body(content: Content) -> some View {
-        ZStack { // content와 dim배경과 bottomSheet가 ZStack으로 그려짐
-            content
-            
-            if isShowing {
-                // BottomSheet의 dim배경
-                Color.black.opacity(0.1)
-                    .ignoresSafeArea()
-                    .onTapGesture { // Tap하면 애니메이션과 함께 닫힘
-                        withAnimation {
-                            isShowing = false
-                        }
-                    }
-                    .transition(.opacity)
-            }
-            
-            // BottomSheet
-            VStack {
-                Spacer()
-                VStack(spacing: 0) {
-                    Rectangle() // BottomSheet의 핸들
-                        .frame(width: 50, height: 4)
-                        .cornerRadius(2)
-                        .padding(.vertical, 8)
-                        .gesture(
-                            DragGesture()
-                                .onChanged { value in
-                                    if dragOffset + value.translation.height > 0 {
-                                        dragOffset += value.translation.height
-                                    }
-                                }
-                                .onEnded { value in
-                                    if value.translation.height > 0 {
-                                        isShowing = false
-                                    } else {
-                                        isShowing = true
-                                    }
-                                    dragOffset = 0
-                                }
-                        )
-                    
-                    sheetContent() // BottomSheet의 content
-                        .frame(maxHeight: UIScreen.main.bounds.height - topOffset) // 최대높이를 제한
-                        .frame(width: UIScreen.main.bounds.width) // 너비는 스크린 너비만큼
-                        .fixedSize(horizontal: false, vertical: true) // 자식뷰들에게 높이(vertical)는 고정사이즈로 그리기를 제안함. 이 제안으로 sheetContent의 높이가 작을 때 사이즈에 맞게 bottomSheet가 그려짐.
-                        .padding(.top)
-                }
-                .frame(width: bottomSheetSize.width, height: bottomSheetSize.height)
-                .background(Color.white)
-                .cornerRadius(20)
-                .offset(y: bottomSheetOffset + dragOffset)
-                .animation(.easeInOut(duration: 0.25), value: isShowing)
-                .shadow(radius: 10)
-            }
-            .ignoresSafeArea(edges: .bottom)
-        }
-    }
-}
-
-extension View {
-    func bottomSheet<SheetContent: View>(isShowing: Binding<Bool>, topOffset: CGFloat = .zero, @ViewBuilder sheetContent: @escaping () -> SheetContent) -> some View {
-        self.modifier(BottomSheetModifier(isShowing: isShowing, topOffset: topOffset, sheetContent: sheetContent))
     }
 }

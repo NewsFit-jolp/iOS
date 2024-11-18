@@ -7,7 +7,7 @@ struct NewsDetail {
   let press: String
   let category: String
   let articleSource: String
-  let comment: [Comment]
+  var comment: [Comment]
   let likeCount: Int
   let likedArticle: Bool
 }

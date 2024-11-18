@@ -5,4 +5,5 @@ struct Comment: Identifiable, Hashable {
   let content: String
   let author: String
   let createdAt: Date
+  let isDeletable: Bool
 }

@@ -243,7 +243,7 @@ extension NewsFitHomeViewController: UICollectionViewDelegate {
       let selectedNews = indexPath.section == 0
       ? headLineViewModels.viewModel(at: indexPath.row)
       : newsViewModels.viewModel(at: indexPath.row)
-      currentNewsDetailViewModel.fetchNewsDetail(fromID: selectedNews.id)
+      currentNewsDetailViewModel.newsID = selectedNews.id
       let bottomeSheet = UIHostingController(rootView: NewsDetailSheet(viewModel: currentNewsDetailViewModel))
       bottomeSheet.view.backgroundColor = .clear
       bottomeSheet.modalPresentationStyle = .overFullScreen
