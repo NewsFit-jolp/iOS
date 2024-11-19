@@ -111,6 +111,9 @@ final class DefaultInfoViewController: UIViewController {
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
         guard let self else { return }
+        nameTextField.text = self.viewModel.name
+        emailTextField.text = self.viewModel.email
+        phoneTextField.text = self.viewModel.phoneNumber
         confirmButton.backgroundColor = viewModel.isValid()
         ? .nfButtonBackgroundBlack
         : .nfButtonBackgroundBlackDisabled

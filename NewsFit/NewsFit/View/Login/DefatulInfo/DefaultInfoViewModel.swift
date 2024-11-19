@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 
 final class DefaultInfoViewModel: ObservableObject {
   @Published var name: String = ""
@@ -10,6 +11,20 @@ final class DefaultInfoViewModel: ObservableObject {
   }
   func isValid() -> Bool {
     return !name.isEmpty && validateEmail() && validatePhoneNumber()
+  }
+  private func fetchInformation() {
+    // Fetch user information
+    Task { [weak self] in
+      let result = await UserService.shared.fetchInformation()
+      switch result {
+      case .success(let success):
+        self?.name = success.nickname
+        self?.email = success.email
+        self?.phoneNumber = success.phone ?? ""
+      case .failure(let failure):
+        Logger().error("Failed to fetch user information: \(failure)")
+      }
+    }
   }
   private func validateEmail() -> Bool {
     // Validate email
