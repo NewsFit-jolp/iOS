@@ -1,6 +1,8 @@
 import UIKit
+import Combine
 
 final class DefaultInfoViewController: UIViewController {
+  // MARK: - Property
   private let titleView: UILabel = {
     let label = UILabel()
     label.text = "뉴스핏이 처음인가요?\n기본 정보를 알려주세요."
@@ -25,7 +27,10 @@ final class DefaultInfoViewController: UIViewController {
     image: nil,
     backgroundColor: .nfButtonBackgroundBlackDisabled
   )
+  private var viewModel = DefaultInfoViewModel()
+  private var cancellables: Set<AnyCancellable> = []
   
+  // MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -33,11 +38,13 @@ final class DefaultInfoViewController: UIViewController {
     configureHirachy()
     addSubtitles()
     addAction()
+    bind()
   }
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     view.endEditing(true)
   }
   
+  // MARK: - Method
   private func configureHirachy() {
     view.addSubview(titleView)
     titleView.snp.makeConstraints { make in
@@ -72,10 +79,42 @@ final class DefaultInfoViewController: UIViewController {
   }
   private func addAction() {
     let action = UIAction { [weak self] _ in
-      guard let navigationController = self?.navigationController as? ProgressNavigationController else { return }
+      guard let self else { return }
+      viewModel.saveInfo()
+      guard let navigationController = navigationController as? ProgressNavigationController else { return }
       navigationController.pushViewController(AdditionalInfoViewController(), animated: true)
       navigationController.setProgress(2/5)
     }
     confirmButton.addAction(action, for: .touchUpInside)
+    
+    let nameAction = UIAction { [weak self] _ in
+      guard let self else { return }
+      viewModel.name = nameTextField.text ?? ""
+    }
+    nameTextField.addAction(nameAction, for: .editingChanged)
+    
+    let emailAction = UIAction { [weak self] _ in
+      guard let self else { return }
+      viewModel.email = emailTextField.text ?? ""
+    }
+    emailTextField.addAction(emailAction, for: .editingChanged)
+    
+    let phoneAction = UIAction { [weak self] _ in
+      guard let self else { return }
+      viewModel.phoneNumber = phoneTextField.text ?? ""
+    }
+    phoneTextField.addAction(phoneAction, for: .editingChanged)
+  }
+  private func bind() {
+    viewModel.objectWillChange
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] in
+        guard let self else { return }
+        confirmButton.backgroundColor = viewModel.isValid()
+        ? .nfButtonBackgroundBlack
+        : .nfButtonBackgroundBlackDisabled
+        confirmButton.isEnabled = viewModel.isValid()
+      }
+      .store(in: &cancellables)
   }
 }
