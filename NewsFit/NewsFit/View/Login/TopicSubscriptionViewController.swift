@@ -54,7 +54,7 @@ final class TopicSubscriptionViewController: UIViewController {
   private func configureHirachy() {
     view.addSubview(titleView)
     titleView.snp.makeConstraints { make in
-      make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(36)
+      make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(50)
       make.leading.equalToSuperview().offset(30)
       make.trailing.equalToSuperview().offset(-30)
     }
