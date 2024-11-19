@@ -5,6 +5,8 @@ protocol NewsRepositoryType {
   func fetchNewsDetail(id: Int) async -> Result<NewsDetail, Error>
   func postComment(id: Int, content: String) async -> Result<Comment, Error>
   func deleteComment(newsID: Int, commentID: Int) async -> Result<Void, Error>
+  func disLikeNews(id: Int) async -> Result<Void, Error>
+  func likeNews(id: Int) async -> Result<Void, Error>
 }
 
 struct NewsRepository: NewsRepositoryType {
@@ -116,6 +118,36 @@ struct NewsRepository: NewsRepositoryType {
     let token = Bundle.token
     
     let request = HTTPRequestBuilder(baseURL: baseURL, path: path, method: .delete)
+      .update(headers: ["Authorization": "Bearer \(token)"])
+      .build()
+    
+    guard let _ = try? await HTTPServiceProvider().fetchData(for: request).get() else {
+      return .failure(RepositoryError.invalidData)
+    }
+    
+    return .success(())
+  }
+  func disLikeNews(id: Int) async -> Result<Void, Error> {
+    let baseURL = Bundle.baseURL
+    let path = "/articles/\(id)/likes"
+    let token = Bundle.token
+    
+    let request = HTTPRequestBuilder(baseURL: baseURL, path: path, method: .delete)
+      .update(headers: ["Authorization": "Bearer \(token)"])
+      .build()
+    
+    guard let _ = try? await HTTPServiceProvider().fetchData(for: request).get() else {
+      return .failure(RepositoryError.invalidData)
+    }
+    
+    return .success(())
+  }
+  func likeNews(id: Int) async -> Result<Void, Error> {
+    let baseURL = Bundle.baseURL
+    let path = "/articles/\(id)/likes"
+    let token = Bundle.token
+    
+    let request = HTTPRequestBuilder(baseURL: baseURL, path: path, method: .post)
       .update(headers: ["Authorization": "Bearer \(token)"])
       .build()
     

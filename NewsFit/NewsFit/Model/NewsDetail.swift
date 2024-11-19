@@ -8,6 +8,6 @@ struct NewsDetail {
   let category: String
   let articleSource: String
   var comment: [Comment]
-  let likeCount: Int
-  let likedArticle: Bool
+  var likeCount: Int
+  var likedArticle: Bool
 }

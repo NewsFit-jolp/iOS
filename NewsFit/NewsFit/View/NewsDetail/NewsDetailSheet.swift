@@ -142,7 +142,7 @@ struct NewsDetailSheet: View {
         Spacer()
         if comment.isDeletable {
           Button(action: {
-            viewModel.didTapEraseComment(at: comment.id)
+            viewModel.didTapEraseComment(id: comment.id)
           }) {
             Image(.nfxButton)
           }
@@ -187,7 +187,7 @@ struct NewsDetailSheet: View {
           : Color.gray
         )
       Spacer()
-      miniButton(image: .nfLike, string: "20", idx: 2)
+      miniButton(image: .nfLike, string: "\(viewModel.newsDetail?.likeCount ?? 0)", idx: 2)
         .foregroundStyle(
           viewModel.newsDetail?.likedArticle == true ? Color.nfGreen : Color.gray
         )

@@ -39,7 +39,20 @@ final class NewsDetailViewModel: ObservableObject {
     }
   }
   func didTapLike() {
-    
+    Task {
+      let result = await (newsDetail?.likedArticle == true
+                          ? NewsRepository().disLikeNews(id: newsID)
+                          : NewsRepository().likeNews(id: newsID))
+      switch result {
+      case .success:
+        Task { @MainActor in
+          self.newsDetail?.likedArticle.toggle()
+          self.newsDetail?.likeCount += newsDetail?.likedArticle == true ? 1 : -1
+        }
+      case .failure(let error):
+        Logger().error("\(error.localizedDescription)")
+      }
+    }
   }
   func didTapSendComment() {
     Task {
@@ -55,15 +68,15 @@ final class NewsDetailViewModel: ObservableObject {
       }
     }
   }
-  func didTapEraseComment(at index: Int) {
+  func didTapEraseComment(id: Int) {
     guard let newsDetail else { return }
-    guard let comment = newsDetail.comment.filter { $0.id == index }.first else { return }
+    guard let (idx, comment) = newsDetail.comment.enumerated().filter({ $0.element.id == id }).first else { return }
     guard comment.isDeletable else { return }
     Task {
       let result = await NewsRepository().deleteComment(newsID: newsID, commentID: comment.id)
       switch result {
       case .success:
-        Task { @MainActor in self.newsDetail?.comment.remove(at: index) }
+        Task { @MainActor in self.newsDetail?.comment.remove(at: idx) }
       case .failure(let error):
         Logger().error("\(error.localizedDescription)")
       }
