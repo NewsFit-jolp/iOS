@@ -33,6 +33,7 @@ final class DefaultInfoViewController: UIViewController {
   // MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
+    confirmButton.isEnabled = false
     
     view.backgroundColor = .white
     configureHirachy()

@@ -1,4 +1,5 @@
 import UIKit
+import Combine
 
 final class AdditionalInfoViewController: UIViewController {
   private let titleView: UILabel = {
@@ -30,13 +31,17 @@ final class AdditionalInfoViewController: UIViewController {
       genderCheckButtons[selectedGender].isSelected = true
     }
   }
+  private var viewModel = AdditionalInfoViewModel()
+  private var cancellables: Set<AnyCancellable> = []
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .white
+    confirmButton.isEnabled = false
     
     configureHirachy()
     addButtonAction()
+    bind()
   }
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     view.endEditing(true)
@@ -81,19 +86,39 @@ final class AdditionalInfoViewController: UIViewController {
     checkStackView.addSubTitleLabel(of: "성별")
     yearTextField.addSubTitleLabel(of: "생년월일")
   }
-  func addButtonAction() {
+  private func addButtonAction() {
     genderCheckButtons[selectedGender].isSelected = true
     genderCheckButtons.enumerated().forEach { idx, button in
       let action = UIAction { [weak self] _ in
         self?.selectedGender = idx
+        self?.viewModel.genderIndex = idx
       }
       button.addAction(action, for: .touchUpInside)
     }
+    
+    let birthAction = UIAction { [weak self] _ in
+      guard let text = self?.yearTextField.text else { return }
+      self?.viewModel.birthDay = text
+    }
+    yearTextField.addAction(birthAction, for: .editingChanged)
+    
     let confirmAction = UIAction { [weak self] _ in
       guard let navigationController = self?.navigationController as? ProgressNavigationController else { return }
       navigationController.pushViewController(TopicSubscriptionViewController(), animated: true)
       navigationController.setProgress(3/5)
     }
     confirmButton.addAction(confirmAction, for: .touchUpInside)
+  }
+  private func bind() {
+    viewModel.objectWillChange
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] in
+        guard let self else { return }
+        confirmButton.backgroundColor = viewModel.isValid()
+        ? .nfButtonBackgroundBlack
+        : .nfButtonBackgroundBlackDisabled
+        confirmButton.isEnabled = viewModel.isValid()
+      }
+      .store(in: &cancellables)
   }
 }
