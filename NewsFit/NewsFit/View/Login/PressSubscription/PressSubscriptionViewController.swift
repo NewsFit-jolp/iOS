@@ -1,4 +1,5 @@
 import UIKit
+import Combine
 
 final class PressSubscriptionViewController: UIViewController {
   // MARK: - Property
@@ -33,14 +34,23 @@ final class PressSubscriptionViewController: UIViewController {
     image: nil,
     backgroundColor: .nfButtonBackgroundBlackDisabled
   )
+  
+  private let viewModel = PressSubscriptionViewModel()
+  private var cancellables: Set<AnyCancellable> = []
+  
+  // MARK: - LifeCycle
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .white
+    confirmButton.isEnabled = false
     
     configureHirachy()
     configurePressTableView()
     addAction()
+    bind()
   }
+  
+  // MARK: - Helper
   private func configureHirachy() {
     view.addSubview(titleView)
     titleView.snp.makeConstraints { make in
@@ -78,13 +88,56 @@ final class PressSubscriptionViewController: UIViewController {
   }
   private func addAction() {
     let action = UIAction { [weak self] _ in
+      self?.viewModel.savePressList()
       guard let navigationController = self?.navigationController as? ProgressNavigationController else { return }
       navigationController.pushViewController(CompleteViewController(), animated: true)
       navigationController.setProgress(5/5)
     }
     confirmButton.addAction(action, for: .touchUpInside)
   }
+  private func bind() {
+    viewModel.objectWillChange
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] in
+        guard let self = self else { return }
+        self.constraintLabel.isHidden = self.viewModel.isValid()
+        self.confirmButton.backgroundColor = self.viewModel.isValid()
+          ? .nfButtonBackgroundBlack
+          : .nfButtonBackgroundBlackDisabled
+        self.confirmButton.isEnabled = self.viewModel.isValid()
+      }
+      .store(in: &cancellables)
+  }
 }
+
+// MARK: - UITableViewDelegate
+extension PressSubscriptionViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let cell = tableView.cellForRow(at: indexPath) as! PressSubscriptionCell
+    UIView.animate(withDuration: 0.3) { [weak self] in
+      cell.subscribeButton.isSelected.toggle()
+      cell.subscribeButton.backgroundColor = cell.subscribeButton.isSelected ? .nfPurple : .clear
+    }
+    viewModel.pressList[indexPath.row].isSelected.toggle()
+  }
+}
+
+// MARK: - UITableViewDataSource
+extension PressSubscriptionViewController: UITableViewDataSource {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return viewModel.pressList.count
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: PressSubscriptionCell.identifier, for: indexPath) as? PressSubscriptionCell else { return UITableViewCell() }
+    
+    let subscription = viewModel.pressList[indexPath.row]
+    cell.configureUI(with: subscription)
+    
+    return cell
+  }
+}
+
 
 // MARK: - PressSubscriptionCell
 final class PressSubscriptionCell: UITableViewCell {
@@ -146,8 +199,9 @@ final class PressSubscriptionCell: UITableViewCell {
   }
   
   // MARK: - Helper
-  func configureUI() {
-    
+  func configureUI(with pressSubscription: PressSubscription) {
+    pressLabel.text = pressSubscription.title
+    subscribeButton.isSelected = pressSubscription.isSelected
   }
   private func configrueHirachy() {
     selectionStyle = .none
@@ -175,27 +229,5 @@ final class PressSubscriptionCell: UITableViewCell {
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     super.touchesBegan(touches, with: event)
-  }
-}
-
-// MARK: - UITableViewDelegate
-extension PressSubscriptionViewController: UITableViewDelegate {
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let cell = tableView.cellForRow(at: indexPath) as! PressSubscriptionCell
-    UIView.animate(withDuration: 0.3) { [weak self] in
-      cell.subscribeButton.isSelected.toggle()
-      cell.subscribeButton.backgroundColor = cell.subscribeButton.isSelected ? .nfPurple : .clear
-    }
-  }
-}
-
-// MARK: - UITableViewDataSource
-extension PressSubscriptionViewController: UITableViewDataSource {
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 10
-  }
-  
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    return tableView.dequeueReusableCell(withIdentifier: PressSubscriptionCell.identifier, for: indexPath)
   }
 }
