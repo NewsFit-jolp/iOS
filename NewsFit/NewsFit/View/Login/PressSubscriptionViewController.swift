@@ -79,7 +79,7 @@ final class PressSubscriptionViewController: UIViewController {
   private func addAction() {
     let action = UIAction { [weak self] _ in
       guard let navigationController = self?.navigationController as? ProgressNavigationController else { return }
-      navigationController.pushViewController(AdditionalInfoViewController(), animated: true)
+      navigationController.pushViewController(CompleteViewController(), animated: true)
       navigationController.setProgress(5/5)
     }
     confirmButton.addAction(action, for: .touchUpInside)
