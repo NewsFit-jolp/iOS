@@ -1,20 +1,10 @@
 import UIKit
 
-final class TopicSubscriptionViewController: UIViewController {
-  private var viewModels: [TopicSubscriptionCellViewModel] = [
-    .init(icon: "🏛️", name: "정치"),
-    .init(icon: "💰", name: "경제"),
-    .init(icon: "👥", name: "사회"),
-    .init(icon: "🏠", name: "생활/문화"),
-    .init(icon: "🌏", name: "세계"),
-    .init(icon: "💻", name: "기술/IT"),
-    .init(icon: "🎤", name: "연예"),
-    .init(icon: "⚽", name: "스포츠"),
-  ]
-  
+final class PressSubscriptionViewController: UIViewController {
+  // MARK: - Property
   private let titleView: UILabel = {
     let label = UILabel()
-    label.text = "뉴스핏이 처음인가요?\n기본 정보를 알려주세요."
+    label.text = "관심있는 뉴스 주제를\n선택해주세요."
     label.numberOfLines = 0
     label.font = .NF.title_large
     label.textColor = .label
@@ -25,7 +15,7 @@ final class TopicSubscriptionViewController: UIViewController {
     let label = UILabel()
     label.numberOfLines = 0
     let attributedText = NSAttributedString(
-      string: "최소 3개 주제를 선택하세요.",
+      string: "최소 3개 언론사를 구독하세요.",
       attributes: [
         .foregroundColor: UIColor.label,
         .font: UIFont.NF.title_middle,
@@ -48,7 +38,8 @@ final class TopicSubscriptionViewController: UIViewController {
     view.backgroundColor = .white
     
     configureHirachy()
-    configurePressCollectionView()
+    configurePressTableView()
+    addAction()
   }
   private func configureHirachy() {
     view.addSubview(titleView)
@@ -71,114 +62,138 @@ final class TopicSubscriptionViewController: UIViewController {
       make.centerX.equalToSuperview()
     }
   }
-  private func configurePressCollectionView() {
-    let layout = UICollectionViewFlowLayout()
-    layout.itemSize = CGSize(width: 100, height: 100)
-    layout.minimumInteritemSpacing = 10
-    layout.minimumLineSpacing = 10
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-    collectionView.register(
-      TopicSubscriptionCell.self,
-      forCellWithReuseIdentifier: TopicSubscriptionCell.identifier
-    )
-    collectionView.delegate = self
-    collectionView.dataSource = self
-    view.addSubview(collectionView)
-    collectionView.snp.makeConstraints { make in
+  private func configurePressTableView() {
+    let tableView = UITableView()
+    tableView.register(PressSubscriptionCell.self, forCellReuseIdentifier: PressSubscriptionCell.identifier)
+    tableView.delegate = self
+    tableView.dataSource = self
+    tableView.estimatedRowHeight = 50
+    view.addSubview(tableView)
+    tableView.snp.makeConstraints { make in
       make.top.equalTo(constraintLabel.snp.bottom).offset(40)
       make.leading.equalTo(constraintLabel.snp.leading)
       make.trailing.equalTo(constraintLabel.snp.trailing)
       make.bottom.equalTo(confirmButton.snp.top).offset(-10)
     }
   }
+  private func addAction() {
+    let action = UIAction { [weak self] _ in
+      self?.present(AdditionalInfoViewController(), animated: true)
+    }
+    confirmButton.addAction(action, for: .touchUpInside)
+  }
 }
 
-extension TopicSubscriptionViewController: UICollectionViewDataSource {
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return viewModels.count
-  }
+// MARK: - PressSubscriptionCell
+final class PressSubscriptionCell: UITableViewCell {
+  // MARK: - Class Property
+  static var identifier: String { String(describing: self) }
   
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: TopicSubscriptionCell.identifier,
-      for: indexPath
-    ) as? TopicSubscriptionCell else { return UICollectionViewCell() }
-    
-    let viewModel = viewModels[indexPath.row]
-    cell.configrueUI(cellModel: viewModel)
-    
-    return cell
-  }
-}
-
-extension TopicSubscriptionViewController: UICollectionViewDelegate {
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    viewModels[indexPath.row].isPressed.toggle()
-    collectionView.reloadItems(at: [indexPath])
-  }
-}
-
-fileprivate final class TopicSubscriptionCell: UICollectionViewCell {
   // MARK: - Property
-  private let iconLabel: UILabel = {
+  private let pressLabel: UILabel = {
     let label = UILabel()
-    label.text = "🏛️"
-    label.font = .systemFont(ofSize: 35, weight: .semibold)
-    label.textColor = .label
-    label.adjustsFontSizeToFitWidth = true
-    label.setContentCompressionResistancePriority(.init(730), for: .vertical)
-    
-    return label
-  }()
-  private let topicLabel: UILabel = {
-    let label = UILabel()
-    label.text = "Press Title"
+    label.text = "뉴스펭귄"
     label.font = .NF.text_bold
     label.textColor = .label
     
     return label
   }()
+  let subscribeButton: UIButton = {
+    let button = UIButton()
+    let attributedText = NSAttributedString(
+      string: "+구독",
+      attributes: [
+        .foregroundColor: UIColor.label,
+        .font: UIFont.NF.button_small
+      ]
+    )
+    button.setAttributedTitle(attributedText, for: .normal)
+    
+    let attributedTextSub = NSAttributedString(
+      string: "구독중",
+      attributes: [
+        .foregroundColor: UIColor.white,
+        .font: UIFont.NF.button_small
+      ]
+    )
+    button.setAttributedTitle(attributedTextSub, for: .selected)
+    
+    button.backgroundColor = .clear
+    
+    button.layer.cornerRadius = 17
+    button.layer.borderWidth = 1
+    button.layer.borderColor = UIColor.nfBorderDefault.cgColor
+      
+    return button
+  }()
   
-  // MARK: - LifeCycle
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    setup()
+  // MARK: - Initializer
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    super.init(style: style, reuseIdentifier: reuseIdentifier)
+    
+    configrueHirachy()
+    configureLayout()
+    addAction()
   }
   required init?(coder: NSCoder) {
     super.init(coder: coder)
-    setup()
-  }
-  
-  // MARK: - Method
-  func configrueUI(cellModel: TopicSubscriptionCellViewModel) {
-    iconLabel.text = cellModel.icon
-    topicLabel.text = cellModel.name
-    backgroundColor = cellModel.isPressed ? .nfBackgroundAccent : .white
-    layer.borderColor = cellModel.isPressed ? UIColor.nfBorderPurple.cgColor : UIColor.nfBorderDefault.cgColor
+    
+    configrueHirachy()
+    configureLayout()
+    addAction()
   }
   
   // MARK: - Helper
-  private func setup() {
-    layer.cornerRadius = 16
-    layer.borderWidth = 2
-    layer.borderColor = UIColor.nfBorderDefault.cgColor
+  func configureUI() {
     
-    let stackView = UIStackView(arrangedSubviews: [iconLabel, topicLabel])
-    stackView.axis = .vertical
-    stackView.spacing = 16
-    stackView.alignment = .center
-    stackView.distribution = .fill
-    addSubview(stackView)
-    stackView.snp.makeConstraints { make in
-      make.top.equalToSuperview().offset(15)
-      make.centerX.equalToSuperview()
-      make.bottom.equalToSuperview().offset(-15)
+  }
+  private func configrueHirachy() {
+    selectionStyle = .none
+    addSubview(pressLabel)
+    addSubview(subscribeButton)
+  }
+  private func configureLayout() {
+    pressLabel.snp.makeConstraints { make in
+      make.leading.equalToSuperview().offset(20)
+      make.centerY.equalToSuperview()
+    }
+    subscribeButton.snp.makeConstraints { make in
+      make.height.equalTo(34)
+      make.width.equalTo(72)
+      make.trailing.equalToSuperview().offset(-20)
+      make.centerY.equalToSuperview()
+    }
+  }
+  private func addAction() {
+    let action = UIAction { [weak self] _ in
+      self?.subscribeButton.isSelected.toggle()
+    }
+    subscribeButton.addAction(action, for: .touchUpInside)
+  }
+  
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesBegan(touches, with: event)
+  }
+}
+
+// MARK: - UITableViewDelegate
+extension PressSubscriptionViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let cell = tableView.cellForRow(at: indexPath) as! PressSubscriptionCell
+    UIView.animate(withDuration: 0.3) { [weak self] in
+      cell.subscribeButton.isSelected.toggle()
+      cell.subscribeButton.backgroundColor = cell.subscribeButton.isSelected ? .nfPurple : .clear
     }
   }
 }
 
-struct TopicSubscriptionCellViewModel {
-  var isPressed: Bool = false
-  let icon: String
-  let name: String
+// MARK: - UITableViewDataSource
+extension PressSubscriptionViewController: UITableViewDataSource {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return 10
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    return tableView.dequeueReusableCell(withIdentifier: PressSubscriptionCell.identifier, for: indexPath)
+  }
 }
