@@ -14,4 +14,13 @@ extension Bundle {
   static var token: String {
     return Bundle.main.object(forInfoDictionaryKey: "TOKEN") as? String ?? ""
   }
+  static var NAVER_OAUTH_CLIENT_ID: String {
+    return Bundle.main.object(forInfoDictionaryKey: "NAVER_OAUTH_CLIENT_ID") as? String ?? ""
+  }
+  static var KAKAO_OAUTH_CLIENT_ID: String {
+    return Bundle.main.object(forInfoDictionaryKey: "KAKAO_OAUTH_CLIENT_ID") as? String ?? ""
+  }
+  static var GOOGLE_OAUTH_CLIENT_ID: String {
+    return Bundle.main.object(forInfoDictionaryKey: "GOOGLE_OAUTH_CLIENT_ID") as? String ?? ""
+  }
 }

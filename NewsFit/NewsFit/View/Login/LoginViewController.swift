@@ -1,5 +1,6 @@
 import UIKit
 import SnapKit
+import AuthenticationServices
 
 final class LoginViewController: UIViewController {
   
@@ -72,15 +73,56 @@ final class LoginViewController: UIViewController {
   }
   private func configureButtonAction() {
     naverLoginButton.addAction(UIAction { [weak self] _ in
-      self?.presentRegister()
+      guard let self else { return }
+      let url = LoginService.shared.loginWithNaverOAuthURL()
+      let session = ASWebAuthenticationSession(url: url, callbackURLScheme: "NewsFit") { [weak self] callbackURL, error in
+        guard let code = callbackURL?.absoluteString.components(separatedBy: "code=").last else { return }
+        Task {
+          try await LoginService.shared.requestloginWithNaver(with: code)
+          self?.presentRegister()
+        }
+      }
+      session.presentationContextProvider = self
+      session.start()
+    }, for: .touchUpInside)
+    kakaoTalkLoginButton.addAction(UIAction { [weak self] _ in
+      guard let self else { return }
+      let url = LoginService.shared.loginWithKaKaoOAuth()
+      let session = ASWebAuthenticationSession(url: url, callbackURLScheme: "NewsFit") { [weak self] callbackURL, error in
+        guard let code = callbackURL?.absoluteString.components(separatedBy: "code=").last else { return }
+        Task {
+          try await LoginService.shared.requestloginWithKakao(with: code)
+          self?.presentRegister()
+        }
+      }
+      session.presentationContextProvider = self
+      session.start()
+    }, for: .touchUpInside)
+    googleLoginButton.addAction(UIAction { [weak self] _ in
+      guard let self else { return }
+      let url = LoginService.shared.loginWithGoogleOAuth()
+      let session = ASWebAuthenticationSession(url: url, callbackURLScheme: "NewsFit") { [weak self] callbackURL, error in
+        guard let code = callbackURL?.absoluteString.components(separatedBy: "code=").last else { return }
+        Task {
+          try await LoginService.shared.requestloginWithGoogle(with: code)
+          self?.presentRegister()
+        }
+      }
+      session.presentationContextProvider = self
+      session.start()
     }, for: .touchUpInside)
   }
   private func presentRegister() {
-//    navigationController?.pushViewController(DefaultInfoViewController(), animated: true)
     let vc = ProgressNavigationController(rootViewController: DefaultInfoViewController())
     vc.modalPresentationStyle = .fullScreen
     vc.setProgress(1/5)
     present(vc, animated: true)
+  }
+}
+
+extension LoginViewController: ASWebAuthenticationPresentationContextProviding {
+  func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+    return view.window ?? ASPresentationAnchor()
   }
 }
 
