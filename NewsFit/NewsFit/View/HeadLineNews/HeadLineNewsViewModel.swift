@@ -31,6 +31,7 @@ final class HeadLineNewsViewModels: ObservableObject {
 
 struct HeadLineNewsViewModel: ViewModel {
   //MARK: - Properties
+  var id: Int
   let title: String
   let press: String
   var date: String {
@@ -45,9 +46,10 @@ struct HeadLineNewsViewModel: ViewModel {
   //MARK: - Initializers
   init(news: News) {
     let imageURL = news.thumbnail != nil ? URL(string: news.thumbnail!) : nil
-    self.init(title: news.title, press: news.press, body: news.headLine ?? "", imageURL: imageURL, createdDate: news.publishedDate)
+    self.init(id: news.articleID, title: news.title, press: news.press, body: news.headLine ?? "", imageURL: imageURL, createdDate: news.publishedDate)
   }
-  init(title: String, press: String, body: String, imageURL: URL?, createdDate: Date) {
+  init(id: Int, title: String, press: String, body: String, imageURL: URL?, createdDate: Date) {
+    self.id = id
     self.title = title
     self.press = press
     self.body = body

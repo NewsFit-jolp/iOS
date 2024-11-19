@@ -1,12 +1,13 @@
 import Foundation
 
-struct NewsDetail: Decodable {
+struct NewsDetail {
   let title: String
   let content: String
   let images: [String]
   let press: String
   let category: String
-  let comment: [CommentResponseDTO]
-  let likeCount: Int
-  let likedArticle: Bool
+  let articleSource: String
+  var comment: [Comment]
+  var likeCount: Int
+  var likedArticle: Bool
 }

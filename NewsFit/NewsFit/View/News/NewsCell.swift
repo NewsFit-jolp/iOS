@@ -44,10 +44,6 @@ struct NewsCell: View {
   @ViewBuilder
   private func descriptionView(_ viewModel: ViewModel) -> some View {
     HStack(spacing: 10) {
-      Image(.kakaoLogo)
-        .resizable()
-        .scaledToFit()
-        .frame(minWidth: 20, maxWidth: 20)
       Text(viewModel.press)
         .font(.NF.text_headline)
       Text("·")
@@ -62,6 +58,7 @@ struct NewsCell: View {
 #Preview {
   NewsCell(
     viewModel: NewsViewModel(
+      id: 1,
       title: "고양이가 그렇게 귀엽다며... 사료를 1년치 주문... 충격",
       press: "카카오또-끄",
       createdDate: .init(timeIntervalSinceNow: -60*60)

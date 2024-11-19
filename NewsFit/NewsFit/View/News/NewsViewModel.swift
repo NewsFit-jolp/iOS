@@ -30,6 +30,7 @@ final class NewsViewModels: ObservableObject {
 }
 
 struct NewsViewModel: ViewModel {
+  let id: Int
   let title: String
   let press: String
   var date: String {
@@ -42,9 +43,17 @@ struct NewsViewModel: ViewModel {
   
   init(news: News) {
     let imageURL = news.thumbnail != nil ? URL(string: news.thumbnail!) : nil
-    self.init(title: news.title, press: news.press, imageURL: imageURL, pressImageURL: nil, createdDate: news.publishedDate)
+    self.init(
+      id: news.articleID,
+      title: news.title,
+      press: news.press,
+      imageURL: imageURL,
+      pressImageURL: nil,
+      createdDate: news.publishedDate
+    )
   }
-  init(title: String, press: String, imageURL: URL? = nil, pressImageURL: URL? = nil, createdDate: Date) {
+  init(id: Int, title: String, press: String, imageURL: URL? = nil, pressImageURL: URL? = nil, createdDate: Date) {
+    self.id = id
     self.title = title
     self.press = press
     self.imageURL = imageURL
