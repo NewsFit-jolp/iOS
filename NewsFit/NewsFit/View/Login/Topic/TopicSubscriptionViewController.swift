@@ -1,17 +1,7 @@
 import UIKit
+import Combine
 
 final class TopicSubscriptionViewController: UIViewController {
-  private var viewModels: [TopicSubscriptionCellViewModel] = [
-    .init(icon: "🏛️", name: "정치"),
-    .init(icon: "💰", name: "경제"),
-    .init(icon: "👥", name: "사회"),
-    .init(icon: "🏠", name: "생활/문화"),
-    .init(icon: "🌏", name: "세계"),
-    .init(icon: "💻", name: "기술/IT"),
-    .init(icon: "🎤", name: "연예"),
-    .init(icon: "⚽", name: "스포츠"),
-  ]
-  
   private let titleView: UILabel = {
     let label = UILabel()
     label.text = "관심있는 뉴스 주제를\n선택해주세요."
@@ -43,6 +33,11 @@ final class TopicSubscriptionViewController: UIViewController {
     image: nil,
     backgroundColor: .nfButtonBackgroundBlackDisabled
   )
+
+  private var viewModel = TopicSubscriptionViewModel()
+  private var cancellables: Set<AnyCancellable> = []
+    
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .white
@@ -50,6 +45,7 @@ final class TopicSubscriptionViewController: UIViewController {
     configureHirachy()
     configureTopicCollectionView()
     addAction()
+    bind()
   }
   private func configureHirachy() {
     view.addSubview(titleView)
@@ -94,17 +90,31 @@ final class TopicSubscriptionViewController: UIViewController {
   }
   private func addAction() {
     let action = UIAction { [weak self] _ in
+      self?.viewModel.saveTopics()
       guard let navigationController = self?.navigationController as? ProgressNavigationController else { return }
       navigationController.pushViewController(PressSubscriptionViewController(), animated: true)
       navigationController.setProgress(4/5)
     }
     confirmButton.addAction(action, for: .touchUpInside)
   }
+  private func bind() {
+    viewModel.objectWillChange
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] in
+        guard let self else { return }
+        constraintLabel.isHidden = viewModel.isValid()
+        confirmButton.backgroundColor = viewModel.isValid()
+        ? .nfButtonBackgroundBlack
+        : .nfButtonBackgroundBlackDisabled
+        confirmButton.isEnabled = viewModel.isValid()
+      }
+      .store(in: &cancellables)
+  }
 }
 
 extension TopicSubscriptionViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return viewModels.count
+    return viewModel.topics.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -113,8 +123,8 @@ extension TopicSubscriptionViewController: UICollectionViewDataSource {
       for: indexPath
     ) as? TopicSubscriptionCell else { return UICollectionViewCell() }
     
-    let viewModel = viewModels[indexPath.row]
-    cell.configrueUI(cellModel: viewModel)
+    let topic = viewModel.topics[indexPath.row]
+    cell.configrueUI(cellModel: topic)
     
     return cell
   }
@@ -122,7 +132,7 @@ extension TopicSubscriptionViewController: UICollectionViewDataSource {
 
 extension TopicSubscriptionViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    viewModels[indexPath.row].isPressed.toggle()
+    viewModel.topics[indexPath.row].isPressed.toggle()
     collectionView.reloadItems(at: [indexPath])
   }
 }
@@ -184,10 +194,4 @@ fileprivate final class TopicSubscriptionCell: UICollectionViewCell {
       make.bottom.equalToSuperview().offset(-15)
     }
   }
-}
-
-struct TopicSubscriptionCellViewModel {
-  var isPressed: Bool = false
-  let icon: String
-  let name: String
 }

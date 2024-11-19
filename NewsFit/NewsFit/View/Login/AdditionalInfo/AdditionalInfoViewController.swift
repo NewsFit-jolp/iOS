@@ -103,6 +103,7 @@ final class AdditionalInfoViewController: UIViewController {
     yearTextField.addAction(birthAction, for: .editingChanged)
     
     let confirmAction = UIAction { [weak self] _ in
+      self?.viewModel.saveInfo()
       guard let navigationController = self?.navigationController as? ProgressNavigationController else { return }
       navigationController.pushViewController(TopicSubscriptionViewController(), animated: true)
       navigationController.setProgress(3/5)
