@@ -45,7 +45,7 @@ final class AdditionalInfoViewController: UIViewController {
   private func configureHirachy() {
     view.addSubview(titleView)
     titleView.snp.makeConstraints { make in
-      make.top.equalToSuperview().offset(36)
+      make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(36)
       make.leading.equalToSuperview().offset(30)
       make.trailing.equalToSuperview().offset(-30)
     }
@@ -89,9 +89,10 @@ final class AdditionalInfoViewController: UIViewController {
       }
       button.addAction(action, for: .touchUpInside)
     }
-    
     let confirmAction = UIAction { [weak self] _ in
-      self?.present(TopicSubscriptionViewController(), animated: true)
+      guard let navigationController = self?.navigationController as? ProgressNavigationController else { return }
+      navigationController.pushViewController(TopicSubscriptionViewController(), animated: true)
+      navigationController.setProgress(3/5)
     }
     confirmButton.addAction(confirmAction, for: .touchUpInside)
   }

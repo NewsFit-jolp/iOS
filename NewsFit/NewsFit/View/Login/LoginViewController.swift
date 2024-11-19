@@ -77,6 +77,81 @@ final class LoginViewController: UIViewController {
   }
   private func presentRegister() {
 //    navigationController?.pushViewController(DefaultInfoViewController(), animated: true)
-    present(DefaultInfoViewController(), animated: true)
+    let vc = ProgressNavigationController(rootViewController: DefaultInfoViewController())
+    vc.modalPresentationStyle = .fullScreen
+    vc.setProgress(1/5)
+    present(vc, animated: true)
+  }
+}
+
+// MARK: - ProgressNavBar
+final class ProgressNavigationController: UINavigationController {
+  // MARK: - Property
+  private let progressBar = {
+    let progressBar = UIProgressView()
+    progressBar.progressTintColor = .nfGreen
+    progressBar.trackTintColor = .nfBorderDefault
+    progressBar.progress = 0.0
+    progressBar.layer.cornerRadius = 6
+    
+    return progressBar
+  }()
+  private let backButton = {
+    let button = UIButton()
+    button.setImage(UIImage(resource: .nfBackButton), for: .normal)
+    
+    return button
+  }()
+  var customSafeAreaInsets: UIEdgeInsets = .zero
+  
+  // MARK: - LifeCycle
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    setup()
+    configureHirachy()
+    configureLayout()
+    configureAction()
+    configureSafeArea()
+  }
+  
+  // MARK: - Helper
+  func setProgress(_ progress: Float) {
+    progressBar.setProgress(progress, animated: true)
+  }
+  private func setup() {
+    navigationBar.isHidden = true
+  }
+  private func configureHirachy() {
+    view.addSubview(progressBar)
+    view.addSubview(backButton)
+  }
+  private func configureLayout() {
+    progressBar.snp.makeConstraints { make in
+      make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+      make.centerX.equalToSuperview()
+      make.width.equalTo(220)
+      make.height.equalTo(12)
+    }
+    backButton.snp.makeConstraints { make in
+      make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+      make.leading.equalToSuperview().offset(15)
+    }
+  }
+  private func configureAction() {
+    let backAction = UIAction { [weak self] _ in
+      self?.progressBar.setProgress((self?.progressBar.progress ?? 0) - 1/5, animated: true)
+      self?.popViewController(animated: true)
+    }
+    backButton.addAction(backAction, for: .touchUpInside)
+  }
+  private func configureSafeArea() {
+    let safeArea = view.safeAreaLayoutGuide.layoutFrame
+    customSafeAreaInsets = .init(top: safeArea.height + 100, left: 0, bottom: 0, right: 0)
+  }
+}
+
+extension ProgressNavigationController {
+  func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+    viewController.additionalSafeAreaInsets = customSafeAreaInsets
   }
 }
