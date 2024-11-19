@@ -53,7 +53,7 @@ struct HTTPRequestBuilder {
   // MARK: - Method
   func build() -> URLRequest {
     var components: URLComponents = URLComponents()
-    let queryItems: [URLQueryItem] = parameters?.map(URLQueryItem.init) ?? []
+    let queryItems: [URLQueryItem]? = parameters?.map(URLQueryItem.init)
     
     components.host = baseURL
     components.scheme = scheme
