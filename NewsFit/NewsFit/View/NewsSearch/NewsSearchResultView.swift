@@ -8,7 +8,7 @@ struct NewsSearchResultView: View {
           .font(.NF.title_large)
           .padding(.leading)
         VStack {
-          ForEach(0..<10) { index in
+          ForEach(0..<2) { index in
             VStack(alignment: .leading) {
               NewsCell(viewModel: NewsViewModel(news: News(articleID: -1, title: "", headLine: "", press: "", category: "", thumbnail: "", publishedDate: .now)))
                 .padding()

@@ -48,6 +48,19 @@ final class AdditionalInfoViewController: UIViewController {
     view.endEditing(true)
   }
   
+  func setButtonComplete() {
+    let attributedTitle = NSAttributedString(
+      string: "완료",
+      attributes: [.foregroundColor : UIColor.white, .font : UIFont.NF.button_default]
+    )
+    confirmButton.setAttributedTitle(attributedTitle, for: .normal)
+    
+    let action = UIAction { [weak self] _ in
+      self?.dismiss(animated: true)
+    }
+    confirmButton.addAction(action, for: .touchUpInside)
+  }
+  
   private func configureHirachy() {
     view.addSubview(titleView)
     titleView.snp.makeConstraints { make in

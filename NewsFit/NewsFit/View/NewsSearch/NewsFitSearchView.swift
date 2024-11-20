@@ -2,6 +2,9 @@ import SwiftUI
 
 struct NewsFitSearchView: View {
   @State private var text: String = ""
+  @State private var categories: [String] = []
+  private var newsUseCase: NewsUseCaseType = NewsUseCase(repository: NewsRepository())
+  
   private var isSearchMode: Bool {
     !text.isEmpty
   }
@@ -16,18 +19,28 @@ struct NewsFitSearchView: View {
         categorizedNewsView()
       }
     }
+    .onAppear {
+      fetchCategories()
+    }
   }
   @ViewBuilder
   private func categorizedNewsView() -> some View {
     ScrollView {
       VStack(alignment: .leading, spacing: 20) {
-        ForEach(0..<10) { index in
-          CategorizedNewsView()
+        ForEach(Array(zip(categories.indices, categories)), id: \.0) { index, category in
+          CategorizedNewsView(category: category)
             .frame(height: 200)
             .padding(.horizontal)
         }
       }
       .padding(.top)
+    }
+  }
+  private func fetchCategories() {
+    Task {
+      if case let .success(categories) = await UserService.shared.fetchUserCategories() {
+        self.categories = categories
+      }
     }
   }
 }

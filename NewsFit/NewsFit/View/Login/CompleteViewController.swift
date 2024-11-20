@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 final class CompleteViewController: UIViewController {
   private let checkMarkImageView: UIImageView = {
@@ -62,10 +63,34 @@ final class CompleteViewController: UIViewController {
   }
   private func addAction() {
     let action = UIAction { [weak self] _ in
-      let vc = NewsFitHomeViewController()
-      let navVC = NewsFitHomeNavigationController(rootViewController: vc)
+      let homeViewController = NewsFitHomeNavigationController(rootViewController: NewsFitHomeViewController())
+      let searchViewController = UIHostingController(rootView: NewsFitSearchView())
+      let myPageViewController = NewsFitMyPageViewController()
+      let viewControllers: [UIViewController & MainTabViewControllerConfigurable]
+      = [ homeViewController, searchViewController, myPageViewController ]
+      
+      let rootViewController = NewsFitMainTabViewController()
+      rootViewController.setViewControllers(viewControllers)
+      rootViewController.modalPresentationStyle = .fullScreen
       self?.dismiss(animated: true, completion: nil)
+      UIApplication.shared.firstKeyWindow?.rootViewController?.present(rootViewController, animated: true, completion: nil)
     }
     confirmButton.addAction(action, for: .touchUpInside)
   }
+}
+extension UIApplication {
+    var firstKeyWindow: UIWindow? {
+        // 1
+        let windowScenes = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+        // 2
+        let activeScene = windowScenes
+            .filter { $0.activationState == .foregroundActive }
+        // 3
+        let firstActiveScene = activeScene.first
+        // 4
+        let keyWindow = firstActiveScene?.keyWindow
+        
+        return keyWindow
+    }
 }

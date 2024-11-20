@@ -18,12 +18,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     window = UIWindow(windowScene: scene)
     let homeViewController = NewsFitHomeNavigationController(rootViewController: NewsFitHomeViewController())
     let searchViewController = UIHostingController(rootView: NewsFitSearchView())
+    let myPageViewController = NewsFitMyPageViewController()
     let viewControllers: [UIViewController & MainTabViewControllerConfigurable]
-    = [ homeViewController, searchViewController ]
+    = [ homeViewController, searchViewController, myPageViewController ]
     
     let rootViewController = NewsFitMainTabViewController()
     rootViewController.setViewControllers(viewControllers)
-    window?.rootViewController = rootViewController
+//    window?.rootViewController = rootViewController
+    window?.rootViewController = LoginViewController()
 //    window?.rootViewController?.present(LoginViewController(), animated: true)
     window?.makeKeyAndVisible()
   }

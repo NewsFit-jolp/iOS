@@ -15,7 +15,7 @@ struct RecentlySearchedView: View {
       }.padding(.bottom, 10)
       ScrollView(.horizontal) {
         HStack {
-          ForEach(0..<10) { index in
+          ForEach(0..<0) { index in
             RecentlySerchedCell()
           }
         }
@@ -30,7 +30,7 @@ struct RecentlySearchedView: View {
 fileprivate struct RecentlySerchedCell: View {
   var body: some View {
     HStack(alignment: .center) {
-      Text("사라져버려")
+      Text("검색기록")
         .font(.NF.button_small)
       Spacer()
       Button(action: {}) {
