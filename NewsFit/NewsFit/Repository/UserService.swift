@@ -86,4 +86,32 @@ final class UserService {
     
     return .success(preferredPress)
   }
+  func fetchUserTopics() async -> Result<[String], Error> {
+    let baseURL = Bundle.baseURL
+    let path = "/member/categories"
+    let token = Bundle.token
+    
+    let request = HTTPRequestBuilder(baseURL: baseURL, path: path, method: .get)
+      .update(headers: ["Authorization": "Bearer \(token)",
+                        "Content-Type": "application/json"])
+      .build()
+    
+    guard let data = try? await HTTPServiceProvider().fetchData(for: request).get() else {
+      return .failure(UserServiceError.invalidData)
+    }
+    
+    guard let decoded = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+      return .failure(UserServiceError.invalidJSON)
+    }
+    
+    guard let result = decoded["result"] as? [String: [String]] else {
+      return .failure(UserServiceError.invalidJSON)
+    }
+    
+    guard let preferredTopics = result["preferredCategories"] else {
+      return .failure(UserServiceError.invalidJSON)
+    }
+    
+    return .success(preferredTopics)
+  }
 }
