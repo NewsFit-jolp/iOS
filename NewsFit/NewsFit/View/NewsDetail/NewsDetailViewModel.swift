@@ -14,14 +14,14 @@ final class NewsDetailViewModel: ObservableObject {
   
   init() {
     newsDetail = NewsDetail(
-      title: "고양이님이 츄르를 주문하셔... 고양이가 츄르를 주문하셔...",
-      content: "고양이님이 츄르를 집사에게 주문하여 화제가 되었습니다. 기존에는 고양이님이 무전으로 취식하셨다면, 이번에는 정당한 방식으로 돈을 내고 주문을 하였습니다. 아아... 은혜로워라... 떠오르는 두 논당자 자꾸 가슴이 시려서 잊혀지길바랬어 꿈이라면 이제 깨어났으면 제발 정말네가 나의 운명인걸까.. 넌 falling you!",
+      title: "NULL",
+      content: "NULL",
       images: ["https://imgnews.pstatic.net/image/421/2024/11/13/0007903230_001_20241113074308886.jpg?type=w800"],
       press: "루루루",
-      category: "이게맞아?",
+      category: "NULL",
       articleSource: "https://www.naver.com",
       comment: [
-        .init(id: 1, content: "EEEE", author: "EFJEI", createdAt: .now + 10, isDeletable: false)
+        .init(id: 1, content: "NULL", author: "NULL", createdAt: .now + 10, isDeletable: false)
       ],
       likeCount: 100,
       likedArticle: true

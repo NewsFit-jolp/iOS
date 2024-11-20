@@ -2,6 +2,7 @@ import Foundation
 
 protocol NewsRepositoryType {
   func fetchNewsList(with queryParameters: [String: String]?) async -> Result<[News], Error>
+  func fetchHeadLineList() async -> Result<[News], Error>
   func fetchNewsDetail(id: Int) async -> Result<NewsDetail, Error>
   func postComment(id: Int, content: String) async -> Result<Comment, Error>
   func deleteComment(newsID: Int, commentID: Int) async -> Result<Void, Error>
@@ -56,6 +57,25 @@ struct NewsRepository: NewsRepositoryType {
       .update(parameters: queryParameters)
       .update(headers: ["Authorization": "Bearer \(token)"])
       .build()
+    guard let data = try? await HTTPServiceProvider().fetchData(for: request).get() else {
+      return .failure(RepositoryError.invalidData)
+    }
+    
+    guard let decoded = try? decoder.decode(NetworkResponseDTO<[NewsResponseDTO]>.self, from: data) else {
+      return .failure(RepositoryError.invalidJSON)
+    }
+    
+    return .success(NewsMapper.map(decoded.result))
+  }
+  func fetchHeadLineList() async -> Result<[News], Error> {
+    let baseURL = Bundle.baseURL
+    let path = "/articles/headLine"
+    let token = Bundle.token
+    
+    let request = HTTPRequestBuilder(baseURL: baseURL, path: path, method: .get)
+      .update(headers: ["Authorization": "Bearer \(token)"])
+      .build()
+    
     guard let data = try? await HTTPServiceProvider().fetchData(for: request).get() else {
       return .failure(RepositoryError.invalidData)
     }

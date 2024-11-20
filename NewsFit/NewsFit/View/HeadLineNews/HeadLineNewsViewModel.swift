@@ -1,5 +1,7 @@
 import Foundation
 
+
+
 fileprivate typealias ViewModel = NewsPresentable & NewsDescriptionPresentable
 
 final class HeadLineNewsViewModels: ObservableObject {
@@ -9,11 +11,11 @@ final class HeadLineNewsViewModels: ObservableObject {
   //MARK: - Properties
   @Published
   private var viewModels: [ViewModel] = []
-  private var useCase: NewsUseCaseType
+  private var useCase: HeadLineUseCaseType
   var count: Int { viewModels.count }
   
   //MARK: - Initializers
-  init(useCase: NewsUseCaseType) {
+  init(useCase: HeadLineUseCaseType) {
     self.useCase = useCase
   }
   
@@ -23,7 +25,7 @@ final class HeadLineNewsViewModels: ObservableObject {
   }
   func fetch() {
     Task {
-      guard let result = await useCase.fetchNewsList(category: "", currentNewsID: nil, size: 10) else { return }
+      guard let result = await useCase.fetchHeadLine() else { return }
       viewModels.append(contentsOf: result.map{ HeadLineNewsViewModel(news: $0) })
     }
   }
