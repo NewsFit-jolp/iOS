@@ -62,6 +62,8 @@ final class CompleteViewController: UIViewController {
   }
   private func addAction() {
     let action = UIAction { [weak self] _ in
+      let vc = NewsFitHomeViewController()
+      let navVC = NewsFitHomeNavigationController(rootViewController: vc)
       self?.dismiss(animated: true, completion: nil)
     }
     confirmButton.addAction(action, for: .touchUpInside)

@@ -49,6 +49,7 @@ final class PressSubscriptionViewController: UIViewController {
     configurePressTableView()
     addAction()
     bind()
+    fetchPressList()
   }
   
   // MARK: - Helper
@@ -111,16 +112,14 @@ final class PressSubscriptionViewController: UIViewController {
       }
       .store(in: &cancellables)
   }
+  private func fetchPressList() {
+    viewModel.fetchPressList()
+  }
 }
 
 // MARK: - UITableViewDelegate
 extension PressSubscriptionViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let cell = tableView.cellForRow(at: indexPath) as! PressSubscriptionCell
-    UIView.animate(withDuration: 0.3) {
-      cell.subscribeButton.isSelected.toggle()
-      cell.subscribeButton.backgroundColor = cell.subscribeButton.isSelected ? .nfPurple : .clear
-    }
     viewModel.pressList[indexPath.row].isSelected.toggle()
   }
 }
@@ -205,6 +204,7 @@ final class PressSubscriptionCell: UITableViewCell {
   func configureUI(with pressSubscription: PressSubscription) {
     pressLabel.text = pressSubscription.title
     subscribeButton.isSelected = pressSubscription.isSelected
+    subscribeButton.backgroundColor = pressSubscription.isSelected ? .nfPurple : .clear
   }
   private func configrueHirachy() {
     selectionStyle = .none

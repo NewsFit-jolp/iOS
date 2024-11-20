@@ -11,6 +11,9 @@ final class DefaultInfoViewModel: ObservableObject {
     Task {
       let userInfo = await UserService.shared.fetchInformation()
       guard case .success(let userInfo) = userInfo else { return }
+      let formatter = DateFormatter()
+      formatter.dateFormat = "yyyy/MM/dd"
+      let birth = formatter.string(from: userInfo.birth ?? Date())
       
       _ = await UserService.shared.updateInformation(
         user: .init(
@@ -18,7 +21,7 @@ final class DefaultInfoViewModel: ObservableObject {
           email: userInfo.email,
           phone: phoneNumber,
           gender: userInfo.gender,
-          birth: userInfo.birth
+          birth: birth
         )
       )
     }

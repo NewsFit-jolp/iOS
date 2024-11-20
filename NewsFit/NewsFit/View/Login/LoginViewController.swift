@@ -74,16 +74,17 @@ final class LoginViewController: UIViewController {
   private func configureButtonAction() {
     naverLoginButton.addAction(UIAction { [weak self] _ in
       guard let self else { return }
-      let url = LoginService.shared.loginWithNaverOAuthURL()
-      let session = ASWebAuthenticationSession(url: url, callbackURLScheme: "NewsFit") { [weak self] callbackURL, error in
-        guard let code = callbackURL?.absoluteString.components(separatedBy: "code=").last else { return }
-        Task {
-          try await LoginService.shared.requestloginWithNaver(with: code)
-          self?.presentRegister()
-        }
-      }
-      session.presentationContextProvider = self
-      session.start()
+//      let url = LoginService.shared.loginWithNaverOAuthURL()
+//      let session = ASWebAuthenticationSession(url: url, callbackURLScheme: "NewsFit") { [weak self] callbackURL, error in
+//        guard let code = callbackURL?.absoluteString.components(separatedBy: "code=").last else { return }
+//        Task {
+//          try await LoginService.shared.requestloginWithNaver(with: code)
+//          self?.presentRegister()
+//        }
+//      }
+//      session.presentationContextProvider = self
+//      session.start()
+      self.presentRegister()
     }, for: .touchUpInside)
     kakaoTalkLoginButton.addAction(UIAction { [weak self] _ in
       guard let self else { return }

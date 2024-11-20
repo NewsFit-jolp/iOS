@@ -46,6 +46,7 @@ final class CategorySubscriptionViewController: UIViewController {
     configureCategoryCollectionView()
     addAction()
     bind()
+    fetchCategories()
   }
   private func configureHirachy() {
     view.addSubview(titleView)
@@ -111,6 +112,9 @@ final class CategorySubscriptionViewController: UIViewController {
         confirmButton.isEnabled = viewModel.isValid()
       }
       .store(in: &cancellables)
+  }
+  private func fetchCategories() {
+    viewModel.fetchCategories()
   }
 }
 
