@@ -33,7 +33,7 @@ final class CategorySubscriptionViewController: UIViewController {
     image: nil,
     backgroundColor: .nfButtonBackgroundBlackDisabled
   )
-
+  private var categoryCollectionView: UICollectionView?
   private var viewModel = CategorySubscriptionViewModel()
   private var cancellables: Set<AnyCancellable> = []
     
@@ -74,6 +74,7 @@ final class CategorySubscriptionViewController: UIViewController {
     layout.minimumInteritemSpacing = 10
     layout.minimumLineSpacing = 10
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+    categoryCollectionView = collectionView
     collectionView.register(
       CategorySubscriptionCell.self,
       forCellWithReuseIdentifier: CategorySubscriptionCell.identifier
@@ -102,6 +103,7 @@ final class CategorySubscriptionViewController: UIViewController {
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
         guard let self else { return }
+        categoryCollectionView?.reloadData()
         constraintLabel.isHidden = viewModel.isValid()
         confirmButton.backgroundColor = viewModel.isValid()
         ? .nfButtonBackgroundBlack

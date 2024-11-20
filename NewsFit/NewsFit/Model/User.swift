@@ -14,5 +14,5 @@ struct UserPostDTO: Encodable {
   var email: String
   var phone: String
   var gender: String?
-  var birth: Date?
+  var birth: String?
 }

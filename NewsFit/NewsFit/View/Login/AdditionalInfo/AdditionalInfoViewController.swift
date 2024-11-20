@@ -42,6 +42,7 @@ final class AdditionalInfoViewController: UIViewController {
     configureHirachy()
     addButtonAction()
     bind()
+    fetchUserInfo()
   }
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     view.endEditing(true)
@@ -115,11 +116,18 @@ final class AdditionalInfoViewController: UIViewController {
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
         guard let self else { return }
+        genderCheckButtons.enumerated().forEach { idx, button in
+          button.isSelected = self.viewModel.genderIndex == idx
+        }
+        yearTextField.text = self.viewModel.birthDay
         confirmButton.backgroundColor = viewModel.isValid()
         ? .nfButtonBackgroundBlack
         : .nfButtonBackgroundBlackDisabled
         confirmButton.isEnabled = viewModel.isValid()
       }
       .store(in: &cancellables)
+  }
+  private func fetchUserInfo() {
+    viewModel.fetchUserInfo()
   }
 }

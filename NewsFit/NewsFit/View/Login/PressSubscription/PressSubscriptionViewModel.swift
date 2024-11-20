@@ -91,12 +91,24 @@ final class PressSubscriptionViewModel: ObservableObject {
     .init(title: "AP"),
     .init(title: "EPA")
   ]
-  
-  func fetchPressList() {
-    
-  }
   func savePressList() {
-    
+    Task {
+      let selectedPress = pressList.filter{ $0.isSelected }.map{ $0.title }
+      _ = await UserService.shared.updatePress(press: selectedPress)
+    }
+  }
+  func fetchPressList() {
+    Task {
+      let result = await UserService.shared.fetchUserPress()
+      guard case let .success(selectedPress) = result else { return }
+      for press in selectedPress {
+        for idx in 0..<pressList.count {
+          if pressList[idx].title == press {
+            pressList[idx].isSelected = true
+          }
+        }
+      }
+    }
   }
   func isValid() -> Bool {
     isPressSelected()

@@ -15,9 +15,27 @@ final class CategorySubscriptionViewModel: ObservableObject {
   
   func saveCategories() {
     // Save selected topics
+    Task {
+      let selectedCategories = categories.filter { $0.isPressed }.map { $0.name }
+      _ = await UserService.shared.updateCategories(categories: selectedCategories)
+    }
   }
   func isValid() -> Bool {
     isSelectedMoreThanThree()
+  }
+  func fetchCategories() {
+    Task {
+      let selectedCategories = await UserService.shared.fetchUserCategories()
+      guard case let .success(selectedCategories) = selectedCategories else { return }
+      for category in selectedCategories {
+        for index in 0..<categories.count {
+          if categories[index].name == category {
+            categories[index].isPressed = true
+            break
+          }
+        }
+      }
+    }
   }
   private func isSelectedMoreThanThree() -> Bool {
     categories.filter { $0.isPressed }.count >= 3

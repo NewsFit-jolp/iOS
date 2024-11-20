@@ -35,6 +35,7 @@ final class PressSubscriptionViewController: UIViewController {
     backgroundColor: .nfButtonBackgroundBlackDisabled
   )
   
+  private var pressTableView: UITableView?
   private let viewModel = PressSubscriptionViewModel()
   private var cancellables: Set<AnyCancellable> = []
   
@@ -78,6 +79,7 @@ final class PressSubscriptionViewController: UIViewController {
     tableView.delegate = self
     tableView.dataSource = self
     tableView.estimatedRowHeight = 50
+    pressTableView = tableView
     view.addSubview(tableView)
     tableView.snp.makeConstraints { make in
       make.top.equalTo(constraintLabel.snp.bottom).offset(40)
@@ -99,7 +101,8 @@ final class PressSubscriptionViewController: UIViewController {
     viewModel.objectWillChange
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
-        guard let self = self else { return }
+        guard let self else { return }
+        self.pressTableView?.reloadData()
         self.constraintLabel.isHidden = self.viewModel.isValid()
         self.confirmButton.backgroundColor = self.viewModel.isValid()
           ? .nfButtonBackgroundBlack
@@ -114,7 +117,7 @@ final class PressSubscriptionViewController: UIViewController {
 extension PressSubscriptionViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let cell = tableView.cellForRow(at: indexPath) as! PressSubscriptionCell
-    UIView.animate(withDuration: 0.3) { [weak self] in
+    UIView.animate(withDuration: 0.3) {
       cell.subscribeButton.isSelected.toggle()
       cell.subscribeButton.backgroundColor = cell.subscribeButton.isSelected ? .nfPurple : .clear
     }
