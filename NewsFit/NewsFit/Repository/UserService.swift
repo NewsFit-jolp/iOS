@@ -137,4 +137,31 @@ final class UserService {
     
     return .success(decoded.result)
   }
+  func updatePress(press: [String]) async -> Result<[String], Error> {
+    let baseURL = Bundle.baseURL
+    let path = "/member/press"
+    let token = Bundle.token
+    
+    let body = try? JSONEncoder().encode(["preferredPress": press])
+    
+    let request = HTTPRequestBuilder(baseURL: baseURL, path: path, method: .put)
+      .update(headers: ["Authorization": "Bearer \(token)",
+                        "Content-Type": "application/json"])
+      .update(body: body)
+      .build()
+    
+    guard let data = try? await HTTPServiceProvider().fetchData(for: request).get() else {
+      return .failure(UserServiceError.invalidData)
+    }
+    
+    guard let decoded = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+      return .failure(UserServiceError.invalidJSON)
+    }
+    
+    guard let result = decoded["result"] as? [String] else {
+      return .failure(UserServiceError.invalidJSON)
+    }
+    
+    return .success(result)
+  }
 }
