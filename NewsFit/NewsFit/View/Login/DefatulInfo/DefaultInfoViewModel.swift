@@ -8,11 +8,25 @@ final class DefaultInfoViewModel: ObservableObject {
   
   func saveInfo() {
     // Save user info
+    Task {
+      let userInfo = await UserService.shared.fetchInformation()
+      guard case .success(let userInfo) = userInfo else { return }
+      
+      _ = await UserService.shared.updateInformation(
+        user: .init(
+          name: name,
+          email: userInfo.email,
+          phone: phoneNumber,
+          gender: userInfo.gender,
+          birth: userInfo.birth
+        )
+      )
+    }
   }
   func isValid() -> Bool {
     return !name.isEmpty && validateEmail() && validatePhoneNumber()
   }
-  private func fetchInformation() {
+  func fetchInformation() {
     // Fetch user information
     Task { [weak self] in
       let result = await UserService.shared.fetchInformation()

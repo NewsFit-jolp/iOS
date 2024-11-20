@@ -34,18 +34,23 @@ final class DefaultInfoViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     confirmButton.isEnabled = false
+    emailTextField.isUserInteractionEnabled = false
     
     view.backgroundColor = .white
     configureHirachy()
     addSubtitles()
     addAction()
     bind()
+    fetchInformation()
   }
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     view.endEditing(true)
   }
   
   // MARK: - Method
+  private func fetchInformation() {
+    viewModel.fetchInformation()
+  }
   private func configureHirachy() {
     view.addSubview(titleView)
     titleView.snp.makeConstraints { make in
