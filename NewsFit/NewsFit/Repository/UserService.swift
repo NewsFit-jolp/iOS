@@ -114,4 +114,27 @@ final class UserService {
     
     return .success(preferredTopics)
   }
+  func updateInformation(user: UserPostDTO) async -> Result<User, Error> {
+    let baseURL = Bundle.baseURL
+    let path = "/member/info"
+    let token = Bundle.token
+    
+    let body = try? JSONEncoder().encode(user)
+    
+    let request = HTTPRequestBuilder(baseURL: baseURL, path: path, method: .put)
+      .update(headers: ["Authorization": "Bearer \(token)",
+                        "Content-Type": "application/json"])
+      .update(body: body)
+      .build()
+    
+    guard let data = try? await HTTPServiceProvider().fetchData(for: request).get() else {
+      return .failure(UserServiceError.invalidData)
+    }
+    
+    guard let decoded = try? decoder.decode(NetworkResponseDTO<User>.self, from: data) else {
+      return .failure(UserServiceError.invalidJSON)
+    }
+    
+    return .success(decoded.result)
+  }
 }
