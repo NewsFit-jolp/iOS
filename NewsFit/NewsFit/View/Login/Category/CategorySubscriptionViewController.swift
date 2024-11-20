@@ -1,7 +1,7 @@
 import UIKit
 import Combine
 
-final class TopicSubscriptionViewController: UIViewController {
+final class CategorySubscriptionViewController: UIViewController {
   private let titleView: UILabel = {
     let label = UILabel()
     label.text = "관심있는 뉴스 주제를\n선택해주세요."
@@ -34,7 +34,7 @@ final class TopicSubscriptionViewController: UIViewController {
     backgroundColor: .nfButtonBackgroundBlackDisabled
   )
 
-  private var viewModel = TopicSubscriptionViewModel()
+  private var viewModel = CategorySubscriptionViewModel()
   private var cancellables: Set<AnyCancellable> = []
     
   
@@ -43,7 +43,7 @@ final class TopicSubscriptionViewController: UIViewController {
     view.backgroundColor = .white
     
     configureHirachy()
-    configureTopicCollectionView()
+    configureCategoryCollectionView()
     addAction()
     bind()
   }
@@ -68,15 +68,15 @@ final class TopicSubscriptionViewController: UIViewController {
       make.centerX.equalToSuperview()
     }
   }
-  private func configureTopicCollectionView() {
+  private func configureCategoryCollectionView() {
     let layout = UICollectionViewFlowLayout()
     layout.itemSize = CGSize(width: 100, height: 100)
     layout.minimumInteritemSpacing = 10
     layout.minimumLineSpacing = 10
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     collectionView.register(
-      TopicSubscriptionCell.self,
-      forCellWithReuseIdentifier: TopicSubscriptionCell.identifier
+      CategorySubscriptionCell.self,
+      forCellWithReuseIdentifier: CategorySubscriptionCell.identifier
     )
     collectionView.delegate = self
     collectionView.dataSource = self
@@ -90,7 +90,7 @@ final class TopicSubscriptionViewController: UIViewController {
   }
   private func addAction() {
     let action = UIAction { [weak self] _ in
-      self?.viewModel.saveTopics()
+      self?.viewModel.saveCategories()
       guard let navigationController = self?.navigationController as? ProgressNavigationController else { return }
       navigationController.pushViewController(PressSubscriptionViewController(), animated: true)
       navigationController.setProgress(4/5)
@@ -112,32 +112,32 @@ final class TopicSubscriptionViewController: UIViewController {
   }
 }
 
-extension TopicSubscriptionViewController: UICollectionViewDataSource {
+extension CategorySubscriptionViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return viewModel.topics.count
+    return viewModel.categories.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: TopicSubscriptionCell.identifier,
+      withReuseIdentifier: CategorySubscriptionCell.identifier,
       for: indexPath
-    ) as? TopicSubscriptionCell else { return UICollectionViewCell() }
+    ) as? CategorySubscriptionCell else { return UICollectionViewCell() }
     
-    let topic = viewModel.topics[indexPath.row]
-    cell.configrueUI(cellModel: topic)
+    let category = viewModel.categories[indexPath.row]
+    cell.configrueUI(cellModel: category)
     
     return cell
   }
 }
 
-extension TopicSubscriptionViewController: UICollectionViewDelegate {
+extension CategorySubscriptionViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    viewModel.topics[indexPath.row].isPressed.toggle()
+    viewModel.categories[indexPath.row].isPressed.toggle()
     collectionView.reloadItems(at: [indexPath])
   }
 }
 
-fileprivate final class TopicSubscriptionCell: UICollectionViewCell {
+fileprivate final class CategorySubscriptionCell: UICollectionViewCell {
   // MARK: - Property
   private let iconLabel: UILabel = {
     let label = UILabel()
@@ -149,7 +149,7 @@ fileprivate final class TopicSubscriptionCell: UICollectionViewCell {
     
     return label
   }()
-  private let topicLabel: UILabel = {
+  private let categoryLabel: UILabel = {
     let label = UILabel()
     label.text = "topic Title"
     label.font = .NF.text_bold
@@ -169,9 +169,9 @@ fileprivate final class TopicSubscriptionCell: UICollectionViewCell {
   }
   
   // MARK: - Method
-  func configrueUI(cellModel: TopicSubscriptionCellViewModel) {
+  func configrueUI(cellModel: CategorySubscriptionCellViewModel) {
     iconLabel.text = cellModel.icon
-    topicLabel.text = cellModel.name
+    categoryLabel.text = cellModel.name
     backgroundColor = cellModel.isPressed ? .nfBackgroundAccent : .white
     layer.borderColor = cellModel.isPressed ? UIColor.nfBorderPurple.cgColor : UIColor.nfBorderDefault.cgColor
   }
@@ -182,7 +182,7 @@ fileprivate final class TopicSubscriptionCell: UICollectionViewCell {
     layer.borderWidth = 2
     layer.borderColor = UIColor.nfBorderDefault.cgColor
     
-    let stackView = UIStackView(arrangedSubviews: [iconLabel, topicLabel])
+    let stackView = UIStackView(arrangedSubviews: [iconLabel, categoryLabel])
     stackView.axis = .vertical
     stackView.spacing = 16
     stackView.alignment = .center

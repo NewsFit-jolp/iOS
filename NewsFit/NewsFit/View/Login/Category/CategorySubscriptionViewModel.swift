@@ -1,8 +1,8 @@
 import Foundation
 
-final class TopicSubscriptionViewModel: ObservableObject {
+final class CategorySubscriptionViewModel: ObservableObject {
   @Published
-  var topics: [TopicSubscriptionCellViewModel] = [
+  var categories: [CategorySubscriptionCellViewModel] = [
     .init(icon: "🏛️", name: "정치"),
     .init(icon: "💰", name: "경제"),
     .init(icon: "👥", name: "사회"),
@@ -13,19 +13,19 @@ final class TopicSubscriptionViewModel: ObservableObject {
     .init(icon: "⚽", name: "스포츠"),
   ]
   
-  func saveTopics() {
+  func saveCategories() {
     // Save selected topics
   }
   func isValid() -> Bool {
     isSelectedMoreThanThree()
   }
   private func isSelectedMoreThanThree() -> Bool {
-    topics.filter { $0.isPressed }.count >= 3
+    categories.filter { $0.isPressed }.count >= 3
   }
 }
 
 
-struct TopicSubscriptionCellViewModel {
+struct CategorySubscriptionCellViewModel {
   var isPressed: Bool = false
   let icon: String
   let name: String

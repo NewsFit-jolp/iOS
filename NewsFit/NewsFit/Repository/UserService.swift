@@ -86,7 +86,7 @@ final class UserService {
     
     return .success(preferredPress)
   }
-  func fetchUserTopics() async -> Result<[String], Error> {
+  func fetchUserCategories() async -> Result<[String], Error> {
     let baseURL = Bundle.baseURL
     let path = "/member/categories"
     let token = Bundle.token
@@ -108,11 +108,11 @@ final class UserService {
       return .failure(UserServiceError.invalidJSON)
     }
     
-    guard let preferredTopics = result["preferredCategories"] else {
+    guard let preferredCategories = result["preferredCategories"] else {
       return .failure(UserServiceError.invalidJSON)
     }
     
-    return .success(preferredTopics)
+    return .success(preferredCategories)
   }
   func updateInformation(user: UserPostDTO) async -> Result<User, Error> {
     let baseURL = Bundle.baseURL
