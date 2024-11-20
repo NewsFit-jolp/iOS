@@ -21,10 +21,14 @@ final class NewsViewModels: ObservableObject {
   func viewModel(at index: Int) -> ViewModel {
     viewModels[index]
   }
-  func fetch(category: String, currentNewsID: Int?, size: Int) {
+  func fetch(category: String, currentNewsID: Int?, size: Int, isClear: Bool = false) {
     Task {
       guard let result = await useCase.fetchNewsList(category: category, currentNewsID: currentNewsID, size: size) else { return }
-      viewModels.append(contentsOf: result.map{ NewsViewModel(news: $0) })
+      if isClear {
+        viewModels = result.map{ NewsViewModel(news: $0) }
+      } else {
+        viewModels.append(contentsOf: result.map{ NewsViewModel(news: $0) })
+      }
     }
   }
 }

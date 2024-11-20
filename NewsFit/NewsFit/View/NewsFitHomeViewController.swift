@@ -16,8 +16,7 @@ final class NewsFitHomeViewController: UIViewController {
   HeadLineNewsViewModels(useCase: HeadLineUseCase(repository: NewsRepository()))
   private var newsViewModels: NewsViewModels =
   NewsViewModels(useCase: NewsUseCase(repository: NewsRepository()))
-  private var newsCategoryViewModels: NewsCategoryViewModels =
-  NewsCategoryViewModels(viewModels: [.init(value: "전체"), .init(value: "IT"), .init(value: "경제"), .init(value: "생활/문화"), .init(value: "세계")])
+  private var newsCategoryViewModels: NewsCategoryViewModels = NewsCategoryViewModels()
   private let headerText: [String] = ["헤드라인 뉴스", "구독한 언론사의 최신 뉴스"]
   private var cancelable: [AnyCancellable] = []
   @ObservedObject
@@ -31,8 +30,8 @@ final class NewsFitHomeViewController: UIViewController {
     super.viewDidLoad()
     
     setup()
-    newsViewModels.fetch(category: "", currentNewsID: nil, size: 10)
-    headLineViewModels.fetch()
+    fetchNewsCategory()
+    fetchHeadLine()
   }
   
   //MARK: - Helper
@@ -43,24 +42,32 @@ final class NewsFitHomeViewController: UIViewController {
     configureHirachy()
     configureDataSource()
   }
+  private func fetchHeadLine() {
+    headLineViewModels.fetch()
+  }
+  private func fetchNewsCategory() {
+    newsCategoryViewModels.fetch()
+  }
   private func configureBinding() {
-    
     newsCategoryViewModels.objectWillChange
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
         self?.categoryCollectionView.reloadData()
+        var currentCategory = self?.newsCategoryViewModels.selectedItem.value ?? ""
+        currentCategory = currentCategory == "전체" ? "" : currentCategory
+        self?.newsViewModels.fetch(category: currentCategory, currentNewsID: nil, size: 10, isClear: true)
       }
       .store(in: &cancelable)
     headLineViewModels.objectWillChange
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
-        self?.newsCollectionView.reloadData()
+        self?.newsCollectionView.reloadSections(.init(integer: 0))
       }
       .store(in: &cancelable)
     newsViewModels.objectWillChange
       .receive(on: DispatchQueue.main)
       .sink { [weak self] in
-        self?.newsCollectionView.reloadData()
+        self?.newsCollectionView.reloadSections(.init(integer: 1))
       }
       .store(in: &cancelable)
     currentNewsDetailViewModel.objectWillChange
@@ -240,6 +247,7 @@ extension NewsFitHomeViewController: UICollectionViewDelegate {
     if collectionView == categoryCollectionView {
       newsCategoryViewModels.select(at: indexPath.row)
     } else {
+      collectionView.deselectItem(at: indexPath, animated: true)
       let selectedNews = indexPath.section == 0
       ? headLineViewModels.viewModel(at: indexPath.row)
       : newsViewModels.viewModel(at: indexPath.row)
