@@ -1,4 +1,5 @@
 import SwiftUI
+import CachedAsyncImage
 
 struct NewsCell: View {
   //MARK: - Type
@@ -23,7 +24,7 @@ struct NewsCell: View {
   //MARK: - Helpers
   @ViewBuilder
   private func imageView() -> some View {
-    AsyncImage(url: viewModel.imageURL) { phase in
+    CachedAsyncImage(url: viewModel.imageURL) { phase in
       switch phase {
       case .success(let image):
         image

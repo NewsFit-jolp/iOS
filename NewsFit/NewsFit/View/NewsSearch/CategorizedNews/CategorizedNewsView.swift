@@ -1,7 +1,9 @@
 import SwiftUI
+import CachedAsyncImage
 
 struct CategorizedNewsView: View {
   @State var viewModel: CategorizedViewModel
+  @State var newsDetailViewModel = NewsDetailViewModel.init()
   @State private var isPresented = false
   
   var body: some View {
@@ -59,7 +61,7 @@ struct CategorizedNewsView: View {
       )
     )
     .background {
-      AsyncImage(url: URL(string: news.thumbnail ?? "")) { phase in
+      CachedAsyncImage(url: URL(string: news.thumbnail ?? "")) { phase in
         switch phase {
         case .success(let image):
           image
@@ -77,9 +79,11 @@ struct CategorizedNewsView: View {
     .clipped()
     .onTapGesture {
       isPresented.toggle()
+      print(isPresented, news)
+      newsDetailViewModel.newsID = news.articleID
     }
-    .sheet(isPresented: $isPresented) {
-      NewsDetailSheet(viewModel: .init())
+    .fullScreenCover(isPresented: $isPresented) {
+      NewsDetailSheet(viewModel: newsDetailViewModel)
     }
   }
   private func fetchNews() {

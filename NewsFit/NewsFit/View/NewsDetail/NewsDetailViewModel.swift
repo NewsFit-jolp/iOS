@@ -27,6 +27,10 @@ final class NewsDetailViewModel: ObservableObject {
       likedArticle: true
     )
   }
+  init (newsID: Int) {
+    self.newsID = newsID
+    fetchNewsDetail(fromID: newsID)
+  }
   private func fetchNewsDetail(fromID id: Int) {
     Task {
       let result = await NewsRepository().fetchNewsDetail(id: id)

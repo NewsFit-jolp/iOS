@@ -17,6 +17,7 @@
 		CEAD5D962C12ACA900930FB6 /* NewsFitNewsPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D912C12ACA900930FB6 /* NewsFitNewsPageObject.swift */; };
 		CEAD5D972C12ACA900930FB6 /* NewsSearchPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D922C12ACA900930FB6 /* NewsSearchPageObject.swift */; };
 		CEAD5D982C12ACA900930FB6 /* UserInformationSettingsPageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD5D932C12ACA900930FB6 /* UserInformationSettingsPageObject.swift */; };
+		CEB00F412CF6B7D5000AC23C /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = CEB00F402CF6B7D5000AC23C /* CachedAsyncImage */; };
 		CECB2E732CBF5DF50066B0A5 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CECB2E722CBF5DF50066B0A5 /* SnapKit */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +74,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CECB2E732CBF5DF50066B0A5 /* SnapKit in Frameworks */,
+				CEB00F412CF6B7D5000AC23C /* CachedAsyncImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +250,7 @@
 			mainGroup = CEAD5D482C0C7DBE00930FB6;
 			packageReferences = (
 				CEAD5D9D2C12F2E300930FB6 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				CEB00E982CF6B790000AC23C /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 			);
 			productRefGroup = CEAD5D522C0C7DBF00930FB6 /* Products */;
 			projectDirPath = "";
@@ -643,9 +646,22 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		CEB00E982CF6B790000AC23C /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CEB00F402CF6B7D5000AC23C /* CachedAsyncImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEB00E982CF6B790000AC23C /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
+			productName = CachedAsyncImage;
+		};
 		CECB2E722CBF5DF50066B0A5 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CEAD5D9D2C12F2E300930FB6 /* XCRemoteSwiftPackageReference "SnapKit" */;
