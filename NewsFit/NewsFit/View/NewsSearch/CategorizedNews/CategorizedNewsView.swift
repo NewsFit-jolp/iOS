@@ -88,13 +88,9 @@ struct CategorizedNewsView: View {
   }
   private func fetchNews() {
     Task {
-      let result = await NewsRepository().fetchNewsList(with: ["category": viewModel.category])
-      switch result {
-      case .success(let success):
-        viewModel.news = success
-      case .failure(let failure):
-        print("Error fetching news: \(failure)")
-      }
+      let usecase = NewsUseCase(repository: NewsRepository())
+      let result = await usecase.fetchRecommnedNewsList(category: viewModel.category, page: 1, pageSize: 15)
+      viewModel.news = result ?? []
     }
   }
 }

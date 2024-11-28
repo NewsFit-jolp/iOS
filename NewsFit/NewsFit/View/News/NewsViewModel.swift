@@ -31,6 +31,16 @@ final class NewsViewModels: ObservableObject {
       }
     }
   }
+  func fetchRecommendNews(category: String = "allCategory", page: Int, pageSize: Int, isClear: Bool = false) {
+    Task {
+      guard let result = await useCase.fetchRecommnedNewsList(category: category, page: page, pageSize: pageSize) else { return }
+      if isClear {
+        viewModels = result.map{ NewsViewModel(news: $0) }
+      } else {
+        viewModels.append(contentsOf: result.map{ NewsViewModel(news: $0) })
+      }
+    }
+  }
 }
 
 struct NewsViewModel: ViewModel {

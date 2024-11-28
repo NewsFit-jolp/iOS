@@ -2,6 +2,7 @@ import Foundation
 
 protocol NewsRepositoryType {
   func fetchNewsList(with queryParameters: [String: String]?) async -> Result<[News], Error>
+  func fetchRecommendNewsList(with queryParameters: [String: String]?) async -> Result<[News], Error>
   func fetchHeadLineList() async -> Result<[News], Error>
   func fetchNewsDetail(id: Int) async -> Result<NewsDetail, Error>
   func postComment(id: Int, content: String) async -> Result<Comment, Error>
@@ -42,6 +43,15 @@ struct NewsRepository: NewsRepositoryType {
         return date
       }
       
+      // 분 단위까지만 있는 경우
+      let formatterWithoutSecond = DateFormatter()
+      formatterWithoutSecond.dateFormat = "yyyy-MM-dd'T'HH:mm"
+      formatterWithoutSecond.locale = Locale(identifier: "ko_KR")
+      
+      if let date = formatterWithoutSecond.date(from: dateString) {
+        return date
+      }
+      
       throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid date format: \(dateString)")
     }
     return decoder
@@ -62,6 +72,25 @@ struct NewsRepository: NewsRepositoryType {
     }
     
     guard let decoded = try? decoder.decode(NetworkResponseDTO<[NewsResponseDTO]>.self, from: data) else {
+      return .failure(RepositoryError.invalidJSON)
+    }
+    
+    return .success(NewsMapper.map(decoded.result))
+  }
+  func fetchRecommendNewsList(with queryParameters: [String: String]?) async -> Result<[News], Error> {
+    let baseURL = Bundle.baseURL
+    let path = "/articles/recommend"
+    let token = Bundle.token
+    
+    let request = HTTPRequestBuilder(baseURL: baseURL, path: path, method: .get)
+      .update(parameters: queryParameters)
+      .update(headers: ["Authorization": "Bearer \(token)"])
+      .build()
+    guard let data = try? await HTTPServiceProvider().fetchData(for: request).get() else {
+      return .failure(RepositoryError.invalidData)
+    }
+    
+    guard let decoded = try? decoder.decode(NetworkPagingResponseDTO<[NewsResponseDTO]>.self, from: data) else {
       return .failure(RepositoryError.invalidJSON)
     }
     

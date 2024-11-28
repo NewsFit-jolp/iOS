@@ -54,8 +54,8 @@ final class NewsFitHomeViewController: UIViewController {
       .sink { [weak self] in
         self?.categoryCollectionView.reloadData()
         var currentCategory = self?.newsCategoryViewModels.selectedItem.value ?? ""
-        currentCategory = currentCategory == "전체" ? "" : currentCategory
-        self?.newsViewModels.fetch(category: currentCategory, currentNewsID: nil, size: 10, isClear: true)
+        currentCategory = currentCategory == "전체" ? "allCategory" : currentCategory
+        self?.newsViewModels.fetchRecommendNews(category: currentCategory, page: 1, pageSize: 15, isClear: true)
       }
       .store(in: &cancelable)
     headLineViewModels.objectWillChange
